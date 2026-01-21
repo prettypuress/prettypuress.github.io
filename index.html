@@ -5,7 +5,7 @@
 <title>Pretty Puress | Luxury Press-On Nails</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Social Icons CDN -->
+<!-- Social Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -21,36 +21,37 @@ body {
   color: #333;
 }
 
-/* ================= NAV BAR ================= */
+/* ===== NAV BAR ===== */
 
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(241,183,241,0.95);
-  padding: 12px 25px;
+  background: rgba(241,183,241,0.97);
+  padding: 14px 25px;
   display: flex;
-  justify-content: flex-start;
   gap: 25px;
-  z-index: 1000;
+  z-index: 9999;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
 }
 
 .navbar a {
   text-decoration: none;
   color: #3b003b;
   font-weight: bold;
+  font-size: 15px;
 }
 
 .navbar a:hover {
   color: black;
 }
 
-/* ================= HERO SECTION ================= */
+/* ===== HERO ===== */
 
 .hero {
   background: linear-gradient(135deg, #f1b7f1, #e8a6e8);
-  padding: 120px 20px 70px; /* top padding accounts for navbar */
+  padding: 130px 20px 70px;
   text-align: center;
 }
 
@@ -65,7 +66,6 @@ body {
   font-size: 3rem;
   margin-bottom: 10px;
   color: #3b003b;
-  letter-spacing: 1px;
 }
 
 .hero-subtitle {
@@ -84,16 +84,14 @@ body {
   text-decoration: none;
 }
 
-/* ================= SECTION ================= */
-
+/* SECTION */
 section {
   padding: 60px 20px;
   max-width: 1000px;
   margin: auto;
 }
 
-/* ================= GALLERY ================= */
-
+/* GALLERY */
 .gallery {
   display: flex;
   justify-content: center;
@@ -107,8 +105,7 @@ section {
   box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
-/* ================= FORM ================= */
-
+/* FORM GRID */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -142,8 +139,7 @@ form button:hover {
   background: #3b003b;
 }
 
-/* ================= SOCIALS ================= */
-
+/* SOCIALS */
 .socials {
   text-align: center;
   padding: 25px;
@@ -160,16 +156,14 @@ form button:hover {
   color: black;
 }
 
-/* ================= FOOTER ================= */
-
+/* FOOTER */
 footer {
   text-align: center;
   padding: 15px;
   background: #f3f3f3;
 }
 
-/* ================= MOBILE ================= */
-
+/* MOBILE */
 @media (max-width: 768px) {
 
   .hero h1 {
@@ -195,7 +189,7 @@ footer {
 
 <body>
 
-<!-- ================= NAV BAR ================= -->
+<!-- ===== MENU BAR ===== -->
 
 <div class="navbar">
   <a href="#home">Home</a>
@@ -204,7 +198,7 @@ footer {
   <a href="#contact">Contact</a>
 </div>
 
-<!-- ================= HERO ================= -->
+<!-- ===== HERO ===== -->
 
 <header id="home" class="hero">
 
@@ -220,7 +214,7 @@ Luxury Custom Press-On Nails Made For You
 
 </header>
 
-<!-- ================= GALLERY ================= -->
+<!-- ===== GALLERY ===== -->
 
 <section id="gallery">
 
@@ -228,15 +222,15 @@ Luxury Custom Press-On Nails Made For You
 
 <div class="gallery">
 
-<img src="nail1.jpg" alt="PrettyPuress Nail Set 1">
-<img src="nail2.jpg" alt="PrettyPuress Nail Set 2">
-<img src="nail3.jpg" alt="PrettyPuress Nail Set 3">
+<img src="nail1.jpg">
+<img src="nail2.jpg">
+<img src="nail3.jpg">
 
 </div>
 
 </section>
 
-<!-- ================= ORDER FORM ================= -->
+<!-- ===== ORDER FORM ===== -->
 
 <section id="order">
 
@@ -273,7 +267,7 @@ Luxury Custom Press-On Nails Made For You
 
 </section>
 
-<!-- ================= SOCIAL LINKS ================= -->
+<!-- ===== SOCIAL LINKS ===== -->
 
 <div id="contact" class="socials">
 
@@ -285,12 +279,11 @@ Luxury Custom Press-On Nails Made For You
 <i class="fab fa-tiktok"></i>
 </a>
 
-<a href="https://facebook.com/share/17xJ3BuZQC/?mibextid=wwXIfr" target="_blank">
+<a href="https://www.facebook.com/Pretty-Puress-by-Lolo-Love" target="_blank">
 <i class="fab fa-facebook"></i>
 </a>
-</div>
 
-<!-- ================= FOOTER ================= -->
+</div>
 
 <footer>
 <p>© 2026 PrettyPuress</p>
