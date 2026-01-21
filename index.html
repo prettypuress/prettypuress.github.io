@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pretty Puress | Luxury Puress-On Nails</title>
+<title>Pretty Puress | Luxury Press-On Nails</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Social Icons CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
@@ -14,25 +17,23 @@ body {
   color: #333;
 }
 
-/* ================= HERO ================= */
-
+/* HERO SECTION */
 .hero {
   background: linear-gradient(135deg, #f1b7f1, #e8a6e8);
-  padding: 70px 20px;
+  padding: 60px 20px;
   text-align: center;
 }
 
 /* LOGO */
 .logo {
   max-width: 140px;
-  width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 /* HERO TEXT */
 .hero h1 {
   font-size: 3rem;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   color: #3b003b;
   letter-spacing: 1px;
 }
@@ -40,52 +41,47 @@ body {
 .hero-subtitle {
   font-size: 1.2rem;
   color: #5a005a;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 /* BUTTON */
-a.button {
+.button {
   display: inline-block;
-  background: #000;
-  color: #fff;
+  background: black;
+  color: white;
   padding: 14px 26px;
-  text-decoration: none;
   border-radius: 6px;
+  text-decoration: none;
 }
 
-/* ================= SECTIONS ================= */
-
+/* SECTION */
 section {
   padding: 50px 20px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
 }
 
-/* ================= GALLERY ================= */
-
+/* GALLERY */
 .gallery {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .gallery img {
-  width: 100%;
-  max-width: 250px;
-  margin: 10px;
-  border-radius: 10px;
+  width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
-/* ================= FORM ================= */
-
-/* GRID LAYOUT */
+/* FORM GRID */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 15px;
 }
 
-/* FULL WIDTH FIELDS */
 .form-full {
   grid-column: span 2;
 }
@@ -97,17 +93,15 @@ form select {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  font-size: 16px;
 }
 
-/* BUTTON */
+/* SUBMIT BUTTON */
 form button {
   background: black;
   color: white;
   border: none;
-  padding: 14px 25px;
+  padding: 14px;
   border-radius: 8px;
-  font-size: 16px;
   cursor: pointer;
 }
 
@@ -115,24 +109,35 @@ form button:hover {
   background: #3b003b;
 }
 
-/* ================= FOOTER ================= */
-
-footer {
+/* SOCIALS */
+.socials {
   text-align: center;
-  padding: 20px;
-  background: #f2f2f2;
+  padding: 25px;
 }
 
-/* ================= MOBILE ================= */
+.socials a {
+  color: #3b003b;
+  font-size: 26px;
+  margin: 0 12px;
+  text-decoration: none;
+}
 
+.socials a:hover {
+  color: black;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #f3f3f3;
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
 
   .hero h1 {
     font-size: 2.2rem;
-  }
-
-  .logo {
-    max-width: 110px;
   }
 
   .form-grid {
@@ -150,46 +155,46 @@ footer {
 
 <body>
 
-<!-- ================= HERO ================= -->
-
+<!-- HERO -->
 <header class="hero">
 
-<img src="logo.png" alt="PrettyPuress Logo" class="logo">
+<img src="logo.png" class="logo" alt="PrettyPuress Logo">
 
 <h1>PrettyPuress</h1>
 
 <p class="hero-subtitle">
-Luxury Custom PURESS-On Nails Made For You
+Luxury Custom Press-On Nails Made For You
 </p>
 
-<a class="button" href="#order">Order Custom Nails</a>
+<a href="#order" class="button">Order Custom Nails</a>
 
 </header>
 
-<!-- ================= GALLERY ================= -->
-
+<!-- GALLERY -->
 <section>
 
-<h2>Our Sets</h2>
+<h2 style="text-align:center;">Our Sets</h2>
 
 <div class="gallery">
-  <div class="gallery">
-  <img src="nail1.jpg" alt="Pretty Puress Nail Set 1">
-  <img src="nail2.jpg" alt="Pretty Puress Nail Set 2">
-  <img src="nail3.jpg" alt="Pretty Puress Nail Set 3">
+
+<img src="nail1.jpg" alt="PrettyPuress Nail Set 1">
+<img src="nail2.jpg" alt="PrettyPuress Nail Set 2">
+<img src="nail3.jpg" alt="PrettyPuress Nail Set 3">
+
 </div>
 
 </section>
 
-<!-- ================= ORDER FORM ================= -->
-
+<!-- ORDER FORM -->
 <section id="order">
 
-<h2>Custom Nail Order</h2>
+<h2 style="text-align:center;">Custom Nail Order</h2>
 
-<form action="https://formspree.io/f/xqeeyvkq" method="POST" class="form-grid">
+<form action="https://formspree.io/f/xqeeyvkq" method="POST">
 
 <input type="hidden" name="_redirect" value="https://prettypuress.com">
+
+<div class="form-grid">
 
 <input type="text" name="name" placeholder="Full Name" required>
 
@@ -197,25 +202,43 @@ Luxury Custom PURESS-On Nails Made For You
 
 <input type="tel" name="phone" placeholder="Phone Number" required>
 
-<select name="tier" required>
-  <option value="">Select Your Nail Tier</option>
-  <option value="Tier 1 - $35">Tier 1 — $35.00</option>
-  <option value="Tier 2 - $50">Tier 2 — $50.00</option>
-  <option value="Tier 3 - $75">Tier 3 — $75.00</option>
+<textarea name="address" placeholder="Mailing Address" rows="2" required></textarea>
+
+<select name="tier" class="form-full" required>
+<option value="">Select Your Nail Tier</option>
+<option value="Tier 1 - $35">Tier 1 — $35</option>
+<option value="Tier 2 - $50">Tier 2 — $50</option>
+<option value="Tier 3 - $75">Tier 3 — $75</option>
 </select>
 
-<textarea class="form-full" name="address" placeholder="Mailing Address" rows="3" required></textarea>
+<textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
 
-<textarea class="form-full" name="details" placeholder="Describe your custom nail design" rows="4" required></textarea>
+<button type="submit" class="form-full">Submit Order</button>
 
-<button class="form-full" type="submit">Submit Order</button>
+</div>
 
 </form>
 
 </section>
 
-<!-- ================= FOOTER ================= -->
+<!-- SOCIAL LINKS -->
+<div class="socials">
 
+<a href="https://instagram.com/YOURUSERNAME" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+
+<a href="https://tiktok.com/@YOURUSERNAME" target="_blank">
+<i class="fab fa-tiktok"></i>
+</a>
+
+<a href="https://facebook.com/YOURPAGE" target="_blank">
+<i class="fab fa-facebook"></i>
+</a>
+
+</div>
+
+<!-- FOOTER -->
 <footer>
 <p>© 2026 PrettyPuress</p>
 </footer>
