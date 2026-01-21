@@ -153,6 +153,8 @@ section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .form-full {
@@ -167,16 +169,28 @@ form select {
   border-radius: 8px;
   border: 1px solid #ccc;
 }
+  form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+form select {
+  height: 48px;
+}
+
 
 /* SUBMIT BUTTON */
 
 form button {
-  background: black;
+  background: purple;
   color: white;
   border: none;
   padding: 14px;
   border-radius: 8px;
   cursor: pointer;
+   width: 100%;
+  margin: 15px auto 0;
+  display: block;
 }
 
 form button:hover {
