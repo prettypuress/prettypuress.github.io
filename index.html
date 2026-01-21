@@ -91,20 +91,6 @@ section {
   margin: auto;
 }
 
-/* GALLERY */
-.gallery {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.gallery img {
-  width: 250px;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-}
-
 /* FORM GRID */
 .form-grid {
   display: grid;
@@ -137,6 +123,30 @@ form button {
 
 form button:hover {
   background: #3b003b;
+}
+
+/* ===== GALLERY ===== */
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.gallery img {
+  width: 250px;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* Gallery description */
+.gallery-description {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: #5a005a;
+  font-size: 1rem;
 }
 
 /* SOCIALS */
@@ -193,8 +203,8 @@ footer {
 
 <div class="navbar">
   <a href="#home">Home</a>
-  <a href="#gallery">Gallery</a>
   <a href="#order">Order</a>
+  <a href="#gallery">Gallery</a>
   <a href="#contact">Contact</a>
 </div>
 
@@ -214,23 +224,7 @@ Luxury Custom Press-On Nails Made For You
 
 </header>
 
-<!-- ===== GALLERY ===== -->
-
-<section id="gallery">
-
-<h2 style="text-align:center;">Our Sets</h2>
-
-<div class="gallery">
-
-<img src="nail1.jpg">
-<img src="nail2.jpg">
-<img src="nail3.jpg">
-
-</div>
-
-</section>
-
-<!-- ===== ORDER FORM ===== -->
+<!-- ===== ORDER FORM FIRST ===== -->
 
 <section id="order">
 
@@ -267,6 +261,26 @@ Luxury Custom Press-On Nails Made For You
 
 </section>
 
+<!-- ===== GALLERY AT BOTTOM ===== -->
+
+<section id="gallery">
+
+<h2 style="text-align:center;">Our Sets</h2>
+
+<p class="gallery-description">
+Browse some of our custom luxury press-on nail sets. Each set is handcrafted with precision, high-quality materials, and designed to elevate your everyday look.
+</p>
+
+<div class="gallery">
+
+<img src="nail1.jpg">
+<img src="nail2.jpg">
+<img src="nail3.jpg">
+
+</div>
+
+</section>
+
 <!-- ===== SOCIAL LINKS ===== -->
 
 <div id="contact" class="socials">
@@ -279,7 +293,7 @@ Luxury Custom Press-On Nails Made For You
 <i class="fab fa-tiktok"></i>
 </a>
 
-<a href="https://www.facebook.com/Pretty-Puress-by-Lolo-Love" target="_blank">
+<a href="https://www.facebook.com/PrettyPuress" target="_blank">
 <i class="fab fa-facebook"></i>
 </a>
 
