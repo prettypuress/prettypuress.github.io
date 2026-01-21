@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 <title>Pretty Puress | Luxury Puress-On Nails</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>body {
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body {
   font-family: Arial, sans-serif;
   margin: 0;
   background: #fff;
@@ -49,6 +52,33 @@ a.button {
   border-radius: 6px;
 }
 
+/* FORM STYLING */
+form input,
+form textarea,
+form select {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+form button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #3b003b;
+}
+
 /* CONTENT SECTIONS */
 section {
   padding: 50px 20px;
@@ -84,49 +114,68 @@ footer {
 
 }
 
-  </style>
+</style>
 </head>
+
 <body>
 
 <header class="hero site-header">
-  <img src="logo.png" alt="PrettyPuress Logo" class="logo">
+
+<img src="logo.png" alt="PrettyPuress Logo" class="logo">
 
 <h1>PrettyPuress</h1>
-<p class="hero-subtitle">Luxury Custom PURESS-On Nails Made For You</p>
+
+<p class="hero-subtitle">
+Luxury Custom PURESS-On Nails Made For You
+</p>
 
 <a class="button" href="#order">Order Custom Nails</a>
 
 </header>
 
 <section>
-  <h2>Our Sets</h2>
-  <div class="gallery">
-    <img src="https://via.placeholder.com/250" alt="Nail set">
-    <img src="https://via.placeholder.com/250" alt="Nail set">
-    <img src="https://via.placeholder.com/250" alt="Nail set">
-  </div>
+<h2>Our Sets</h2>
+
+<div class="gallery">
+<img src="https://via.placeholder.com/250" alt="Nail set">
+<img src="https://via.placeholder.com/250" alt="Nail set">
+<img src="https://via.placeholder.com/250" alt="Nail set">
+</div>
 </section>
 
 <section id="order">
-  <h2>Custom Nail Order</h2>
-  <form action="https://formspree.io/f/xqeeyvkq" method="POST">
 
-  <input type="hidden" name="_redirect" value="https://prettypuress.com">
+<h2>Custom Nail Order</h2>
 
-  <input type="text" name="name" placeholder="Full Name" required><br><br>
+<form action="https://formspree.io/f/xqeeyvkq" method="POST">
 
-  <input type="email" name="email" placeholder="Email" required><br><br>
+<input type="hidden" name="_redirect" value="https://prettypuress.com">
 
-  <textarea name="details" placeholder="Describe your custom nail design" required></textarea><br><br>
+<input type="text" name="name" placeholder="Full Name" required>
 
-  <button type="submit">Submit Order</button>
-  </form><input type="hidden" name="_redirect" value="https://yourdomain.com/thank-you.html">
+<input type="email" name="email" placeholder="Email Address" required>
+
+<input type="tel" name="phone" placeholder="Phone Number" required>
+
+<textarea name="address" placeholder="Mailing Address" rows="3" required></textarea>
+
+<select name="tier" required>
+<option value="">Select Your Nail Tier</option>
+<option value="Tier 1 - $35">Tier 1 — $35.00</option>
+<option value="Tier 2 - $50">Tier 2 — $50.00</option>
+<option value="Tier 3 - $75">Tier 3 — $75.00</option>
+</select>
+
+<textarea name="details" placeholder="Describe your custom nail design" rows="4" required></textarea>
+
+<button type="submit">Submit Order</button>
+
 </form>
 
 </section>
 
 <footer>
-  <p>© 2026 Your Brand Name</p>
+<p>© 2026 PrettyPuress</p>
 </footer>
 
 </body>
