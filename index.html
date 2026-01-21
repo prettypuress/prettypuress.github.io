@@ -339,4 +339,59 @@ footer {
 <div class="gallery">
 
 <img src="nail1.jpg" onclick="openLightbox(this.src)">
-<img src=
+<img src="nail2.jpg" onclick="openLightbox(this.src)">
+<img src="nail3.jpg" onclick="openLightbox(this.src)">
+
+</div>
+
+</section>
+
+<!-- COIN SIZING PDF -->
+
+<section id="sizing">
+
+<h2 style="text-align:center;">Coin Sizing Guide</h2>
+
+<div class="pdf-container">
+
+<iframe src="coin-sizing.pdf"></iframe>
+
+</div>
+
+</section>
+
+<!-- LIGHTBOX -->
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img">
+</div>
+
+<!-- SOCIAL -->
+
+<div id="contact" class="socials">
+
+<a href="https://instagram.com/PRETTYPURESS" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://tiktok.com/@PRETTYPURESS" target="_blank"><i class="fab fa-tiktok"></i></a>
+<a href="https://www.facebook.com/PrettyPuress" target="_blank"><i class="fab fa-facebook"></i></a>
+
+</div>
+
+<footer>
+<p>© 2026 PrettyPuress</p>
+</footer>
+
+<script>
+
+function openLightbox(src){
+ document.getElementById("lightbox").style.display="flex";
+ document.getElementById("lightbox-img").src=src;
+}
+
+function closeLightbox(){
+ document.getElementById("lightbox").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
