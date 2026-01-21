@@ -110,12 +110,18 @@ footer {
 <section id="order">
   <h2>Custom Nail Order</h2>
   <form action="https://formspree.io/f/xqeeyvkq" method="POST">
-    <input type="text" name="name" placeholder="Full Name" required><br><br>
-    <input type="email" name="email" placeholder="Email" required><br><br>
-    <input type="text" name="_gotcha" style="display:none">
-    <textarea name="details" placeholder="Describe your custom nail design" required></textarea><br><br>
-    <button type="submit">Submit Order</button>
+
+  <input type="hidden" name="_redirect" value="https://prettypuress.com">
+
+  <input type="text" name="name" placeholder="Full Name" required><br><br>
+
+  <input type="email" name="email" placeholder="Email" required><br><br>
+
+  <textarea name="details" placeholder="Describe your custom nail design" required></textarea><br><br>
+
+  <button type="submit">Submit Order</button>
   </form><input type="hidden" name="_redirect" value="https://yourdomain.com/thank-you.html">
+</form>
 
 </section>
 
