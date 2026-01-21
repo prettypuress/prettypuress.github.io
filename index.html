@@ -14,10 +14,11 @@ body {
   color: #333;
 }
 
-/* HERO SECTION */
+/* ================= HERO ================= */
+
 .hero {
   background: linear-gradient(135deg, #f1b7f1, #e8a6e8);
-  padding: 60px 20px;
+  padding: 70px 20px;
   text-align: center;
 }
 
@@ -25,7 +26,7 @@ body {
 .logo {
   max-width: 140px;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 /* HERO TEXT */
@@ -33,7 +34,7 @@ body {
   font-size: 3rem;
   margin-bottom: 15px;
   color: #3b003b;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .hero-subtitle {
@@ -52,19 +53,54 @@ a.button {
   border-radius: 6px;
 }
 
-/* FORM STYLING */
+/* ================= SECTIONS ================= */
+
+section {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gallery img {
+  width: 100%;
+  max-width: 250px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+/* ================= FORM ================= */
+
+/* GRID LAYOUT */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* FULL WIDTH FIELDS */
+.form-full {
+  grid-column: span 2;
+}
+
 form input,
 form textarea,
 form select {
   width: 100%;
-  max-width: 400px;
   padding: 12px;
-  margin-bottom: 10px;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 16px;
 }
 
+/* BUTTON */
 form button {
   background: black;
   color: white;
@@ -79,29 +115,16 @@ form button:hover {
   background: #3b003b;
 }
 
-/* CONTENT SECTIONS */
-section {
-  padding: 50px 20px;
-  max-width: 900px;
-  margin: auto;
-}
+/* ================= FOOTER ================= */
 
-/* GALLERY */
-.gallery img {
-  width: 100%;
-  max-width: 250px;
-  margin: 10px;
-  border-radius: 10px;
-}
-
-/* FOOTER */
 footer {
   text-align: center;
   padding: 20px;
   background: #f2f2f2;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
+
 @media (max-width: 768px) {
 
   .hero h1 {
@@ -109,7 +132,15 @@ footer {
   }
 
   .logo {
-    max-width: 120px;
+    max-width: 110px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-full {
+    grid-column: span 1;
   }
 
 }
@@ -119,7 +150,9 @@ footer {
 
 <body>
 
-<header class="hero site-header">
+<!-- ================= HERO ================= -->
+
+<header class="hero">
 
 <img src="logo.png" alt="PrettyPuress Logo" class="logo">
 
@@ -133,21 +166,27 @@ Luxury Custom PURESS-On Nails Made For You
 
 </header>
 
+<!-- ================= GALLERY ================= -->
+
 <section>
+
 <h2>Our Sets</h2>
 
 <div class="gallery">
-<img src="https://via.placeholder.com/250" alt="Nail set">
-<img src="https://via.placeholder.com/250" alt="Nail set">
-<img src="https://via.placeholder.com/250" alt="Nail set">
+  <img src="nail1.jpg" alt="Nail set">
+  <img src="nail2.jpg" alt="Nail set">
+  <img src="nail3.jpg" alt="Nail set">
 </div>
+
 </section>
+
+<!-- ================= ORDER FORM ================= -->
 
 <section id="order">
 
 <h2>Custom Nail Order</h2>
 
-<form action="https://formspree.io/f/xqeeyvkq" method="POST">
+<form action="https://formspree.io/f/xqeeyvkq" method="POST" class="form-grid">
 
 <input type="hidden" name="_redirect" value="https://prettypuress.com">
 
@@ -157,22 +196,24 @@ Luxury Custom PURESS-On Nails Made For You
 
 <input type="tel" name="phone" placeholder="Phone Number" required>
 
-<textarea name="address" placeholder="Mailing Address" rows="3" required></textarea>
-
 <select name="tier" required>
-<option value="">Select Your Nail Tier</option>
-<option value="Tier 1 - $35">Tier 1 — $35.00</option>
-<option value="Tier 2 - $50">Tier 2 — $50.00</option>
-<option value="Tier 3 - $75">Tier 3 — $75.00</option>
+  <option value="">Select Your Nail Tier</option>
+  <option value="Tier 1 - $35">Tier 1 — $35.00</option>
+  <option value="Tier 2 - $50">Tier 2 — $50.00</option>
+  <option value="Tier 3 - $75">Tier 3 — $75.00</option>
 </select>
 
-<textarea name="details" placeholder="Describe your custom nail design" rows="4" required></textarea>
+<textarea class="form-full" name="address" placeholder="Mailing Address" rows="3" required></textarea>
 
-<button type="submit">Submit Order</button>
+<textarea class="form-full" name="details" placeholder="Describe your custom nail design" rows="4" required></textarea>
+
+<button class="form-full" type="submit">Submit Order</button>
 
 </form>
 
 </section>
+
+<!-- ================= FOOTER ================= -->
 
 <footer>
 <p>© 2026 PrettyPuress</p>
