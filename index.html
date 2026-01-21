@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pretty Puress | Luxury Puress-On Nails</title>
+<title>Pretty Puress | Luxury Press-On Nails</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Social Icons -->
@@ -10,9 +10,7 @@
 
 <style>
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: Arial, sans-serif;
@@ -42,9 +40,7 @@ body {
   font-weight: bold;
 }
 
-.navbar a:hover {
-  color: black;
-}
+.navbar a:hover { color: black; }
 
 /* ================= HERO ================= */
 
@@ -54,17 +50,13 @@ body {
   text-align: center;
 }
 
-/* LOGO */
 .logo {
   max-width: 140px;
   margin-bottom: 20px;
 }
 
-/* HERO TEXT */
-
 .hero h1 {
   font-size: 3rem;
-  margin-bottom: 10px;
   color: #3b003b;
   animation: fadeSlide 1.2s ease forwards;
 }
@@ -76,8 +68,6 @@ body {
   animation: fadeSlide 1.6s ease forwards;
 }
 
-/* HERO BUTTONS */
-
 .hero-buttons {
   display: flex;
   justify-content: center;
@@ -85,9 +75,9 @@ body {
   flex-wrap: wrap;
 }
 
-/* BUTTON */
+/* Buttons */
+
 .button {
-  display: inline-block;
   background: black;
   color: white;
   padding: 14px 26px;
@@ -101,17 +91,11 @@ body {
   color: black;
 }
 
-/* HERO ANIMATION */
+/* Animation */
 
 @keyframes fadeSlide {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ================= SECTIONS ================= */
@@ -129,17 +113,14 @@ section {
   padding-top: 20px;
   text-align: center;
   max-width: 750px;
-  margin: 0 auto 40px;
+  margin: auto;
 }
 
 .order-info h3 {
   color: #3b003b;
-  margin-bottom: 12px;
 }
 
 .order-info p {
-  margin: 8px 0;
-  font-size: 1rem;
   color: #5a005a;
 }
 
@@ -155,9 +136,7 @@ section {
   gap: 15px;
 }
 
-.form-full {
-  grid-column: span 2;
-}
+.form-full { grid-column: span 2; }
 
 form input,
 form textarea,
@@ -168,8 +147,6 @@ form select {
   border: 1px solid #ccc;
 }
 
-/* SUBMIT BUTTON */
-
 form button {
   background: black;
   color: white;
@@ -179,9 +156,7 @@ form button {
   cursor: pointer;
 }
 
-form button:hover {
-  background: #3b003b;
-}
+form button:hover { background: #3b003b; }
 
 /* ================= GALLERY ================= */
 
@@ -200,9 +175,7 @@ form button:hover {
   transition: transform 0.3s ease;
 }
 
-.gallery img:hover {
-  transform: scale(1.05);
-}
+.gallery img:hover { transform: scale(1.05); }
 
 /* ================= LIGHTBOX ================= */
 
@@ -225,7 +198,44 @@ form button:hover {
   border-radius: 10px;
 }
 
-/* ================= SOCIALS ================= */
+/* ================= SIZING SECTION ================= */
+
+.sizing-section {
+  background: #f9e6f9;
+  border-radius: 15px;
+  padding: 50px 25px;
+  text-align: center;
+}
+
+.sizing-section h2 { color: #3b003b; }
+
+.sizing-section p {
+  color: #5a005a;
+  max-width: 700px;
+  margin: auto;
+}
+
+.pdf-preview {
+  max-width: 320px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  margin: 20px auto;
+  display: block;
+}
+
+.pdf-button {
+  background: black;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.pdf-button:hover { background: #3b003b; }
+
+/* ================= SOCIAL ================= */
 
 .socials {
   text-align: center;
@@ -236,12 +246,9 @@ form button:hover {
   color: #3b003b;
   font-size: 26px;
   margin: 0 12px;
-  text-decoration: none;
 }
 
-.socials a:hover {
-  color: black;
-}
+.socials a:hover { color: black; }
 
 /* ================= FOOTER ================= */
 
@@ -255,21 +262,11 @@ footer {
 
 @media (max-width: 768px) {
 
-  .hero h1 {
-    font-size: 2.2rem;
-  }
+  .hero h1 { font-size: 2.2rem; }
 
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+  .form-grid { grid-template-columns: 1fr; }
 
-  .form-full {
-    grid-column: span 1;
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-  }
+  .form-full { grid-column: span 1; }
 
 }
 
@@ -278,25 +275,26 @@ footer {
 
 <body>
 
-<!-- ================= NAV BAR ================= -->
+<!-- NAV -->
 
 <div class="navbar">
   <a href="#home">Home</a>
   <a href="#order">Order</a>
   <a href="#gallery">Gallery</a>
+  <a href="#sizing">Nail Sizing</a>
   <a href="#contact">Contact</a>
 </div>
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 
 <header id="home" class="hero">
 
-<img src="logo.png" class="logo" alt="PrettyPuress Logo">
+<img src="logo.png" class="logo">
 
 <h1>PrettyPuress</h1>
 
 <p class="hero-subtitle">
-Luxury Custom Puress-On Nails Made For You
+Luxury Custom Press-On Nails Made For You
 </p>
 
 <div class="hero-buttons">
@@ -306,42 +304,29 @@ Luxury Custom Puress-On Nails Made For You
 
 </header>
 
-<!-- ================= ORDER INFO ================= -->
+<!-- ORDER INFO -->
 
 <section>
 
 <div class="order-info">
 
-<h3>Luxury Puress-On Nails Made Just For You</h3>
+<h3>Luxury Press-On Nails Made Just For You</h3>
 
-<p>
-Every Pretty Puress set is fully customized to match your unique style, personality, and vibe.  
-Designed with care. Created with intention. Made to elevate your look.
-</p>
+<p>Every Pretty Puress set is handcrafted and fully customized to match your style and vibe.</p>
 
-<br>
+<p><span>Made-To-Order:</span> Please allow 1–2 weeks for creation & shipping</p>
 
-<p><span>Every Order Is Made-To-Order</span></p>
-<p>Please allow 1–2 weeks for creation & shipping</p>
+<p><span>Rush Orders:</span> +$15</p>
+<p><span>Shipping:</span> $8</p>
+<p><span>Sizing Kits:</span> $5</p>
 
-<br>
+<p><span>Payment Required Before Shipping</span></p>
 
-<p><span>Rush Orders</span> — Additional $15</p>
-<p><span>Standard Shipping</span> — $8</p>
-
-<br>
-
-<p><span>Sizing Kits Available</span> — $5</p>
-
-<br>
-
-<p><span>Payment Required Prior To Shipping</span></p>
-<p>All forms of payment accepted</p>
-
+</div>
 
 </section>
 
-<!-- ================= ORDER FORM ================= -->
+<!-- ORDER FORM -->
 
 <section id="order">
 
@@ -360,10 +345,10 @@ Designed with care. Created with intention. Made to elevate your look.
 <textarea name="address" placeholder="Mailing Address" rows="2" required></textarea>
 
 <select name="tier" class="form-full" required>
-<option value="">Select Your Nail Tier</option>
-<option value="Tier 1 - $35">Tier 1 — $35</option>
-<option value="Tier 2 - $50">Tier 2 — $50</option>
-<option value="Tier 3 - $75">Tier 3 — $75</option>
+<option value="">Select Nail Tier</option>
+<option>Tier 1 — $35</option>
+<option>Tier 2 — $50</option>
+<option>Tier 3 — $75</option>
 </select>
 
 <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
@@ -376,7 +361,7 @@ Designed with care. Created with intention. Made to elevate your look.
 
 </section>
 
-<!-- ================= GALLERY ================= -->
+<!-- GALLERY -->
 
 <section id="gallery">
 
@@ -400,27 +385,35 @@ Designed with care. Created with intention. Made to elevate your look.
 
 </section>
 
-<!-- ================= LIGHTBOX ================= -->
+<!-- SIZING -->
 
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img">
+<section id="sizing">
+
+<div class="sizing-section">
+
+<h2>Nail Sizing — Coin Method</h2>
+
+<p>Not ready to purchase a sizing kit? Use our Coin Method to size your nails accurately at home.</p>
+
+<a href="coin-sizing.pdf" target="_blank">
+<img src="coin-sizing-preview.png" class="pdf-preview">
+</a>
+
+<a href="coin-sizing.pdf" target="_blank" class="pdf-button">
+View / Download Sizing Guide
+</a>
+
 </div>
 
-<!-- ================= SOCIAL ================= -->
+</section>
+
+<!-- SOCIAL -->
 
 <div id="contact" class="socials">
 
-<a href="https://instagram.com/PRETTYPURESS" target="_blank">
-<i class="fab fa-instagram"></i>
-</a>
-
-<a href="https://tiktok.com/@PRETTYPURESS" target="_blank">
-<i class="fab fa-tiktok"></i>
-</a>
-
-<a href="https://www.facebook.com/PrettyPuress" target="_blank">
-<i class="fab fa-facebook"></i>
-</a>
+<a href="https://instagram.com/PRETTYPURESS" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://tiktok.com/@PRETTYPURESS" target="_blank"><i class="fab fa-tiktok"></i></a>
+<a href="https://www.facebook.com/PrettyPuress" target="_blank"><i class="fab fa-facebook"></i></a>
 
 </div>
 
@@ -428,14 +421,17 @@ Designed with care. Created with intention. Made to elevate your look.
 <p>© 2026 PrettyPuress</p>
 </footer>
 
-<!-- ================= LIGHTBOX SCRIPT ================= -->
+<!-- LIGHTBOX -->
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<img id="lightbox-img">
+</div>
 
 <script>
 function openLightbox(src) {
   document.getElementById("lightbox").style.display = "flex";
   document.getElementById("lightbox-img").src = src;
 }
-
 function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
