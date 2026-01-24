@@ -1,149 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Pretty Puress | Luxury Puress-On Nails</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Social Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #fff;
-  color: purple;
-}
-
-/* Highlight fields based on their validation status */
-input:required:invalid,
-select:required:invalid,	extarea:required:invalid {
-  border: 2px solid red;
-}
-
-input.valid,
-select.valid,
-textarea.valid {
-  border: 2px solid green;
-}
-
-input.invalid,
-select.invalid,
-textarea.invalid {
-  border: 2px solid red;
-}
-
-/* Button hover effect */
-form button:hover {
-  background: #3b003b;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        .error { color: red; }
+    </style>
 </head>
-
 <body>
+    <form id="contactForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
 
-<section id="order">
+        <label for="email">Email (optional):</label>
+        <input type="email" id="email" name="email"><br><br>
 
-<h2 style="text-align:center; color: purple;">Custom Nail Order</h2>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+        <span class="error" id="phoneError"></span><br><br>
 
-<form id="orderForm" action="https://formspree.io/f/xqeeyvkq" method="POST">
+        <input type="submit" value="Submit">
+    </form>
 
-<input type="hidden" name="_redirect" value="https://prettypuress.com">
+    <script>
+        document.getElementById('contactForm').onsubmit = function(event) {
+            let isValid = true;
+            const phone = document.getElementById('phone').value;
+            const phoneError = document.getElementById('phoneError');
+            phoneError.textContent = '';
 
-<div class="form-grid">
+            // Validate phone number
+            const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+            if (!phonePattern.test(phone)) {
+                phoneError.textContent = 'Please enter a valid phone number (XXX-XXX-XXXX).';
+                isValid = false;
+                document.getElementById('phone').classList.add('error');
+            } else {
+                document.getElementById('phone').classList.remove('error');
+            }
 
-  <!-- Full Name -->
-  <input type="text" name="name" placeholder="Full Name" required>
+            // Highlight empty required fields
+            const requiredFields = ['name', 'phone'];
+            requiredFields.forEach(function(field) {
+                if (!document.getElementById(field).value) {
+                    document.getElementById(field).classList.add('error');
+                    isValid = false;
+                } else {
+                    document.getElementById(field).classList.remove('error');
+                }
+            });
 
-  <!-- Email Address (optional) -->
-  <input type="email" name="email" placeholder="Email Address">
-
-  <!-- Phone Number -->
-  <input id="phone" type="tel" name="phone" placeholder="Phone Number" required>
-
-  <!-- Mailing Address -->
-  <textarea name="address" placeholder="Mailing Address" rows="2" required></textarea>
-
-  <!-- Nail Tier Selection -->
-  <select name="tier" class="form-full" required>
-    <option value="">Select Your Nail Tier</option>
-    <option value="Tier 1 - $35">Tier 1 — $35</option>
-    <option value="Tier 2 - $50">Tier 2 — $50</option>
-    <option value="Tier 3 - $75">Tier 3 — $75</option>
-  </select>
-
-  <!-- Nail Length Selection -->
-  <select name="length" class="form-full" required>
-    <option value="">Select Nail Length</option>
-    <option value="Short">Short</option>
-    <option value="Medium">Medium</option>
-    <option value="Long">Long</option>
-  </select>
-
-  <!-- Nail Shape Selection -->
-  <select name="shape" class="form-full" required>
-    <option value="">Select Nail Shape</option>
-    <option value="Square">Square</option>
-    <option value="Coffin">Coffin</option>
-    <option value="Almond">Almond</option>
-    <option value="Stiletto">Stiletto</option>
-    <option value="Oval">Oval</option>
-  </select>
-
-  <!-- Custom Design Details -->
-  <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
-
-  <!-- Submit Button -->
-  <button type="submit" class="form-full">Submit Order</button>
-
-</div>
-</form>
-
-</section>
-
-<script>
-  document.getElementById('orderForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission for validation
-
-    const fieldsToValidate = document.querySelectorAll('input[required], select[required], textarea[required]');
-    let formValid = true;
-
-    fieldsToValidate.forEach(field => {
-      field.classList.remove('invalid', 'valid'); // Reset validation state
-
-      if (!field.value.trim()) {
-        field.classList.add('invalid'); // Highlight invalid field
-        formValid = false;
-      } else {
-        field.classList.add('valid'); // Mark field as valid
-      }
-    });
-
-    // Phone number validation
-    const phoneField = document.getElementById('phone');
-    const phoneRegex = /^[0-9]+$/; // Allow only numbers
-    if (!phoneRegex.test(phoneField.value.trim())) {
-      phoneField.classList.add('invalid');
-      formValid = false;
-      alert("Phone number must contain only numbers.");
-    } else {
-      phoneField.classList.remove('invalid');
-      phoneField.classList.add('valid');
-    }
-
-    // Submit the form if everything is valid
-    if (formValid) {
-      this.submit();
-    } else {
-      alert('Please complete all required fields highlighted in red.');
-    }
-  });
-</script>
-
+            if (!isValid) {
+                event.preventDefault();
+            }
+        };
+    </script>
 </body>
 </html>
