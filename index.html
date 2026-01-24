@@ -329,16 +329,6 @@ footer {
   margin-bottom: 10px;
   color: #3b003b;
 }
-.pricing-card {
-  transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.pricing-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 20px rgba(128,0,128,0.25);
-  border-color: purple;
-}
 
 .price {
   font-size: 28px;
@@ -359,20 +349,9 @@ footer {
     grid-template-columns: 1fr;
   }
 }
-/* ================= SCROLL ANIMATIONS ================= */
-
-.scroll-animate {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease;
-}
-
-.scroll-animate.active {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* ================= MOBILE ================= */
+
 @media (max-width: 768px) {
 
   .hero h1 {
@@ -459,7 +438,7 @@ Designed with care. Created with intention. Made to elevate your look.
 <p>All forms of payment accepted</p>
 
  <br>
-<div class="pricing-section scroll-animate">
+<div class="pricing-section">
 
 <h2>Pricing Tiers</h2>
 <p class="pricing-subtitle">Base prices shown — final price depends on design complexity</p>
@@ -496,6 +475,7 @@ Designed with care. Created with intention. Made to elevate your look.
 </div>
 
 </div>
+
 
 </div>
 
@@ -556,7 +536,7 @@ Designed with care. Created with intention. Made to elevate your look.
 
 <!-- ================= GALLERY ================= -->
 
-<section id="gallery" class="scroll-animate">
+<section id="gallery">
 
 <h2 style="text-align:center;">Our Sets</h2>
 
@@ -580,8 +560,7 @@ Designed with care. Created with intention. Made to elevate your look.
 
 <!-- ================= NAIL SIZING SECTION ================= -->
 
-<section id="sizing" class="scroll-animate">
-
+<section id="sizing">
 
 <div class="sizing-section">
 
@@ -637,20 +616,6 @@ function openLightbox(src) {
 function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
-  // Scroll Animation Observer
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("active");
-    }
-  });
-});
-
-document.querySelectorAll(".scroll-animate").forEach(section => {
-  observer.observe(section);
-});
-
 </script>
 
 </body>
