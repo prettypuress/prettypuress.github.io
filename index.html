@@ -9,517 +9,140 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
-font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   background: #fff;
   color: purple;
 }
 
-/* ================= NAV BAR ================= */
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(241,183,241,0.97);
-  padding: 14px 25px;
-  display: flex;
-  gap: 25px;
-  z-index: 9999;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+/* Highlight fields based on their validation status */
+input:required:invalid,
+select:required:invalid,	extarea:required:invalid {
+  border: 2px solid red;
 }
 
-.navbar a {
-  text-decoration: none;
-  color: purple;
-  font-weight: bold;
+input.valid,
+select.valid,
+textarea.valid {
+  border: 2px solid green;
 }
 
-.navbar a:hover {
-  color: purple;
+input.invalid,
+select.invalid,
+textarea.invalid {
+  border: 2px solid red;
 }
 
-/* ================= HERO ================= */
-
-.hero {
-  background: linear-gradient(135deg, #f1b7f1, #e8a6e8);
-padding: 140px 20px 90px;
-  text-align: center;
-}
-
-/* LOGO */
-.logo {
-  max-width: 140px;
-  margin-bottom: 20px;
-}
-
-/* HERO TEXT */
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 16px;
-  color: purple;
-  letter-spacing: 2px;
-  animation: fadeSlide 1.2s ease forwards;
-}
-
-.hero-subtitle {
-  font-size: 1.2rem;
-  color: #5a005a;
-  margin-bottom: 40px;
-  animation: fadeSlide 1.6s ease forwards;
-}
-
-/* HERO BUTTONS */
-
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-/* BUTTON */
-.button {
-  display: inline-block;
-  background: purple;
-  color: white;
-  padding: 14px 26px;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-.button.secondary {
-  background: transparent;
-  border: 2px solid purple;
-  color: purple;
-}
-
-/* HERO ANIMATION */
-
-@keyframes fadeSlide {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ================= SECTIONS ================= */
-
-section {
-  padding: 60px 20px;
-  max-width: 1000px;
-  margin: auto;
-}
-
-/* ================= ORDER INFO ================= */
-
-.order-info {
-  border-top: 2px solid #f1b7f1;
-  padding-top: 20px;
-  text-align: center;
-  max-width: 750px;
-  margin: 0 auto 40px;
-}
-
-.order-info h3 {
-  color: #3b003b;
-  margin-bottom: 12px;
-}
-
-.order-info p {
-  margin: 8px 0;
-  font-size: 1rem;
-  color: #5a005a;
-}
-
-.order-info span {
-  font-weight: bold;
-}
-
-/* ================= FORM ================= */
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.form-full {
-  grid-column: span 2;
-}
-
-form input,
-form textarea,
-form select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-  form textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-form select {
-  height: 48px;
-}
-
-
-/* SUBMIT BUTTON */
-
-form button {
-  background: purple;
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 8px;
-  cursor: pointer;
-   width: 100%;
-  margin: 15px auto 0;
-  display: block;
-}
-
+/* Button hover effect */
 form button:hover {
   background: #3b003b;
 }
-
-/* ================= GALLERY ================= */
-
-.gallery {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.gallery img {
-  width: 250px;
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.05);
-}
-
-/* ================= NAIL SIZING ================= */
-
-.sizing-section {
-  background: #f9e6f9;
-  padding: 50px 20px;
-  border-radius: 15px;
-  text-align: center;
-  border: 2px solid #e8a6e8;
-}
-
-.sizing-section h2 {
-  color: #3b003b;
-  margin-bottom: 15px;
-}
-
-.sizing-section p {
-  color: #5a005a;
-  max-width: 700px;
-  margin: 0 auto 20px;
-}
-
-.sizing-image {
-  max-width: 400px;
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-}
-
-/* ================= LIGHTBOX ================= */
-
-.lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-}
-
-/* ================= SOCIALS ================= */
-
-.socials {
-  text-align: center;
-  padding: 25px;
-}
-
-.socials a {
-  color: #3b003b;
-  font-size: 26px;
-  margin: 0 12px;
-  text-decoration: none;
-}
-
-.socials a:hover {
-  color: black;
-}
-
-/* ================= FOOTER ================= */
-
-footer {
-  text-align: center;
-  padding: 15px;
-  background: #f3f3f3;
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width: 768px) {
-
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-full {
-    grid-column: span 1;
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-  }
-
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- ================= NAV BAR ================= -->
-
-<div class="navbar">
-  <a href="#home">Home</a>
-  <a href="#order">Order</a>
-  <a href="#gallery">Gallery</a>
-  <a href="#sizing">Nail Sizing</a>
-  <a href="#contact">Contact</a>
-</div>
-
-<!-- ================= HERO ================= -->
-
-<header id="home" class="hero">
-
-
-<h1>PrettyPuress</h1>
-
-<p class="hero-subtitle">
-Luxury Custom Puress-On Nails Made For You
-</p>
-
-<div class="hero-buttons">
-  <a href="#order" class="button">Order Now</a>
-  <a href="#gallery" class="button secondary">View Gallery</a>
-</div>
-
-</header>
-
-<!-- ================= ORDER INFO ================= -->
-
-<section>
-
-<div class="order-info">
-
-<h3>Luxury Puress-On Nails Made Just For You</h3>
-
-<p>
-Every Pretty Puress set is fully customized to match your unique style, personality, and vibe.  
-Designed with care. Created with intention. Made to elevate your look.
-</p>
-
-<br>
-
-<p><span>Every Order Is Made-To-Order</span></p>
-<p>Please allow 1–2 weeks for creation & shipping</p>
-
-<br>
-
-<p><span>Rush Orders</span> — Additional $15</p>
-<p><span>Standard Shipping</span> — $8</p>
-
-<br>
-
-<p><span>Sizing Kits Available</span> — $5</p>
-
-<br>
-
-<p><span>Payment Required Prior To Shipping</span></p>
-<p>All forms of payment accepted</p>
-
-</div>
-
-</section>
-
-<!-- ================= ORDER FORM ================= -->
-
 <section id="order">
 
 <h2 style="text-align:center; color: purple;">Custom Nail Order</h2>
 
-<form action="https://formspree.io/f/xqeeyvkq" method="POST">
+<form id="orderForm" action="https://formspree.io/f/xqeeyvkq" method="POST">
 
 <input type="hidden" name="_redirect" value="https://prettypuress.com">
 
 <div class="form-grid">
 
-<input type="text" name="name" placeholder="Full Name" required>
-<input type="email" name="email" placeholder="Email Address" required>
+  <!-- Full Name -->
+  <input type="text" name="name" placeholder="Full Name" required>
 
-<input type="tel" name="phone" placeholder="Phone Number" required>
-<textarea name="address" placeholder="Mailing Address" rows="2" required></textarea>
+  <!-- Email Address (optional) -->
+  <input type="email" name="email" placeholder="Email Address">
 
-<select name="tier" class="form-full" required>
-<option value="">Select Your Nail Tier</option>
-<option value="Tier 1 - $35">Tier 1 — $35</option>
-<option value="Tier 2 - $50">Tier 2 — $50</option>
-<option value="Tier 3 - $75">Tier 3 — $75</option>
-</select>
+  <!-- Phone Number -->
+  <input id="phone" type="tel" name="phone" placeholder="Phone Number" required>
 
-<!-- Added Length Selection -->
-<select name="length" class="form-full" required>
-  <option value="">Select Nail Length</option>
-  <option value="Short">Short</option>
-  <option value="Medium">Medium</option>
-  <option value="Long">Long</option>
-</select>
+  <!-- Mailing Address -->
+  <textarea name="address" placeholder="Mailing Address" rows="2" required></textarea>
 
-<!-- Added Shape Selection -->
-<select name="shape" class="form-full" required>
-  <option value="">Select Nail Shape</option>
-  <option value="Square">Square</option>
-  <option value="Coffin">Coffin</option>
-  <option value="Almond">Almond</option>
-  <option value="Stiletto">Stiletto</option>
-  <option value="Oval">Oval</option>
-</select>
+  <!-- Nail Tier Selection -->
+  <select name="tier" class="form-full" required>
+    <option value="">Select Your Nail Tier</option>
+    <option value="Tier 1 - $35">Tier 1 — $35</option>
+    <option value="Tier 2 - $50">Tier 2 — $50</option>
+    <option value="Tier 3 - $75">Tier 3 — $75</option>
+  </select>
 
-<textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
+  <!-- Nail Length Selection -->
+  <select name="length" class="form-full" required>
+    <option value="">Select Nail Length</option>
+    <option value="Short">Short</option>
+    <option value="Medium">Medium</option>
+    <option value="Long">Long</option>
+  </select>
 
-<button type="submit" class="form-full">Submit Order</button>
+  <!-- Nail Shape Selection -->
+  <select name="shape" class="form-full" required>
+    <option value="">Select Nail Shape</option>
+    <option value="Square">Square</option>
+    <option value="Coffin">Coffin</option>
+    <option value="Almond">Almond</option>
+    <option value="Stiletto">Stiletto</option>
+    <option value="Oval">Oval</option>
+  </select>
+
+  <!-- Custom Design Details -->
+  <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
+
+  <!-- Submit Button -->
+  <button type="submit" class="form-full">Submit Order</button>
 
 </div>
-
 </form>
 
 </section>
 
-<!-- ================= GALLERY ================= -->
-
-<section id="gallery">
-
-<h2 style="text-align:center;">Our Sets</h2>
-
-<div class="gallery">
-
-<img src="/images/nail1.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail2.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail3.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail4.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail5.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail6.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail7.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail8.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail9.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail10.jpg" onclick="openLightbox(this.src)">
-<img src="/images/nail11.jpg" onclick="openLightbox(this.src)">
-
-</div>
-
-</section>
-
-<!-- ================= NAIL SIZING SECTION ================= -->
-
-<section id="sizing">
-
-<div class="sizing-section">
-
-<h2>Nail Sizing</h2>
-
-<p>
-Don’t want to purchase a sizing kit?  
-Use our guide below to measure your nails accurately at home before ordering.
-</p>
-
-<img src="/images/coin-sizing.png" alt="Coin Method Nail Sizing Guide" class="sizing-image">
-
-</div>
-
-</section>
-
-<!-- ================= LIGHTBOX ================= -->
-
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img">
-</div>
-
-<!-- ================= SOCIAL ================= -->
-
-<div id="contact" class="socials">
-
-<a href="https://instagram.com/PRETTYPURESS" target="_blank">
-<i class="fab fa-instagram"></i>
-</a>
-
-<a href="https://tiktok.com/@PRETTYPURESS" target="_blank">
-<i class="fab fa-tiktok"></i>
-</a>
-
-<a href="https://www.facebook.com/PrettyPuress" target="_blank">
-<i class="fab fa-facebook"></i>
-</a>
-
-</div>
-
-<footer>
-<p>© 2026 PrettyPuress</p>
-</footer>
-
-<!-- ================= LIGHTBOX SCRIPT ================= -->
-
 <script>
-function openLightbox(src) {
-  document.getElementById("lightbox").style.display = "flex";
-  document.getElementById("lightbox-img").src = src;
-}
+  document.getElementById('orderForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission for validation
 
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
-}
+    const fieldsToValidate = document.querySelectorAll('input[required], select[required], textarea[required]');
+    let formValid = true;
+
+    fieldsToValidate.forEach(field => {
+      field.classList.remove('invalid', 'valid'); // Reset validation state
+
+      if (!field.value.trim()) {
+        field.classList.add('invalid'); // Highlight invalid field
+        formValid = false;
+      } else {
+        field.classList.add('valid'); // Mark field as valid
+      }
+    });
+
+    // Phone number validation
+    const phoneField = document.getElementById('phone');
+    const phoneRegex = /^[0-9]+$/; // Allow only numbers
+    if (!phoneRegex.test(phoneField.value.trim())) {
+      phoneField.classList.add('invalid');
+      formValid = false;
+      alert("Phone number must contain only numbers.");
+    } else {
+      phoneField.classList.remove('invalid');
+      phoneField.classList.add('valid');
+    }
+
+    // Submit the form if everything is valid
+    if (formValid) {
+      this.submit();
+    } else {
+      alert('Please complete all required fields highlighted in red.');
+    }
+  });
 </script>
 
 </body>
