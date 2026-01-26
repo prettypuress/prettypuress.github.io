@@ -373,6 +373,50 @@ footer {
   }
 
 }
+/* ================= CALCULATOR ================= */
+
+.calculator-box {
+  max-width: 500px;
+  margin: auto;
+  background: #f9e6f9;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #e8a6e8;
+}
+
+.calculator-box select,
+.calculator-box input,
+.calculator-box button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.calculator-box button {
+  background: purple;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.calculator-box hr {
+  margin: 15px 0;
+}
+
+#result {
+  margin-top: 12px;
+  font-weight: bold;
+  color: #3b003b;
+}
+
+/* Mobile spacing tweak */
+@media (max-width: 600px) {
+  .calculator-box {
+    padding: 15px;
+  }
+}
 
 </style>
 </head>
@@ -612,6 +656,45 @@ Use our guide below to measure your nails accurately at home before ordering.
 </a>
 
 </div>
+<!-- ================= ADMIN SIZE CALCULATOR ================= -->
+
+<section style="padding:40px 20px;">
+
+<div id="adminLock" style="text-align:center; max-width:300px; margin:auto;">
+  <input type="password" id="adminPin" placeholder="Admin PIN">
+  <button onclick="unlockCalculator()">Unlock Calculator</button>
+</div>
+
+<div id="sizeCalculator" class="calculator-box" style="display:none;">
+
+<h3>Private Nail Size Converter</h3>
+
+<label>From Shape</label>
+<select id="fromShape"></select>
+
+<label>From Length</label>
+<select id="fromLength"></select>
+
+<label>From Size</label>
+<select id="fromSize"></select>
+
+<hr>
+
+<label>To Shape</label>
+<select id="toShape"></select>
+
+<label>To Length</label>
+<select id="toLength"></select>
+
+<br><br>
+
+<button onclick="convertSize()">Convert Size</button>
+
+<p id="result"></p>
+
+</div>
+
+</section>
 
 <footer>
 <p>© 2026 PrettyPuress</p>
@@ -628,6 +711,107 @@ function openLightbox(src) {
 function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
+</script>
+<script>
+
+// ===== ADMIN LOCK =====
+
+const ADMIN_PIN = "1234"; // CHANGE THIS
+
+function unlockCalculator() {
+  const entered = document.getElementById("adminPin").value;
+  if (entered === ADMIN_PIN) {
+    document.getElementById("adminLock").style.display = "none";
+    document.getElementById("sizeCalculator").style.display = "block";
+  } else {
+    alert("Incorrect PIN");
+  }
+}
+
+// ===== DATA =====
+
+const nailData = {
+
+Almond:{
+Short:{"00":14.5,"0":13.5,"1":12,"2":11.5,"3":10.5,"4":10,"4.5":9.7,"5":9.2,"5.5":8.8,"6":8.5,"6.5":8.2,"7":8,"8":7,"9":6.5},
+Medium:{"00":14,"0":13.5,"1":12.5,"2":11.5,"3":10,"4":9.7,"4.5":9.5,"5":9,"5.5":8.8,"6":8.2,"6.5":8,"7":7.5,"8":7,"9":6.5},
+Long:{"00":13,"0":12,"1":11,"2":10.5,"3":10,"4":9.5,"4.5":9,"5":8.5,"5.5":8.2,"6":8,"6.5":7.5,"7":7,"8":6.5,"9":6.2}
+},
+
+Square:{
+Short:{"00":13.5,"0":12.5,"1":12,"2":11,"3":10,"4":9.7,"4.5":9.5,"5":9.3,"5.5":9,"6":8.3,"6.5":8,"7":7.5,"8":7,"9":6.5},
+Medium:{"00":13.5,"0":13,"1":12.5,"2":11,"3":10.5,"4":10,"4.5":9.5,"5":9.2,"5.5":9,"6":8.5,"6.5":8.2,"7":8,"8":7,"9":6.5},
+Long:{"00":13.5,"0":12.5,"1":12,"2":11.5,"3":11,"4":10,"4.5":9.7,"5":9.5,"5.5":9.2,"6":9,"6.5":8,"7":7.5,"8":7,"9":6.5}
+},
+
+Coffin:{
+Short:{"00":14,"0":13,"1":12.5,"2":11,"3":10.5,"4":10.2,"4.5":10,"5":9.5,"5.5":9,"6":8.7,"6.5":8.5,"7":8,"8":7.5,"9":6.5},
+Medium:{"00":13.7,"0":13,"1":12.4,"2":11.6,"3":11,"4":10.3,"4.5":9.8,"5":10,"5.5":9.2,"6":8.9,"6.5":8,"7":8.3,"8":7.5,"9":6.6},
+Long:{"00":14,"0":13,"1":12.5,"2":11.6,"3":11.2,"4":10.4,"4.5":10.2,"5":9.9,"5.5":9.5,"6":9,"6.5":8.8,"7":8.5,"8":7.5,"9":7.1}
+},
+
+Round:{
+Short:{"00":14,"0":13.5,"1":12.5,"2":11.5,"3":11,"4":10.5,"4.5":10,"5":9.5,"5.5":9,"6":8.8,"6.5":8,"7":7.5,"8":7,"9":6.5},
+Medium:{"00":13.5,"0":13,"1":12.5,"2":11.5,"3":11,"4":9.8,"4.5":9.5,"5":9,"5.5":8.5,"6":8.2,"6.5":8,"7":7.5,"8":7,"9":6.5},
+Long:{"00":14,"0":13,"1":12.5,"2":12,"3":11,"4":10,"4.5":9.5,"5":9,"5.5":8.7,"6":8.5,"6.5":8,"7":7.8,"8":7.3,"9":6.5}
+}
+
+};
+
+// ===== DROPDOWNS =====
+
+const fromShape=document.getElementById("fromShape");
+const fromLength=document.getElementById("fromLength");
+const fromSize=document.getElementById("fromSize");
+const toShape=document.getElementById("toShape");
+const toLength=document.getElementById("toLength");
+
+Object.keys(nailData).forEach(shape=>{
+  fromShape.add(new Option(shape,shape));
+  toShape.add(new Option(shape,shape));
+});
+
+fromShape.onchange=()=>{
+  fromLength.innerHTML="";
+  Object.keys(nailData[fromShape.value]).forEach(l=>{
+    fromLength.add(new Option(l,l));
+  });
+  fromLength.dispatchEvent(new Event("change"));
+};
+
+fromLength.onchange=()=>{
+  fromSize.innerHTML="";
+  Object.keys(nailData[fromShape.value][fromLength.value]).forEach(s=>{
+    fromSize.add(new Option(s,s));
+  });
+};
+
+toShape.onchange=()=>{
+  toLength.innerHTML="";
+  Object.keys(nailData[toShape.value]).forEach(l=>{
+    toLength.add(new Option(l,l));
+  });
+};
+
+// ===== CONVERT =====
+
+function convertSize(){
+  const mm=nailData[fromShape.value][fromLength.value][fromSize.value];
+  const target=nailData[toShape.value][toLength.value];
+
+  let best=null, diff=999;
+
+  for(let s in target){
+    let d=Math.abs(target[s]-mm);
+    if(d<diff){diff=d;best=s;}
+  }
+
+  result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
+}
+// Auto load default dropdown values
+fromShape.dispatchEvent(new Event("change"));
+toShape.dispatchEvent(new Event("change"));
+
 </script>
 
 </body>
