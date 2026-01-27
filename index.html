@@ -885,6 +885,11 @@ function closeLightbox() {
 
   firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+db.settings({
+  experimentalForceLongPolling: true,
+  merge: true
+});
 const customerList = document.getElementById("customerList");
 const loadedCustomer = document.getElementById("loadedCustomer");
 const convertedResult = document.getElementById("convertedResult");
@@ -1067,9 +1072,12 @@ function saveCustomer() {
     length,
     updated: new Date()
   }).then(() => {
-    alert("Saved to cloud ✅");
-    loadCustomerList();
-  });
+  alert("Saved to cloud ✅");
+  loadCustomerList();
+}).catch((error) => {
+  console.error("Firestore save error:", error);
+  alert("Save failed — check console");
+});
 }
 
 
