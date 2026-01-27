@@ -932,6 +932,14 @@ Short:{"00":14,"0":13.5,"1":12.5,"2":11.5,"3":11,"4":10.5,"4.5":10,"5":9.5,"5.5"
 Medium:{"00":13.5,"0":13,"1":12.5,"2":11.5,"3":11,"4":9.8,"4.5":9.5,"5":9,"5.5":8.5,"6":8.2,"6.5":8,"7":7.5,"8":7,"9":6.5},
 Long:{"00":14,"0":13,"1":12.5,"2":12,"3":11,"4":10,"4.5":9.5,"5":9,"5.5":8.7,"6":8.5,"6.5":8,"7":7.8,"8":7.3,"9":6.5}
 }
+Stiletto:{
+Medium:{
+"00":12.5,"0":12,"1":11.5,"2":11,"3":10.5,"4":10,"4.5":9.8,"5":9.2,"5.5":9,"6":8.5,"6.5":8,"7":7.8,"8":7,"9":6.5
+},
+Long:{
+"00":13,"0":12.5,"1":11.8,"2":11,"3":10.2,"4":9.8,"4.5":9.5,"5":9,"5.5":8.7,"6":8.5,"6.5":8,"7":7.5,"8":7,"9":6.5
+}
+},
 
 };
 
@@ -999,6 +1007,14 @@ toShape.onchange=()=>{
 // ===== CONVERT =====
 
 function convertSize(){
+  if (
+  (fromShape.value === "Stiletto" && fromLength.value === "Short") ||
+  (toShape.value === "Stiletto" && toLength.value === "Short")
+) {
+  alert("Stiletto Short is not available.");
+  return;
+}
+
   const mm=nailData[fromShape.value][fromLength.value][fromSize.value];
   const target=nailData[toShape.value][toLength.value];
 
