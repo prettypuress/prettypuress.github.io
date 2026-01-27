@@ -454,6 +454,13 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+.admin-card {
+  background:#f9e6f9;
+  padding:18px;
+  border-radius:14px;
+  border:2px solid #e8a6e8;
+}
 // ===== AUTO ADVANCE FINGER INPUT =====
 
 const fingerInputs = [
@@ -469,7 +476,6 @@ fingerInputs.forEach((id, index) => {
 
   input.addEventListener("input", () => {
 
-    // Move when at least 1 character entered
     if (input.value.length >= 1) {
 
       const next = fingerInputs[index + 1];
@@ -483,12 +489,6 @@ fingerInputs.forEach((id, index) => {
   });
 
 });
-.admin-card {
-  background:#f9e6f9;
-  padding:18px;
-  border-radius:14px;
-  border:2px solid #e8a6e8;
-}
 
 </style>
 </head>
