@@ -868,33 +868,21 @@ function openLightbox(src) {
 function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
+  
 </script>
-<script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: "AIzaSyAajwXKY-rqCBdL3QbMSNvyGslh_XSx7DM",
   authDomain: "prettypuressadmin.firebaseapp.com",
   projectId: "prettypuressadmin",
-  storageBucket: "prettypuressadmin.firebasestorage.app",
+  storageBucket: "prettypuressadmin.appspot.com",
   messagingSenderId: "765660433192",
-  appId: "1:765660433192:web:5e6d7b5348ae8aee949e1d",
-  measurementId: "G-3SEYH3H54K"
+  appId: "1:765660433192:web:5e6d7b5348ae8aee949e1d"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
   firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -1036,51 +1024,58 @@ result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 }
 
 // ===== CUSTOMER STORAGE =====
-
 function saveCustomer() {
 
   const name = customerName.value.trim();
 
   const left = [
     l1.value, l2.value, l3.value, l4.value, l5.value
-  ].join(",");
+  ];
 
   const right = [
     r1.value, r2.value, r3.value, r4.value, r5.value
-  ].join(",");
+  ];
 
   const shape = customerShape.value;
   const length = customerLength.value;
 
-  if (!name || !shape || !length || left.includes(",,") || right.includes(",,")) {
-    alert("Fill out all 10 finger sizes");
+  if (!name || left.includes("") || right.includes("") || !shape || !length) {
+    alert("Fill all fields");
     return;
   }
 
-  const customers = JSON.parse(localStorage.getItem("pp_customers")) || {};
-
-  customers[name] = { left, right, shape, length };
-
-  localStorage.setItem("pp_customers", JSON.stringify(customers));
-
-  alert("Customer Saved");
-  loadCustomerList();
+  db.collection("customers").doc(name).set({
+    left,
+    right,
+    shape,
+    length,
+    updated: new Date()
+  }).then(() => {
+    alert("Saved to cloud ✅");
+    loadCustomerList();
+  });
 }
+
+
 
 
 // ===== LOAD CUSTOMER DROPDOWN =====
 
 function loadCustomerList() {
 
-  const customers = JSON.parse(localStorage.getItem("pp_customers")) || {};
   const dropdown = document.getElementById("customerList");
-
   dropdown.innerHTML = "";
 
-  Object.keys(customers).forEach(name => {
-    dropdown.add(new Option(name, name));
+  db.collection("customers").get().then(snapshot => {
+
+    snapshot.forEach(doc => {
+      dropdown.add(new Option(doc.id, doc.id));
+    });
+
   });
 }
+
+
 // ===== CUSTOMER SEARCH =====
 
 
@@ -1089,31 +1084,84 @@ function loadCustomerList() {
 
 function loadCustomer() {
 
-  const customers = JSON.parse(localStorage.getItem("pp_customers"));
-  const selected = document.getElementById("customerList").value;
+  const selected = customerList.value;
+  if (!selected) return;
 
-  if (!customers || !customers[selected]) return;
+  db.collection("customers").doc(selected).get().then(doc => {
 
-  const data = customers[selected];
+    if (!doc.exists) return;
 
-  document.getElementById("loadedCustomer").innerHTML =
-    `Loaded: ${selected}<br>
-     Original: ${data.shape} ${data.length}<br>
-     Left Hand: ${data.left}<br>
-     Right Hand: ${data.right}`;
+    const data = doc.data();
+
+    loadedCustomer.innerHTML =
+      `Loaded: ${selected}<br>
+       Original: ${data.shape} ${data.length}<br>
+       Left: ${data.left.join(", ")}<br>
+       Right: ${data.right.join(", ")}`;
+  });
 }
+
   
 // ===== FULL SET CONVERSION =====
 
 function convertFullSet() {
 
-  const customers = JSON.parse(localStorage.getItem("pp_customers"));
   const selected = customerList.value;
-
-  if (!customers || !customers[selected]) {
-    alert("Load a customer first");
+  if (!selected) {
+    alert("Select customer first");
     return;
   }
+
+  const targetShape = profileTargetShape.value;
+  const targetLength = profileTargetLength.value;
+
+  if (!targetShape || !targetLength) {
+    alert("Select target shape and length");
+    return;
+  }
+
+  db.collection("customers").doc(selected).get().then(doc => {
+
+    if (!doc.exists) return;
+
+    const profile = doc.data();
+
+    function convertHand(hand) {
+
+      return hand.map(size => {
+
+        const mm = nailData[profile.shape][profile.length][size];
+        const targetSet = nailData[targetShape][targetLength];
+
+        let best = null;
+        let diff = 999;
+
+        for (let s in targetSet) {
+          let d = Math.abs(targetSet[s] - mm);
+          if (d < diff) {
+            diff = d;
+            best = s;
+          }
+        }
+
+        return best;
+
+      }).join(", ");
+
+    }
+
+    const newLeft = convertHand(profile.left);
+    const newRight = convertHand(profile.right);
+
+    convertedResult.innerHTML =
+      `Converted To ${targetShape} ${targetLength}<br>
+       Left Hand: ${newLeft}<br>
+       Right Hand: ${newRight}`;
+
+  });
+
+}
+
 
   const profile = customers[selected];
 
@@ -1166,24 +1214,17 @@ const targetLength = profileTargetLength.value;
 function deleteCustomer() {
 
   const selected = customerList.value;
+  if (!selected) return;
 
-  if (!selected) {
-    alert("Select a customer first");
-    return;
-  }
+  if (!confirm("Delete customer?")) return;
 
-  if (!confirm("Delete this customer permanently?")) return;
+  db.collection("customers").doc(selected).delete().then(() => {
 
-  const customers = JSON.parse(localStorage.getItem("pp_customers"));
-
-  delete customers[selected];
-
-  localStorage.setItem("pp_customers", JSON.stringify(customers));
-
-  loadCustomerList();
-
-  loadedCustomer.innerHTML = "";
-  convertedResult.innerHTML = "";
+    alert("Deleted");
+    loadCustomerList();
+    loadedCustomer.innerHTML="";
+    convertedResult.innerHTML="";
+  });
 }
 
 // Auto load saved customers on page open
