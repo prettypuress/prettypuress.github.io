@@ -912,12 +912,20 @@ const r5=document.getElementById("r5");
 const ADMIN_PIN = "101396"; // CHANGE THIS
 
 function unlockCalculator() {
-  const entered = document.getElementById("adminPin").value;
+
+  const entered = document.getElementById("adminPin").value.trim();
+
+  console.log("Entered PIN:", entered);
+
   if (entered === ADMIN_PIN) {
+
     document.getElementById("adminLock").style.display = "none";
     document.getElementById("sizeCalculator").style.display = "block";
+
   } else {
-    alert("Incorrect PIN");
+
+    alert("Incorrect PIN — Try again");
+
   }
 }
 
