@@ -692,6 +692,29 @@ Use our guide below to measure your nails accurately at home before ordering.
 
 <p id="result"></p>
 
+<hr>
+
+<h4>Save Customer Sizing</h4>
+
+<input type="text" id="customerName" placeholder="Customer Name">
+
+<input type="text" id="leftHand" placeholder="Left Hand Sizes (ex: 0,1,2,3,4)">
+
+<input type="text" id="rightHand" placeholder="Right Hand Sizes (ex: 0,1,2,3,4)">
+
+<button onclick="saveCustomer()">Save Customer</button>
+
+<hr>
+
+<h4>Load Customer Profile</h4>
+
+<select id="customerList"></select>
+
+<button onclick="loadCustomer()">Load Profile</button>
+
+<p id="loadedCustomer"></p>
+
+
 </div>
 
 </section>
@@ -806,11 +829,76 @@ function convertSize(){
     if(d<diff){diff=d;best=s;}
   }
 
-  result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
+result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 }
+
+// ===== CUSTOMER STORAGE =====
+
+function saveCustomer() {
+
+  const name = document.getElementById("customerName").value.trim();
+  const left = document.getElementById("leftHand").value.trim();
+  const right = document.getElementById("rightHand").value.trim();
+
+  if (!name || !left || !right) {
+    alert("Fill out all fields");
+    return;
+  }
+
+  const customers = JSON.parse(localStorage.getItem("pp_customers")) || {};
+
+  customers[name] = {
+    left,
+    right,
+    shape: fromShape.value,
+    length: fromLength.value
+  };
+
+  localStorage.setItem("pp_customers", JSON.stringify(customers));
+
+  alert("Customer Saved!");
+  loadCustomerList();
+}
+
+// ===== LOAD CUSTOMER DROPDOWN =====
+
+function loadCustomerList() {
+
+  const customers = JSON.parse(localStorage.getItem("pp_customers")) || {};
+  const dropdown = document.getElementById("customerList");
+
+  dropdown.innerHTML = "";
+
+  Object.keys(customers).forEach(name => {
+    dropdown.add(new Option(name, name));
+  });
+}
+
+// ===== LOAD PROFILE =====
+
+function loadCustomer() {
+
+  const customers = JSON.parse(localStorage.getItem("pp_customers"));
+  const selected = document.getElementById("customerList").value;
+
+  if (!customers || !customers[selected]) return;
+
+  const data = customers[selected];
+
+  document.getElementById("loadedCustomer").innerHTML =
+    `Loaded: ${selected}<br>
+     Original: ${data.shape} ${data.length}<br>
+     Left Hand: ${data.left}<br>
+     Right Hand: ${data.right}`;
+}
+
+// Auto load saved customers on page open
+loadCustomerList();
+
 // Auto load default dropdown values
 fromShape.dispatchEvent(new Event("change"));
 toShape.dispatchEvent(new Event("change"));
+
 
 </script>
 
