@@ -712,7 +712,7 @@ Use our guide below to measure your nails accurately at home before ordering.
 
 <div id="adminLock" style="text-align:center; max-width:300px; margin:auto;">
   <input type="password" id="adminPin" placeholder="Admin PIN">
-  <button onclick="unlockCalculator()">Unlock Calculator</button>
+<button type="button" onclick="unlockCalculator()">Unlock Calculator</button>
 </div>
 
 <div id="sizeCalculator" class="calculator-box grid-layout" style="display:none;">
@@ -886,10 +886,7 @@ function closeLightbox() {
   firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-db.settings({
-  experimentalForceLongPolling: true,
-  merge: true
-});
+
 const customerList = document.getElementById("customerList");
 const loadedCustomer = document.getElementById("loadedCustomer");
 const convertedResult = document.getElementById("convertedResult");
