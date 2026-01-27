@@ -453,6 +453,35 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+// ===== AUTO ADVANCE FINGER INPUT =====
+
+const fingerInputs = [
+  "l1","l2","l3","l4","l5",
+  "r1","r2","r3","r4","r5"
+];
+
+fingerInputs.forEach((id, index) => {
+
+  const input = document.getElementById(id);
+
+  if(!input) return;
+
+  input.addEventListener("input", () => {
+
+    // Move when at least 1 character entered
+    if (input.value.length >= 1) {
+
+      const next = fingerInputs[index + 1];
+
+      if (next) {
+        document.getElementById(next).focus();
+      }
+
+    }
+
+  });
+
+});
 
 </style>
 </head>
