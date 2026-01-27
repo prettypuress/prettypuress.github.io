@@ -1079,7 +1079,7 @@ function saveCustomer() {
 
 function loadCustomerList() {
 
-  const dropdown = document.getElementById("customerList");
+const dropdown = customerList;
   dropdown.innerHTML = "";
 
   db.collection("customers").get().then(snapshot => {
