@@ -698,11 +698,20 @@ Use our guide below to measure your nails accurately at home before ordering.
 
 <input type="text" id="customerName" placeholder="Customer Name">
 
+<select id="customerShape">
+  <option value="">Original Shape</option>
+</select>
+
+<select id="customerLength">
+  <option value="">Original Length</option>
+</select>
+
 <input type="text" id="leftHand" placeholder="Left Hand Sizes (ex: 0,1,2,3,4)">
 
 <input type="text" id="rightHand" placeholder="Right Hand Sizes (ex: 0,1,2,3,4)">
 
 <button onclick="saveCustomer()">Save Customer</button>
+
 
 <hr>
 
@@ -712,7 +721,13 @@ Use our guide below to measure your nails accurately at home before ordering.
 
 <button onclick="loadCustomer()">Load Profile</button>
 
+<button onclick="convertFullSet()">Convert Full Set</button>
+
+<button onclick="deleteCustomer()" style="background:#9b0000;color:white;">Delete Customer</button>
+
 <p id="loadedCustomer"></p>
+
+<p id="convertedResult"></p>
 
 
 </div>
@@ -781,6 +796,7 @@ Long:{"00":14,"0":13,"1":12.5,"2":12,"3":11,"4":10,"4.5":9.5,"5":9,"5.5":8.7,"6"
 
 };
 
+
 // ===== DROPDOWNS =====
 
 const fromShape=document.getElementById("fromShape");
@@ -789,10 +805,27 @@ const fromSize=document.getElementById("fromSize");
 const toShape=document.getElementById("toShape");
 const toLength=document.getElementById("toLength");
 
+const customerShape = document.getElementById("customerShape");
+const customerLength = document.getElementById("customerLength");
+
+// Populate shape dropdowns
+
 Object.keys(nailData).forEach(shape=>{
   fromShape.add(new Option(shape,shape));
   toShape.add(new Option(shape,shape));
+  customerShape.add(new Option(shape,shape));
 });
+
+// Populate customer length dropdown
+
+customerShape.onchange = () => {
+  customerLength.innerHTML = "<option value=''>Original Length</option>";
+  Object.keys(nailData[customerShape.value]).forEach(len=>{
+    customerLength.add(new Option(len,len));
+  });
+};
+
+// Normal converter dropdown logic
 
 fromShape.onchange=()=>{
   fromLength.innerHTML="";
@@ -836,12 +869,14 @@ result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 
 function saveCustomer() {
 
-  const name = document.getElementById("customerName").value.trim();
-  const left = document.getElementById("leftHand").value.trim();
-  const right = document.getElementById("rightHand").value.trim();
+  const name = customerName.value.trim();
+  const left = leftHand.value.trim();
+  const right = rightHand.value.trim();
+  const shape = customerShape.value;
+  const length = customerLength.value;
 
-  if (!name || !left || !right) {
-    alert("Fill out all fields");
+  if (!name || !left || !right || !shape || !length) {
+    alert("Fill out ALL fields");
     return;
   }
 
@@ -850,15 +885,16 @@ function saveCustomer() {
   customers[name] = {
     left,
     right,
-    shape: fromShape.value,
-    length: fromLength.value
+    shape,
+    length
   };
 
   localStorage.setItem("pp_customers", JSON.stringify(customers));
 
-  alert("Customer Saved!");
+  alert("Customer Saved");
   loadCustomerList();
 }
+
 
 // ===== LOAD CUSTOMER DROPDOWN =====
 
@@ -890,6 +926,88 @@ function loadCustomer() {
      Original: ${data.shape} ${data.length}<br>
      Left Hand: ${data.left}<br>
      Right Hand: ${data.right}`;
+}
+  
+// ===== FULL SET CONVERSION =====
+
+function convertFullSet() {
+
+  const customers = JSON.parse(localStorage.getItem("pp_customers"));
+  const selected = customerList.value;
+
+  if (!customers || !customers[selected]) {
+    alert("Load a customer first");
+    return;
+  }
+
+  const profile = customers[selected];
+
+  const targetShape = toShape.value;
+  const targetLength = toLength.value;
+
+  if (!targetShape || !targetLength) {
+    alert("Select target shape and length");
+    return;
+  }
+
+  const leftSizes = profile.left.split(",");
+  const rightSizes = profile.right.split(",");
+
+  function convertHand(hand) {
+
+    return hand.map(size => {
+
+      const mm = nailData[profile.shape][profile.length][size.trim()];
+      const targetSet = nailData[targetShape][targetLength];
+
+      let best = null;
+      let diff = 999;
+
+      for (let s in targetSet) {
+        let d = Math.abs(targetSet[s] - mm);
+        if (d < diff) {
+          diff = d;
+          best = s;
+        }
+      }
+
+      return best;
+
+    }).join(", ");
+
+  }
+
+  const newLeft = convertHand(leftSizes);
+  const newRight = convertHand(rightSizes);
+
+  convertedResult.innerHTML =
+    `Converted To ${targetShape} ${targetLength}<br>
+     Left Hand: ${newLeft}<br>
+     Right Hand: ${newRight}`;
+}
+// ===== DELETE CUSTOMER =====
+
+function deleteCustomer() {
+
+  const selected = customerList.value;
+
+  if (!selected) {
+    alert("Select a customer first");
+    return;
+  }
+
+  if (!confirm("Delete this customer permanently?")) return;
+
+  const customers = JSON.parse(localStorage.getItem("pp_customers"));
+
+  delete customers[selected];
+
+  localStorage.setItem("pp_customers", JSON.stringify(customers));
+
+  loadCustomerList();
+
+  loadedCustomer.innerHTML = "";
+  convertedResult.innerHTML = "";
 }
 
 // Auto load saved customers on page open
