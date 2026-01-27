@@ -417,24 +417,41 @@ footer {
     padding: 15px;
   }
 }
-.finger-grid {
+
+.finger-row {
   display:grid;
   grid-template-columns: repeat(5,1fr);
   gap:8px;
-  margin-bottom:12px;
+  margin-bottom:15px;
+}
+.finger-wrap {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-.finger-grid button {
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  background:white;
+.finger-label {
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:4px;
+  color:#5a005a;
+}
+
+.finger-row input {
+  text-align:center;
   font-weight:bold;
 }
+.grid-layout {
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:20px;
+}
 
-.finger-grid button.active {
-  background: purple;
-  color:white;
+/* Mobile stays stacked */
+@media(max-width:900px){
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 </style>
@@ -559,8 +576,6 @@ Designed with care. Created with intention. Made to elevate your look.
 
 <div class="form-grid">
 
-<input type="text" name="name" placeholder="Full Name" required>
-<input type="email" name="email" placeholder="Email Address" required>
 
 <input type="tel" name="phone" placeholder="Phone Number" required>
 <textarea name="address" placeholder="Mailing Address" rows="2" required></textarea>
@@ -684,7 +699,8 @@ Use our guide below to measure your nails accurately at home before ordering.
   <button onclick="unlockCalculator()">Unlock Calculator</button>
 </div>
 
-<div id="sizeCalculator" class="calculator-box" style="display:none;">
+<div id="sizeCalculator" class="calculator-box grid-layout" style="display:none;">
+<div>
 
 <h3>Private Nail Size Converter</h3>
 
@@ -712,8 +728,71 @@ Use our guide below to measure your nails accurately at home before ordering.
 <p id="result"></p>
 
 <hr>
-
+</div>
+<div>
 <h4>Save Customer Sizing</h4>
+  <h5>Left Hand (Thumb → Pinky)</h5>
+
+<div class="finger-row">
+
+  <div class="finger-wrap">
+    <div class="finger-label">Thumb</div>
+    <input id="l1">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Index</div>
+    <input id="l2">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Middle</div>
+    <input id="l3">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Ring</div>
+    <input id="l4">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Pinky</div>
+    <input id="l5">
+  </div>
+
+</div>
+
+
+<h5>Right Hand (Thumb → Pinky)</h5>
+
+<div class="finger-row">
+
+  <div class="finger-wrap">
+    <div class="finger-label">Thumb</div>
+    <input id="r1">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Index</div>
+    <input id="r2">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Middle</div>
+    <input id="r3">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Ring</div>
+    <input id="r4">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Pinky</div>
+    <input id="r5">
+  </div>
+
+</div>
 
 <input type="text" id="customerName" placeholder="Customer Name">
 
@@ -725,19 +804,20 @@ Use our guide below to measure your nails accurately at home before ordering.
   <option value="">Original Length</option>
 </select>
 <h5>Left Hand</h5>
-<div id="leftButtons"></div>
 
 <h5>Right Hand</h5>
-<div id="rightButtons"></div>
 
 
 <button onclick="saveCustomer()">Save Customer</button>
+</div>
 
 
 <hr>
-
+<div>
 <h4>Load Customer Profile</h4>
-<input type="text" id="searchCustomer" placeholder="Search customer..." onkeyup="filterCustomers()">
+  <select id="profileTargetShape"></select>
+<select id="profileTargetLength"></select>
+
 
 <select id="customerList"></select>
 
@@ -750,6 +830,8 @@ Use our guide below to measure your nails accurately at home before ordering.
 <p id="loadedCustomer"></p>
 
 <p id="convertedResult"></p>
+</div>
+  
 <button onclick="exportPDF()">Export Packing Slip</button>
 
 
@@ -821,7 +903,8 @@ Long:{"00":14,"0":13,"1":12.5,"2":12,"3":11,"4":10,"4.5":9.5,"5":9,"5.5":8.7,"6"
 
 
 // ===== DROPDOWNS =====
-
+const profileTargetShape = document.getElementById("profileTargetShape");
+const profileTargetLength = document.getElementById("profileTargetLength");
 const fromShape=document.getElementById("fromShape");
 const fromLength=document.getElementById("fromLength");
 const fromSize=document.getElementById("fromSize");
@@ -837,7 +920,14 @@ Object.keys(nailData).forEach(shape=>{
   fromShape.add(new Option(shape,shape));
   toShape.add(new Option(shape,shape));
   customerShape.add(new Option(shape,shape));
+  profileTargetShape.add(new Option(shape,shape));
 });
+profileTargetShape.onchange = ()=>{
+  profileTargetLength.innerHTML="";
+  Object.keys(nailData[profileTargetShape.value]).forEach(len=>{
+    profileTargetLength.add(new Option(len,len));
+  });
+};
 
 // Populate customer length dropdown
 
@@ -889,68 +979,30 @@ result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 }
 
 // ===== CUSTOMER STORAGE =====
-// ===== FINGER BUTTON SYSTEM =====
-
-const sizes = ["00","0","1","2","3","4","4.5","5","5.5","6","6.5","7","8","9"];
-
-let leftHandData = [];
-let rightHandData = [];
-
-function buildFingerButtons(containerId, handArray){
-
-  const box = document.getElementById(containerId);
-  box.className = "finger-grid";
-
-  box.innerHTML = "";
-
-  sizes.forEach(size => {
-
-    const btn = document.createElement("button");
-    btn.textContent = size;
-
-    btn.onclick = () => {
-      if(handArray.includes(size)){
-        handArray.splice(handArray.indexOf(size),1);
-        btn.classList.remove("active");
-      } else {
-        if(handArray.length < 5){
-          handArray.push(size);
-          btn.classList.add("active");
-        }
-      }
-    };
-
-    box.appendChild(btn);
-
-  });
-
-}
-
-// Build both hands on load
-buildFingerButtons("leftButtons", leftHandData);
-buildFingerButtons("rightButtons", rightHandData);
 
 function saveCustomer() {
 
   const name = customerName.value.trim();
-  const left = leftHandData.join(",");
-  const right = rightHandData.join(",");
+
+  const left = [
+    l1.value, l2.value, l3.value, l4.value, l5.value
+  ].join(",");
+
+  const right = [
+    r1.value, r2.value, r3.value, r4.value, r5.value
+  ].join(",");
+
   const shape = customerShape.value;
   const length = customerLength.value;
 
-  if (!name || !left || !right || !shape || !length) {
-    alert("Fill out ALL fields");
+  if (!name || !shape || !length || left.includes(",,") || right.includes(",,")) {
+    alert("Fill out all 10 finger sizes");
     return;
   }
 
   const customers = JSON.parse(localStorage.getItem("pp_customers")) || {};
 
-  customers[name] = {
-    left,
-    right,
-    shape,
-    length
-  };
+  customers[name] = { left, right, shape, length };
 
   localStorage.setItem("pp_customers", JSON.stringify(customers));
 
@@ -974,18 +1026,7 @@ function loadCustomerList() {
 }
 // ===== CUSTOMER SEARCH =====
 
-function filterCustomers(){
 
-  const term = searchCustomer.value.toLowerCase();
-  const dropdown = customerList;
-
-  for(let i=0;i<dropdown.options.length;i++){
-
-    const txt = dropdown.options[i].text.toLowerCase();
-    dropdown.options[i].style.display =
-      txt.includes(term) ? "" : "none";
-  }
-}
 
 // ===== LOAD PROFILE =====
 
@@ -1019,8 +1060,9 @@ function convertFullSet() {
 
   const profile = customers[selected];
 
-  const targetShape = toShape.value;
-  const targetLength = toLength.value;
+ const targetShape = profileTargetShape.value;
+const targetLength = profileTargetLength.value;
+
 
   if (!targetShape || !targetLength) {
     alert("Select target shape and length");
@@ -1099,15 +1141,19 @@ toShape.dispatchEvent(new Event("change"));
 function exportPDF(){
 
   const name = customerList.value;
-  if(!name){
-    alert("Load customer first");
+  const content = convertedResult.innerText;
+
+  if(!name || !content){
+    alert("Convert a customer first");
     return;
   }
 
-  const content = document.getElementById("convertedResult").innerText;
-
   const win = window.open('', '', 'width=600,height=600');
-  win.document.write(`<pre>${name}\n\n${content}</pre>`);
+  win.document.write(`
+    <h2>Pretty Puress Packing Slip</h2>
+    <p><strong>Client:</strong> ${name}</p>
+    <pre>${content}</pre>
+  `);
   win.document.close();
   win.print();
 }
