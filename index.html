@@ -417,6 +417,25 @@ footer {
     padding: 15px;
   }
 }
+.finger-grid {
+  display:grid;
+  grid-template-columns: repeat(5,1fr);
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.finger-grid button {
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  background:white;
+  font-weight:bold;
+}
+
+.finger-grid button.active {
+  background: purple;
+  color:white;
+}
 
 </style>
 </head>
@@ -705,10 +724,12 @@ Use our guide below to measure your nails accurately at home before ordering.
 <select id="customerLength">
   <option value="">Original Length</option>
 </select>
+<h5>Left Hand</h5>
+<div id="leftButtons"></div>
 
-<input type="text" id="leftHand" placeholder="Left Hand Sizes (ex: 0,1,2,3,4)">
+<h5>Right Hand</h5>
+<div id="rightButtons"></div>
 
-<input type="text" id="rightHand" placeholder="Right Hand Sizes (ex: 0,1,2,3,4)">
 
 <button onclick="saveCustomer()">Save Customer</button>
 
@@ -716,6 +737,7 @@ Use our guide below to measure your nails accurately at home before ordering.
 <hr>
 
 <h4>Load Customer Profile</h4>
+<input type="text" id="searchCustomer" placeholder="Search customer..." onkeyup="filterCustomers()">
 
 <select id="customerList"></select>
 
@@ -728,6 +750,7 @@ Use our guide below to measure your nails accurately at home before ordering.
 <p id="loadedCustomer"></p>
 
 <p id="convertedResult"></p>
+<button onclick="exportPDF()">Export Packing Slip</button>
 
 
 </div>
@@ -866,12 +889,52 @@ result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 }
 
 // ===== CUSTOMER STORAGE =====
+// ===== FINGER BUTTON SYSTEM =====
+
+const sizes = ["00","0","1","2","3","4","4.5","5","5.5","6","6.5","7","8","9"];
+
+let leftHandData = [];
+let rightHandData = [];
+
+function buildFingerButtons(containerId, handArray){
+
+  const box = document.getElementById(containerId);
+  box.className = "finger-grid";
+
+  box.innerHTML = "";
+
+  sizes.forEach(size => {
+
+    const btn = document.createElement("button");
+    btn.textContent = size;
+
+    btn.onclick = () => {
+      if(handArray.includes(size)){
+        handArray.splice(handArray.indexOf(size),1);
+        btn.classList.remove("active");
+      } else {
+        if(handArray.length < 5){
+          handArray.push(size);
+          btn.classList.add("active");
+        }
+      }
+    };
+
+    box.appendChild(btn);
+
+  });
+
+}
+
+// Build both hands on load
+buildFingerButtons("leftButtons", leftHandData);
+buildFingerButtons("rightButtons", rightHandData);
 
 function saveCustomer() {
 
   const name = customerName.value.trim();
-  const left = leftHand.value.trim();
-  const right = rightHand.value.trim();
+  const left = leftHandData.join(",");
+  const right = rightHandData.join(",");
   const shape = customerShape.value;
   const length = customerLength.value;
 
@@ -908,6 +971,20 @@ function loadCustomerList() {
   Object.keys(customers).forEach(name => {
     dropdown.add(new Option(name, name));
   });
+}
+// ===== CUSTOMER SEARCH =====
+
+function filterCustomers(){
+
+  const term = searchCustomer.value.toLowerCase();
+  const dropdown = customerList;
+
+  for(let i=0;i<dropdown.options.length;i++){
+
+    const txt = dropdown.options[i].text.toLowerCase();
+    dropdown.options[i].style.display =
+      txt.includes(term) ? "" : "none";
+  }
 }
 
 // ===== LOAD PROFILE =====
@@ -1017,6 +1094,23 @@ loadCustomerList();
 fromShape.dispatchEvent(new Event("change"));
 toShape.dispatchEvent(new Event("change"));
 
+// ===== EXPORT PDF =====
+
+function exportPDF(){
+
+  const name = customerList.value;
+  if(!name){
+    alert("Load customer first");
+    return;
+  }
+
+  const content = document.getElementById("convertedResult").innerText;
+
+  const win = window.open('', '', 'width=600,height=600');
+  win.document.write(`<pre>${name}\n\n${content}</pre>`);
+  win.document.close();
+  win.print();
+}
 
 </script>
 
