@@ -482,6 +482,12 @@ fingerInputs.forEach((id, index) => {
   });
 
 });
+.admin-card {
+  background:#f9e6f9;
+  padding:18px;
+  border-radius:14px;
+  border:2px solid #e8a6e8;
+}
 
 </style>
 </head>
@@ -729,7 +735,7 @@ Use our guide below to measure your nails accurately at home before ordering.
 </div>
 
 <div id="sizeCalculator" class="calculator-box grid-layout" style="display:none;">
-<div>
+<div class="admin-card">
 
 <h3>Private Nail Size Converter</h3>
 
@@ -758,7 +764,7 @@ Use our guide below to measure your nails accurately at home before ordering.
 
 <hr>
 </div>
-<div>
+<div class="admin-card">
 <h4>Save Customer Sizing</h4>
   <h5>Left Hand (Thumb → Pinky)</h5>
 
@@ -840,9 +846,7 @@ Use our guide below to measure your nails accurately at home before ordering.
 <button onclick="saveCustomer()">Save Customer</button>
 </div>
 
-
-<hr>
-<div>
+<div class="admin-card">
 <h4>Load Customer Profile</h4>
   <select id="profileTargetShape"></select>
 <select id="profileTargetLength"></select>
