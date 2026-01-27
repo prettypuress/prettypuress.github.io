@@ -885,6 +885,22 @@ function closeLightbox() {
 
   firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const customerList = document.getElementById("customerList");
+const loadedCustomer = document.getElementById("loadedCustomer");
+const convertedResult = document.getElementById("convertedResult");
+const customerName = document.getElementById("customerName");
+
+const l1=document.getElementById("l1");
+const l2=document.getElementById("l2");
+const l3=document.getElementById("l3");
+const l4=document.getElementById("l4");
+const l5=document.getElementById("l5");
+
+const r1=document.getElementById("r1");
+const r2=document.getElementById("r2");
+const r3=document.getElementById("r3");
+const r4=document.getElementById("r4");
+const r5=document.getElementById("r5");
 
 // ===== ADMIN LOCK =====
 
@@ -1163,52 +1179,7 @@ function convertFullSet() {
 }
 
 
-  const profile = customers[selected];
-
- const targetShape = profileTargetShape.value;
-const targetLength = profileTargetLength.value;
-
-
-  if (!targetShape || !targetLength) {
-    alert("Select target shape and length");
-    return;
-  }
-
-  const leftSizes = profile.left.split(",");
-  const rightSizes = profile.right.split(",");
-
-  function convertHand(hand) {
-
-    return hand.map(size => {
-
-      const mm = nailData[profile.shape][profile.length][size.trim()];
-      const targetSet = nailData[targetShape][targetLength];
-
-      let best = null;
-      let diff = 999;
-
-      for (let s in targetSet) {
-        let d = Math.abs(targetSet[s] - mm);
-        if (d < diff) {
-          diff = d;
-          best = s;
-        }
-      }
-
-      return best;
-
-    }).join(", ");
-
-  }
-
-  const newLeft = convertHand(leftSizes);
-  const newRight = convertHand(rightSizes);
-
-  convertedResult.innerHTML =
-    `Converted To ${targetShape} ${targetLength}<br>
-     Left Hand: ${newLeft}<br>
-     Right Hand: ${newRight}`;
-}
+ 
 // ===== DELETE CUSTOMER =====
 
 function deleteCustomer() {
