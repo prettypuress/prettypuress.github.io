@@ -814,69 +814,8 @@ Use our guide below to measure your nails accurately at home before ordering.
 </div>
 <div class="admin-card">
 <h4>Save Customer Sizing</h4>
-  <h5>Left Hand (Thumb → Pinky)</h5>
 
-<div class="finger-row">
-
-  <div class="finger-wrap">
-    <div class="finger-label">Thumb</div>
-    <input id="l1">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Index</div>
-    <input id="l2">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Middle</div>
-    <input id="l3">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Ring</div>
-    <input id="l4">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Pinky</div>
-    <input id="l5">
-  </div>
-
-</div>
-
-
-<h5>Right Hand (Thumb → Pinky)</h5>
-
-<div class="finger-row">
-
-  <div class="finger-wrap">
-    <div class="finger-label">Thumb</div>
-    <input id="r1">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Index</div>
-    <input id="r2">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Middle</div>
-    <input id="r3">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Ring</div>
-    <input id="r4">
-  </div>
-
-  <div class="finger-wrap">
-    <div class="finger-label">Pinky</div>
-    <input id="r5">
-  </div>
-
-</div>
-
+<!-- STEP 1: CUSTOMER INFO -->
 <input type="text" id="customerName" placeholder="Customer Name">
 
 <select id="customerShape">
@@ -886,12 +825,63 @@ Use our guide below to measure your nails accurately at home before ordering.
 <select id="customerLength">
   <option value="">Original Length</option>
 </select>
-<h5>Left Hand</h5>
 
-<h5>Right Hand</h5>
+<hr>
 
+<!-- STEP 2: LEFT HAND -->
+<h5>Left Hand (Thumb → Pinky)</h5>
+
+<div class="finger-row">
+  <div class="finger-wrap">
+    <div class="finger-label">Thumb</div>
+    <input id="l1">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Index</div>
+    <input id="l2">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Middle</div>
+    <input id="l3">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Ring</div>
+    <input id="l4">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Pinky</div>
+    <input id="l5">
+  </div>
+</div>
+
+<!-- STEP 3: RIGHT HAND -->
+<h5>Right Hand (Thumb → Pinky)</h5>
+
+<div class="finger-row">
+  <div class="finger-wrap">
+    <div class="finger-label">Thumb</div>
+    <input id="r1">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Index</div>
+    <input id="r2">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Middle</div>
+    <input id="r3">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Ring</div>
+    <input id="r4">
+  </div>
+  <div class="finger-wrap">
+    <div class="finger-label">Pinky</div>
+    <input id="r5">
+  </div>
+</div>
 
 <button onclick="saveCustomer()">Save Customer</button>
+
 </div>
 
 <div class="admin-card">
@@ -1306,34 +1296,9 @@ function exportPDF(){
   win.document.close();
   win.print();
 }
-// ===== AUTO ADVANCE FINGER INPUT =====
 
-const fingerInputs = [
-  "l1","l2","l3","l4","l5",
-  "r1","r2","r3","r4","r5"
-];
 
-fingerInputs.forEach((id, index) => {
 
-  const input = document.getElementById(id);
-
-  if(!input) return;
-
-  input.addEventListener("input", () => {
-
-    if (input.value.length >= 1) {
-
-      const next = fingerInputs[index + 1];
-
-      if (next) {
-        document.getElementById(next).focus();
-      }
-
-    }
-
-  });
-
-});
 
 </script>
 
