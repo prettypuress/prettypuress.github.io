@@ -817,6 +817,12 @@ Use our guide below to measure your nails accurately at home before ordering.
 
 <!-- STEP 1: CUSTOMER INFO -->
 <input type="text" id="customerName" placeholder="Customer Name">
+<select id="customerBrand">
+  <option value="">Nail Brand</option>
+  <option value="Apres">Apres</option>
+  <option value="Una Gella">Una Gella</option>
+  <option value="Hang">Hang</option>
+</select>
 
 <select id="customerShape">
   <option value="">Original Shape</option>
@@ -1054,11 +1060,44 @@ profileTargetShape.onchange = ()=>{
 // Populate customer length dropdown
 
 customerShape.onchange = () => {
+
+  // If Una Gella, do nothing (locked)
+  if (customerBrand.value === "Una Gella") return;
+
   customerLength.innerHTML = "<option value=''>Original Length</option>";
   Object.keys(nailData[customerShape.value]).forEach(len=>{
     customerLength.add(new Option(len,len));
   });
 };
+customerBrand.onchange = () => {
+
+  customerShape.innerHTML = "<option value=''>Original Shape</option>";
+  customerLength.innerHTML = "<option value=''>Original Length</option>";
+
+  if (customerBrand.value === "Una Gella") {
+
+    // Lock options
+    customerShape.add(new Option("Square", "Square"));
+    customerLength.add(new Option("Short", "Short"));
+
+    customerShape.value = "Square";
+    customerLength.value = "Short";
+
+    customerShape.disabled = true;
+    customerLength.disabled = true;
+
+  } else {
+
+    // Unlock and repopulate all shapes
+    customerShape.disabled = false;
+    customerLength.disabled = false;
+
+    Object.keys(nailData).forEach(shape => {
+      customerShape.add(new Option(shape, shape));
+    });
+  }
+};
+
 
 // Normal converter dropdown logic
 
@@ -1112,6 +1151,7 @@ result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 function saveCustomer() {
 
   const name = customerName.value.trim();
+  const brand = customerBrand.value;
 
   const left = [
     l1.value, l2.value, l3.value, l4.value, l5.value
@@ -1128,12 +1168,12 @@ function saveCustomer() {
     alert("Fill all fields");
     return;
   }
-
-  db.collection("customers").doc(name).set({
+  {
     left,
     right,
     shape,
     length,
+      brand,
     updated: new Date()
   }).then(() => {
   alert("Saved to cloud ✅");
