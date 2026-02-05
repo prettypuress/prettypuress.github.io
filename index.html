@@ -1130,50 +1130,32 @@ toShape.onchange=()=>{
     toLength.add(new Option(l,l));
   });
 };
-
-// ===== CONVERT =====
-
-function convertSize(){
-  function convertFullSet() {
-  if (!editingCustomer) {
-    alert("Load a customer first");
+function convertSize() {
+  if (
+    (fromShape.value === "Stiletto" && fromLength.value === "Short") ||
+    (toShape.value === "Stiletto" && toLength.value === "Short")
+  ) {
+    alert("Stiletto Short is not available.");
     return;
   }
 
-  const targetShape = profileTargetShape.value;
-  const targetLength = profileTargetLength.value;
+  const mm = nailData[fromShape.value][fromLength.value][fromSize.value];
+  const target = nailData[toShape.value][toLength.value];
 
-  if (!targetShape || !targetLength) {
-    alert("Select target shape and length");
-    return;
+  let best = null;
+  let diff = Infinity;
+
+  for (let s in target) {
+    const d = Math.abs(target[s] - mm);
+    if (d < diff) {
+      diff = d;
+      best = s;
+    }
   }
 
-  const leftConverted = convertHand(
-    [l1.value, l2.value, l3.value, l4.value, l5.value],
-    customerShape.value,
-    customerLength.value,
-    targetShape,
-    targetLength
-  );
-
-  const rightConverted = convertHand(
-    [r1.value, r2.value, r3.value, r4.value, r5.value],
-    customerShape.value,
-    customerLength.value,
-    targetShape,
-    targetLength
-  );
-
-  convertedResult.innerHTML = `
-    <strong>Converted → ${targetShape} ${targetLength}</strong><br><br>
-
-    <strong>Left Hand</strong><br>
-    ${leftConverted.join(" · ")}<br><br>
-
-    <strong>Right Hand</strong><br>
-    ${rightConverted.join(" · ")}
-  `;
+  result.innerHTML = `${mm}mm → Size ${best}`;
 }
+
 function convertHand(sizes, fromShape, fromLength, toShape, toLength) {
   return sizes.map(size => {
     const mm = nailData[fromShape][fromLength][size];
@@ -1193,26 +1175,43 @@ function convertHand(sizes, fromShape, fromLength, toShape, toLength) {
   });
 }
 
-  if (
-  (fromShape.value === "Stiletto" && fromLength.value === "Short") ||
-  (toShape.value === "Stiletto" && toLength.value === "Short")
-) {
-  alert("Stiletto Short is not available.");
-  return;
-}
-
-  const mm=nailData[fromShape.value][fromLength.value][fromSize.value];
-  const target=nailData[toShape.value][toLength.value];
-
-  let best=null, diff=999;
-
-  for(let s in target){
-    let d=Math.abs(target[s]-mm);
-    if(d<diff){diff=d;best=s;}
+function convertFullSet() {
+  if (!editingCustomer) {
+    alert("Load a customer first");
+    return;
   }
 
-result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
+  if (!profileTargetShape.value || !profileTargetLength.value) {
+    alert("Select target shape and length");
+    return;
+  }
+
+  const leftConverted = convertHand(
+    [l1.value, l2.value, l3.value, l4.value, l5.value],
+    customerShape.value,
+    customerLength.value,
+    profileTargetShape.value,
+    profileTargetLength.value
+  );
+
+  const rightConverted = convertHand(
+    [r1.value, r2.value, r3.value, r4.value, r5.value],
+    customerShape.value,
+    customerLength.value,
+    profileTargetShape.value,
+    profileTargetLength.value
+  );
+
+  convertedResult.innerHTML = `
+    <strong>Converted → ${profileTargetShape.value} ${profileTargetLength.value}</strong><br><br>
+    <strong>Left Hand</strong><br>
+    ${leftConverted.join(" · ")}<br><br>
+    <strong>Right Hand</strong><br>
+    ${rightConverted.join(" · ")}
+  `;
 }
+
+
 
 // ===== CUSTOMER STORAGE =====
 function saveCustomer() {
