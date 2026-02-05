@@ -905,6 +905,12 @@ Use our guide below to measure your nails accurately at home before ordering.
 <button onclick="convertFullSet()">Convert Full Set</button>
 
 <button onclick="deleteCustomer()" style="background:#9b0000;color:white;">Delete Customer</button>
+<hr>
+<h5>Saved Nail Sizes</h5>
+
+<div id="savedSizes" style="line-height:1.6;color:#5a005a;">
+  <em>No customer loaded</em>
+</div>
 
 <p id="loadedCustomer"></p>
 
@@ -1242,10 +1248,20 @@ function loadCustomer() {
     [r1,r2,r3,r4,r5].forEach((el,i)=> el.value = data.right[i]);
 
     loadedCustomer.innerHTML =
-      `Editing: ${selected}<br>
-       Brand: ${data.brand}<br>
-       Original: ${data.shape} ${data.length}`;
-  });
+  `Editing: ${selected}<br>
+   Brand: ${data.brand}<br>
+   Original: ${data.shape} ${data.length}`;
+
+const savedSizes = document.getElementById("savedSizes");
+
+savedSizes.innerHTML = `
+  <strong>Left Hand (Thumb → Pinky)</strong><br>
+  ${data.left.join(" · ")}<br><br>
+
+  <strong>Right Hand (Thumb → Pinky)</strong><br>
+  ${data.right.join(" · ")}
+`;
+
 }
 
 function loadCustomerList() {
