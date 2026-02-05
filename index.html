@@ -695,8 +695,6 @@ Designed with care. Created with intention. Made to elevate your look.
 </div>
 
 </form>
-<label>Upload Inspiration Photos (optional)</label>
-<input type="file" id="inspoPhotos" multiple accept="image/*">
 
 </section>
 
@@ -816,15 +814,70 @@ Use our guide below to measure your nails accurately at home before ordering.
 </div>
 <div class="admin-card">
 <h4>Save Customer Sizing</h4>
+  <h5>Left Hand (Thumb → Pinky)</h5>
 
-<!-- STEP 1: CUSTOMER INFO -->
+<div class="finger-row">
+
+  <div class="finger-wrap">
+    <div class="finger-label">Thumb</div>
+    <input id="l1">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Index</div>
+    <input id="l2">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Middle</div>
+    <input id="l3">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Ring</div>
+    <input id="l4">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Pinky</div>
+    <input id="l5">
+  </div>
+
+</div>
+
+
+<h5>Right Hand (Thumb → Pinky)</h5>
+
+<div class="finger-row">
+
+  <div class="finger-wrap">
+    <div class="finger-label">Thumb</div>
+    <input id="r1">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Index</div>
+    <input id="r2">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Middle</div>
+    <input id="r3">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Ring</div>
+    <input id="r4">
+  </div>
+
+  <div class="finger-wrap">
+    <div class="finger-label">Pinky</div>
+    <input id="r5">
+  </div>
+
+</div>
+
 <input type="text" id="customerName" placeholder="Customer Name">
-<select id="customerBrand">
-  <option value="">Nail Brand</option>
-  <option value="Apres">Apres</option>
-  <option value="Una Gella">Una Gella</option>
-  <option value="Hang">Hang</option>
-</select>
 
 <select id="customerShape">
   <option value="">Original Shape</option>
@@ -833,63 +886,12 @@ Use our guide below to measure your nails accurately at home before ordering.
 <select id="customerLength">
   <option value="">Original Length</option>
 </select>
+<h5>Left Hand</h5>
 
-<hr>
+<h5>Right Hand</h5>
 
-<!-- STEP 2: LEFT HAND -->
-<h5>Left Hand (Thumb → Pinky)</h5>
-
-<div class="finger-row">
-  <div class="finger-wrap">
-    <div class="finger-label">Thumb</div>
-    <input id="l1">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Index</div>
-    <input id="l2">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Middle</div>
-    <input id="l3">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Ring</div>
-    <input id="l4">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Pinky</div>
-    <input id="l5">
-  </div>
-</div>
-
-<!-- STEP 3: RIGHT HAND -->
-<h5>Right Hand (Thumb → Pinky)</h5>
-
-<div class="finger-row">
-  <div class="finger-wrap">
-    <div class="finger-label">Thumb</div>
-    <input id="r1">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Index</div>
-    <input id="r2">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Middle</div>
-    <input id="r3">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Ring</div>
-    <input id="r4">
-  </div>
-  <div class="finger-wrap">
-    <div class="finger-label">Pinky</div>
-    <input id="r5">
-  </div>
-</div>
 
 <button onclick="saveCustomer()">Save Customer</button>
-
 </div>
 
 <div class="admin-card">
@@ -905,12 +907,6 @@ Use our guide below to measure your nails accurately at home before ordering.
 <button onclick="convertFullSet()">Convert Full Set</button>
 
 <button onclick="deleteCustomer()" style="background:#9b0000;color:white;">Delete Customer</button>
-<hr>
-<h5>Saved Nail Sizes</h5>
-
-<div id="savedSizes" style="line-height:1.6;color:#5a005a;">
-  <em>No customer loaded</em>
-</div>
 
 <p id="loadedCustomer"></p>
 
@@ -962,7 +958,6 @@ const customerList = document.getElementById("customerList");
 const loadedCustomer = document.getElementById("loadedCustomer");
 const convertedResult = document.getElementById("convertedResult");
 const customerName = document.getElementById("customerName");
-const customerBrand = document.getElementById("customerBrand");
 
 const l1=document.getElementById("l1");
 const l2=document.getElementById("l2");
@@ -975,7 +970,6 @@ const r2=document.getElementById("r2");
 const r3=document.getElementById("r3");
 const r4=document.getElementById("r4");
 const r5=document.getElementById("r5");
-let editingCustomer = null;
 
 // ===== ADMIN LOCK =====
 
@@ -1068,44 +1062,11 @@ profileTargetShape.onchange = ()=>{
 // Populate customer length dropdown
 
 customerShape.onchange = () => {
-
-  // If Una Gella, do nothing (locked)
-  if (customerBrand.value === "Una Gella") return;
-
   customerLength.innerHTML = "<option value=''>Original Length</option>";
   Object.keys(nailData[customerShape.value]).forEach(len=>{
     customerLength.add(new Option(len,len));
   });
 };
-customerBrand.onchange = () => {
-
-  customerShape.innerHTML = "<option value=''>Original Shape</option>";
-  customerLength.innerHTML = "<option value=''>Original Length</option>";
-
-  if (customerBrand.value === "Una Gella") {
-
-    // Lock options
-    customerShape.add(new Option("Square", "Square"));
-    customerLength.add(new Option("Short", "Short"));
-
-    customerShape.value = "Square";
-    customerLength.value = "Short";
-
-    customerShape.disabled = true;
-    customerLength.disabled = true;
-
-  } else {
-
-    // Unlock and repopulate all shapes
-    customerShape.disabled = false;
-    customerLength.disabled = false;
-
-    Object.keys(nailData).forEach(shape => {
-      customerShape.add(new Option(shape, shape));
-    });
-  }
-};
-
 
 // Normal converter dropdown logic
 
@@ -1130,102 +1091,48 @@ toShape.onchange=()=>{
     toLength.add(new Option(l,l));
   });
 };
-function convertSize() {
+
+// ===== CONVERT =====
+
+function convertSize(){
   if (
-    (fromShape.value === "Stiletto" && fromLength.value === "Short") ||
-    (toShape.value === "Stiletto" && toLength.value === "Short")
-  ) {
-    alert("Stiletto Short is not available.");
-    return;
-  }
-
-  const mm = nailData[fromShape.value][fromLength.value][fromSize.value];
-  const target = nailData[toShape.value][toLength.value];
-
-  let best = null;
-  let diff = Infinity;
-
-  for (let s in target) {
-    const d = Math.abs(target[s] - mm);
-    if (d < diff) {
-      diff = d;
-      best = s;
-    }
-  }
-
-  result.innerHTML = `${mm}mm → Size ${best}`;
+  (fromShape.value === "Stiletto" && fromLength.value === "Short") ||
+  (toShape.value === "Stiletto" && toLength.value === "Short")
+) {
+  alert("Stiletto Short is not available.");
+  return;
 }
 
-function convertHand(sizes, fromShape, fromLength, toShape, toLength) {
-  return sizes.map(size => {
-    const mm = nailData[fromShape][fromLength][size];
-    const target = nailData[toShape][toLength];
+  const mm=nailData[fromShape.value][fromLength.value][fromSize.value];
+  const target=nailData[toShape.value][toLength.value];
 
-    let best = null;
-    let diff = Infinity;
+  let best=null, diff=999;
 
-    for (let s in target) {
-      const d = Math.abs(target[s] - mm);
-      if (d < diff) {
-        diff = d;
-        best = s;
-      }
-    }
-    return best;
-  });
-}
-
-function convertFullSet() {
-  if (!editingCustomer) {
-    alert("Load a customer first");
-    return;
+  for(let s in target){
+    let d=Math.abs(target[s]-mm);
+    if(d<diff){diff=d;best=s;}
   }
 
-  if (!profileTargetShape.value || !profileTargetLength.value) {
-    alert("Select target shape and length");
-    return;
-  }
-
-  const leftConverted = convertHand(
-    [l1.value, l2.value, l3.value, l4.value, l5.value],
-    customerShape.value,
-    customerLength.value,
-    profileTargetShape.value,
-    profileTargetLength.value
-  );
-
-  const rightConverted = convertHand(
-    [r1.value, r2.value, r3.value, r4.value, r5.value],
-    customerShape.value,
-    customerLength.value,
-    profileTargetShape.value,
-    profileTargetLength.value
-  );
-
-  convertedResult.innerHTML = `
-    <strong>Converted → ${profileTargetShape.value} ${profileTargetLength.value}</strong><br><br>
-    <strong>Left Hand</strong><br>
-    ${leftConverted.join(" · ")}<br><br>
-    <strong>Right Hand</strong><br>
-    ${rightConverted.join(" · ")}
-  `;
+result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 }
-
-
 
 // ===== CUSTOMER STORAGE =====
 function saveCustomer() {
 
-  const name = editingCustomer || customerName.value.trim();
-  const brand = customerBrand.value;
+  const name = customerName.value.trim();
 
-  const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
-  const right = [r1.value, r2.value, r3.value, r4.value, r5.value];
+  const left = [
+    l1.value, l2.value, l3.value, l4.value, l5.value
+  ];
+
+  const right = [
+    r1.value, r2.value, r3.value, r4.value, r5.value
+  ];
 
   const shape = customerShape.value;
   const length = customerLength.value;
 
-  if (!name || !brand || left.includes("") || right.includes("") || !shape || !length) {
+  if (!name || left.includes("") || right.includes("") || !shape || !length) {
     alert("Fill all fields");
     return;
   }
@@ -1235,43 +1142,14 @@ function saveCustomer() {
     right,
     shape,
     length,
-    brand,
     updated: new Date()
-  })
- .then(() => {
-  loadedCustomer.innerHTML =
-    `Saved: ${name}<br>
-     Brand: ${brand}<br>
-     Shape: ${shape} ${length}<br>
-     Left: ${left.join(", ")}<br>
-     Right: ${right.join(", ")}`;
-   
-const savedSizes = document.getElementById("savedSizes");
-savedSizes.innerHTML = `
-  <strong>Left Hand (Thumb → Pinky)</strong><br>
-  ${left.join(" · ")}<br><br>
-  <strong>Right Hand (Thumb → Pinky)</strong><br>
-  ${right.join(" · ")}
-`;
-
+  }).then(() => {
   alert("Saved to cloud ✅");
-
-
-    // RESET EDIT MODE
-    editingCustomer = null;
-    customerName.disabled = false;
-    customerName.value = "";
-    customerBrand.value = "";
-    customerShape.value = "";
-    customerLength.value = "";
-    [l1,l2,l3,l4,l5,r1,r2,r3,r4,r5].forEach(i => i.value = "");
-
-    loadCustomerList();
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Save failed — check console");
-  });
+  loadCustomerList();
+}).catch((error) => {
+  console.error("Firestore save error:", error);
+  alert("Save failed — check console");
+});
 }
 
 
@@ -1279,7 +1157,19 @@ savedSizes.innerHTML = `
 
 // ===== LOAD CUSTOMER DROPDOWN =====
 
+function loadCustomerList() {
 
+const dropdown = customerList;
+  dropdown.innerHTML = "";
+
+  db.collection("customers").get().then(snapshot => {
+
+    snapshot.forEach(doc => {
+      dropdown.add(new Option(doc.id, doc.id));
+    });
+
+  });
+}
 
 
 // ===== CUSTOMER SEARCH =====
@@ -1299,57 +1189,151 @@ function loadCustomer() {
 
     const data = doc.data();
 
-    editingCustomer = selected;
-    customerName.value = selected;
-    customerName.disabled = true;
-
-    customerBrand.value = data.brand || "";
-    customerBrand.dispatchEvent(new Event("change"));
-
-    customerShape.value = data.shape;
-    customerShape.dispatchEvent(new Event("change"));
-    customerLength.value = data.length;
-
-    [l1,l2,l3,l4,l5].forEach((el,i)=> el.value = data.left[i]);
-    [r1,r2,r3,r4,r5].forEach((el,i)=> el.value = data.right[i]);
-
     loadedCustomer.innerHTML =
-  `Editing: ${selected}<br>
-   Brand: ${data.brand}<br>
-   Original: ${data.shape} ${data.length}`;
+      `Loaded: ${selected}<br>
+       Original: ${data.shape} ${data.length}<br>
+       Left: ${data.left.join(", ")}<br>
+       Right: ${data.right.join(", ")}`;
+  });
+}
 
-const savedSizes = document.getElementById("savedSizes");
-savedSizes.innerHTML = `
-  <strong>Left Hand (Thumb → Pinky)</strong><br>
-  ${data.left.join(" · ")}<br><br>
+  
+// ===== FULL SET CONVERSION =====
 
-  <strong>Right Hand (Thumb → Pinky)</strong><br>
-  ${data.right.join(" · ")}
-`;
- }).catch(err => {
-    console.error("Load customer failed:", err);
+function convertFullSet() {
+
+  const selected = customerList.value;
+  if (!selected) {
+    alert("Select customer first");
+    return;
+  }
+
+  const targetShape = profileTargetShape.value;
+  const targetLength = profileTargetLength.value;
+
+  if (!targetShape || !targetLength) {
+    alert("Select target shape and length");
+    return;
+  }
+
+  db.collection("customers").doc(selected).get().then(doc => {
+
+    if (!doc.exists) return;
+
+    const profile = doc.data();
+
+    function convertHand(hand) {
+
+      return hand.map(size => {
+
+        const mm = nailData[profile.shape][profile.length][size];
+        const targetSet = nailData[targetShape][targetLength];
+
+        let best = null;
+        let diff = 999;
+
+        for (let s in targetSet) {
+          let d = Math.abs(targetSet[s] - mm);
+          if (d < diff) {
+            diff = d;
+            best = s;
+          }
+        }
+
+        return best;
+
+      }).join(", ");
+
+    }
+
+    const newLeft = convertHand(profile.left);
+    const newRight = convertHand(profile.right);
+
+    convertedResult.innerHTML =
+      `Converted To ${targetShape} ${targetLength}<br>
+       Left Hand: ${newLeft}<br>
+       Right Hand: ${newRight}`;
+
   });
 
 }
 
-function loadCustomerList() {
 
-  customerList.innerHTML = "<option value=''>Select Customer</option>";
+ 
+// ===== DELETE CUSTOMER =====
 
-  db.collection("customers")
-    .orderBy("updated", "desc")
-    .get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        customerList.add(new Option(doc.id, doc.id));
-      });
-    })
-    .catch(err => {
-      console.error("Load customers failed:", err);
-    });
+function deleteCustomer() {
+
+  const selected = customerList.value;
+  if (!selected) return;
+
+  if (!confirm("Delete customer?")) return;
+
+  db.collection("customers").doc(selected).delete().then(() => {
+
+    alert("Deleted");
+    loadCustomerList();
+    loadedCustomer.innerHTML="";
+    convertedResult.innerHTML="";
+  });
 }
 
+// Auto load saved customers on page open
 loadCustomerList();
+
+// Auto load default dropdown values
+fromShape.dispatchEvent(new Event("change"));
+toShape.dispatchEvent(new Event("change"));
+
+// ===== EXPORT PDF =====
+
+function exportPDF(){
+
+  const name = customerList.value;
+  const content = convertedResult.innerText;
+
+  if(!name || !content){
+    alert("Convert a customer first");
+    return;
+  }
+
+  const win = window.open('', '', 'width=600,height=600');
+  win.document.write(`
+    <h2>Pretty Puress Packing Slip</h2>
+    <p><strong>Client:</strong> ${name}</p>
+    <pre>${content}</pre>
+  `);
+  win.document.close();
+  win.print();
+}
+// ===== AUTO ADVANCE FINGER INPUT =====
+
+const fingerInputs = [
+  "l1","l2","l3","l4","l5",
+  "r1","r2","r3","r4","r5"
+];
+
+fingerInputs.forEach((id, index) => {
+
+  const input = document.getElementById(id);
+
+  if(!input) return;
+
+  input.addEventListener("input", () => {
+
+    if (input.value.length >= 1) {
+
+      const next = fingerInputs[index + 1];
+
+      if (next) {
+        document.getElementById(next).focus();
+      }
+
+    }
+
+  });
+
+});
 
 </script>
 
