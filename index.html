@@ -1153,37 +1153,34 @@ function saveCustomer() {
   const name = customerName.value.trim();
   const brand = customerBrand.value;
 
-  const left = [
-    l1.value, l2.value, l3.value, l4.value, l5.value
-  ];
-
-  const right = [
-    r1.value, r2.value, r3.value, r4.value, r5.value
-  ];
+  const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
+  const right = [r1.value, r2.value, r3.value, r4.value, r5.value];
 
   const shape = customerShape.value;
   const length = customerLength.value;
 
-  if (!name || left.includes("") || right.includes("") || !shape || !length) {
+  if (!name || !brand || left.includes("") || right.includes("") || !shape || !length) {
     alert("Fill all fields");
     return;
   }
-  {
+
+  db.collection("customers").doc(name).set({
     left,
     right,
     shape,
     length,
-      brand,
+    brand,
     updated: new Date()
-  }).then(() => {
-  alert("Saved to cloud ✅");
-  loadCustomerList();
-}).catch((error) => {
-  console.error("Firestore save error:", error);
-  alert("Save failed — check console");
-});
+  })
+  .then(() => {
+    alert("Saved to cloud ✅");
+    loadCustomerList();
+  })
+  .catch((error) => {
+    console.error("Firestore save error:", error);
+    alert("Save failed — check console");
+  });
 }
-
 
 
 
