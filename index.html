@@ -695,6 +695,8 @@ Designed with care. Created with intention. Made to elevate your look.
 </div>
 
 </form>
+<label>Upload Inspiration Photos (optional)</label>
+<input type="file" id="inspoPhotos" multiple accept="image/*">
 
 </section>
 
@@ -1150,7 +1152,7 @@ result.innerHTML=`${mm}mm → Size ${best} (${target[best]}mm)`;
 // ===== CUSTOMER STORAGE =====
 function saveCustomer() {
 
-const name = editingCustomer || customerName.value.trim();
+  const name = editingCustomer || customerName.value.trim();
   const brand = customerBrand.value;
 
   const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
@@ -1172,22 +1174,26 @@ const name = editingCustomer || customerName.value.trim();
     brand,
     updated: new Date()
   })
-  .then((editingCustomer = null;
-customerName.disabled = false;
-customerName.value = "";
-customerBrand.value = "";
-customerShape.value = "";
-customerLength.value = "";
-[l1,l2,l3,l4,l5,r1,r2,r3,r4,r5].forEach(i => i.value = "");
-) => {
+  .then(() => {
     alert("Saved to cloud ✅");
+
+    // RESET EDIT MODE
+    editingCustomer = null;
+    customerName.disabled = false;
+    customerName.value = "";
+    customerBrand.value = "";
+    customerShape.value = "";
+    customerLength.value = "";
+    [l1,l2,l3,l4,l5,r1,r2,r3,r4,r5].forEach(i => i.value = "");
+
     loadCustomerList();
   })
-  .catch((error) => {
-    console.error("Firestore save error:", error);
+  .catch(err => {
+    console.error(err);
     alert("Save failed — check console");
   });
 }
+
 
 
 
@@ -1250,124 +1256,26 @@ function loadCustomer() {
 
     const data = doc.data();
 
+    editingCustomer = selected;
+    customerName.value = selected;
+    customerName.disabled = true;
+
+    customerBrand.value = data.brand || "";
+    customerBrand.dispatchEvent(new Event("change"));
+
+    customerShape.value = data.shape;
+    customerShape.dispatchEvent(new Event("change"));
+    customerLength.value = data.length;
+
+    [l1,l2,l3,l4,l5].forEach((el,i)=> el.value = data.left[i]);
+    [r1,r2,r3,r4,r5].forEach((el,i)=> el.value = data.right[i]);
+
     loadedCustomer.innerHTML =
-      `Loaded: ${selected}<br>
-       Original: ${data.shape} ${data.length}<br>
-       Left: ${data.left.join(", ")}<br>
-       Right: ${data.right.join(", ")}`;
+      `Editing: ${selected}<br>
+       Brand: ${data.brand}<br>
+       Original: ${data.shape} ${data.length}`;
   });
 }
-
-  
-// ===== FULL SET CONVERSION =====
-
-function convertFullSet() {
-
-  const selected = customerList.value;
-  if (!selected) {
-    alert("Select customer first");
-    return;
-  }
-
-  const targetShape = profileTargetShape.value;
-  const targetLength = profileTargetLength.value;
-
-  if (!targetShape || !targetLength) {
-    alert("Select target shape and length");
-    return;
-  }
-
-  db.collection("customers").doc(selected).get().then(doc => {
-
-    if (!doc.exists) return;
-
-    const profile = doc.data();
-
-    function convertHand(hand) {
-
-      return hand.map(size => {
-
-        const mm = nailData[profile.shape][profile.length][size];
-        const targetSet = nailData[targetShape][targetLength];
-
-        let best = null;
-        let diff = 999;
-
-        for (let s in targetSet) {
-          let d = Math.abs(targetSet[s] - mm);
-          if (d < diff) {
-            diff = d;
-            best = s;
-          }
-        }
-
-        return best;
-
-      }).join(", ");
-
-    }
-
-    const newLeft = convertHand(profile.left);
-    const newRight = convertHand(profile.right);
-
-    convertedResult.innerHTML =
-      `Converted To ${targetShape} ${targetLength}<br>
-       Left Hand: ${newLeft}<br>
-       Right Hand: ${newRight}`;
-
-  });
-
-}
-
-
- 
-// ===== DELETE CUSTOMER =====
-
-function deleteCustomer() {
-
-  const selected = customerList.value;
-  if (!selected) return;
-
-  if (!confirm("Delete customer?")) return;
-
-  db.collection("customers").doc(selected).delete().then(() => {
-
-    alert("Deleted");
-    loadCustomerList();
-    loadedCustomer.innerHTML="";
-    convertedResult.innerHTML="";
-  });
-}
-
-// Auto load saved customers on page open
-loadCustomerList();
-
-// Auto load default dropdown values
-fromShape.dispatchEvent(new Event("change"));
-toShape.dispatchEvent(new Event("change"));
-
-// ===== EXPORT PDF =====
-
-function exportPDF(){
-
-  const name = customerList.value;
-  const content = convertedResult.innerText;
-
-  if(!name || !content){
-    alert("Convert a customer first");
-    return;
-  }
-
-  const win = window.open('', '', 'width=600,height=600');
-  win.document.write(`
-    <h2>Pretty Puress Packing Slip</h2>
-    <p><strong>Client:</strong> ${name}</p>
-    <pre>${content}</pre>
-  `);
-  win.document.close();
-  win.print();
-}
-
 
 
 
