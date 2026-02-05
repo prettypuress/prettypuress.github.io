@@ -1247,7 +1247,7 @@ function loadCustomer() {
     // Trigger brand change to set up dropdowns correctly
     if (data.brand === "Una Gella") {
       customerBrand.dispatchEvent(new Event("change"));
-    } else {
+    } else if (data.shape && nailData[data.shape]) {
       // Populate shape and length dropdowns for non-Una Gella brands
       customerShape.innerHTML = "<option value=''>Original Shape</option>";
       Object.keys(nailData).forEach(shape=>{
@@ -1262,18 +1262,18 @@ function loadCustomer() {
       customerLength.value = data.length;
     }
     
-    // Populate finger sizes
-    l1.value = data.left[0];
-    l2.value = data.left[1];
-    l3.value = data.left[2];
-    l4.value = data.left[3];
-    l5.value = data.left[4];
+    // Populate finger sizes with safe array access
+    l1.value = data.left?.[0] || "";
+    l2.value = data.left?.[1] || "";
+    l3.value = data.left?.[2] || "";
+    l4.value = data.left?.[3] || "";
+    l5.value = data.left?.[4] || "";
     
-    r1.value = data.right[0];
-    r2.value = data.right[1];
-    r3.value = data.right[2];
-    r4.value = data.right[3];
-    r5.value = data.right[4];
+    r1.value = data.right?.[0] || "";
+    r2.value = data.right?.[1] || "";
+    r3.value = data.right?.[2] || "";
+    r4.value = data.right?.[3] || "";
+    r5.value = data.right?.[4] || "";
 
     loadedCustomer.innerHTML =
       `Loaded: ${selected}<br>
