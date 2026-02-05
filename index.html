@@ -818,6 +818,13 @@ Use our guide below to measure your nails accurately at home before ordering.
 <!-- STEP 1: CUSTOMER INFO -->
 <input type="text" id="customerName" placeholder="Customer Name">
 
+<select id="customerBrand">
+  <option value="">Select Brand</option>
+  <option value="Apres">Apres</option>
+  <option value="Una Gella">Una Gella</option>
+  <option value="Hang">Hang</option>
+</select>
+
 <select id="customerShape">
   <option value="">Original Shape</option>
 </select>
@@ -1053,11 +1060,38 @@ profileTargetShape.onchange = ()=>{
 
 // Populate customer length dropdown
 
+customerBrand.onchange = () => {
+  const brand = customerBrand.value;
+  
+  // Reset shape and length dropdowns
+  customerShape.innerHTML = "<option value=''>Original Shape</option>";
+  customerLength.innerHTML = "<option value=''>Original Length</option>";
+  
+  if (brand === "Una Gella") {
+    // Restrict to Square Short only for Una Gella
+    customerShape.add(new Option("Square", "Square"));
+    customerShape.value = "Square";
+    customerLength.add(new Option("Short", "Short"));
+    customerLength.value = "Short";
+    customerShape.disabled = true;
+    customerLength.disabled = true;
+  } else {
+    // Enable all options for other brands
+    customerShape.disabled = false;
+    customerLength.disabled = false;
+    Object.keys(nailData).forEach(shape=>{
+      customerShape.add(new Option(shape,shape));
+    });
+  }
+};
+
 customerShape.onchange = () => {
   customerLength.innerHTML = "<option value=''>Original Length</option>";
-  Object.keys(nailData[customerShape.value]).forEach(len=>{
-    customerLength.add(new Option(len,len));
-  });
+  if (customerShape.value) {
+    Object.keys(nailData[customerShape.value]).forEach(len=>{
+      customerLength.add(new Option(len,len));
+    });
+  }
 };
 
 // Normal converter dropdown logic
@@ -1123,8 +1157,9 @@ function saveCustomer() {
 
   const shape = customerShape.value;
   const length = customerLength.value;
+  const brand = customerBrand.value;
 
-  if (!name || left.includes("") || right.includes("") || !shape || !length) {
+  if (!name || left.includes("") || right.includes("") || !shape || !length || !brand) {
     alert("Fill all fields");
     return;
   }
@@ -1134,10 +1169,21 @@ function saveCustomer() {
     right,
     shape,
     length,
+    brand,
     updated: new Date()
   }).then(() => {
   alert("Saved to cloud ✅");
   loadCustomerList();
+  // Clear form after save
+  customerName.value = "";
+  customerBrand.value = "";
+  customerShape.value = "";
+  customerLength.value = "";
+  customerShape.disabled = false;
+  customerLength.disabled = false;
+  l1.value = l2.value = l3.value = l4.value = l5.value = "";
+  r1.value = r2.value = r3.value = r4.value = r5.value = "";
+  editingCustomer = null;
 }).catch((error) => {
   console.error("Firestore save error:", error);
   alert("Save failed — check console");
@@ -1156,8 +1202,18 @@ const dropdown = customerList;
 
   db.collection("customers").get().then(snapshot => {
 
+    // Collect all customer names
+    const customers = [];
     snapshot.forEach(doc => {
-      dropdown.add(new Option(doc.id, doc.id));
+      customers.push(doc.id);
+    });
+    
+    // Sort alphabetically
+    customers.sort();
+    
+    // Add to dropdown
+    customers.forEach(name => {
+      dropdown.add(new Option(name, name));
     });
 
   });
@@ -1181,8 +1237,47 @@ function loadCustomer() {
 
     const data = doc.data();
 
+    // Populate form fields for editing
+    customerName.value = selected;
+    editingCustomer = selected;
+    
+    // Set brand first to trigger restrictions
+    customerBrand.value = data.brand || "";
+    
+    // Trigger brand change to set up dropdowns correctly
+    if (data.brand === "Una Gella") {
+      customerBrand.dispatchEvent(new Event("change"));
+    } else if (data.shape && nailData[data.shape]) {
+      // Populate shape and length dropdowns for non-Una Gella brands
+      customerShape.innerHTML = "<option value=''>Original Shape</option>";
+      Object.keys(nailData).forEach(shape=>{
+        customerShape.add(new Option(shape,shape));
+      });
+      customerShape.value = data.shape;
+      
+      customerLength.innerHTML = "<option value=''>Original Length</option>";
+      Object.keys(nailData[data.shape]).forEach(len=>{
+        customerLength.add(new Option(len,len));
+      });
+      customerLength.value = data.length;
+    }
+    
+    // Populate finger sizes with safe array access
+    l1.value = data.left?.[0] || "";
+    l2.value = data.left?.[1] || "";
+    l3.value = data.left?.[2] || "";
+    l4.value = data.left?.[3] || "";
+    l5.value = data.left?.[4] || "";
+    
+    r1.value = data.right?.[0] || "";
+    r2.value = data.right?.[1] || "";
+    r3.value = data.right?.[2] || "";
+    r4.value = data.right?.[3] || "";
+    r5.value = data.right?.[4] || "";
+
     loadedCustomer.innerHTML =
       `Loaded: ${selected}<br>
+       Brand: ${data.brand || "N/A"}<br>
        Original: ${data.shape} ${data.length}<br>
        Left: ${data.left.join(", ")}<br>
        Right: ${data.right.join(", ")}`;
