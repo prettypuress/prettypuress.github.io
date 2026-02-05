@@ -1253,7 +1253,6 @@ function loadCustomer() {
    Original: ${data.shape} ${data.length}`;
 
 const savedSizes = document.getElementById("savedSizes");
-
 savedSizes.innerHTML = `
   <strong>Left Hand (Thumb → Pinky)</strong><br>
   ${data.left.join(" · ")}<br><br>
@@ -1261,6 +1260,9 @@ savedSizes.innerHTML = `
   <strong>Right Hand (Thumb → Pinky)</strong><br>
   ${data.right.join(" · ")}
 `;
+ }).catch(err => {
+    console.error("Load customer failed:", err);
+  });
 
 }
 
