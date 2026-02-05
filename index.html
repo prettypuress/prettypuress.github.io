@@ -1134,6 +1134,65 @@ toShape.onchange=()=>{
 // ===== CONVERT =====
 
 function convertSize(){
+  function convertFullSet() {
+  if (!editingCustomer) {
+    alert("Load a customer first");
+    return;
+  }
+
+  const targetShape = profileTargetShape.value;
+  const targetLength = profileTargetLength.value;
+
+  if (!targetShape || !targetLength) {
+    alert("Select target shape and length");
+    return;
+  }
+
+  const leftConverted = convertHand(
+    [l1.value, l2.value, l3.value, l4.value, l5.value],
+    customerShape.value,
+    customerLength.value,
+    targetShape,
+    targetLength
+  );
+
+  const rightConverted = convertHand(
+    [r1.value, r2.value, r3.value, r4.value, r5.value],
+    customerShape.value,
+    customerLength.value,
+    targetShape,
+    targetLength
+  );
+
+  convertedResult.innerHTML = `
+    <strong>Converted → ${targetShape} ${targetLength}</strong><br><br>
+
+    <strong>Left Hand</strong><br>
+    ${leftConverted.join(" · ")}<br><br>
+
+    <strong>Right Hand</strong><br>
+    ${rightConverted.join(" · ")}
+  `;
+}
+function convertHand(sizes, fromShape, fromLength, toShape, toLength) {
+  return sizes.map(size => {
+    const mm = nailData[fromShape][fromLength][size];
+    const target = nailData[toShape][toLength];
+
+    let best = null;
+    let diff = Infinity;
+
+    for (let s in target) {
+      const d = Math.abs(target[s] - mm);
+      if (d < diff) {
+        diff = d;
+        best = s;
+      }
+    }
+    return best;
+  });
+}
+
   if (
   (fromShape.value === "Stiletto" && fromLength.value === "Short") ||
   (toShape.value === "Stiletto" && toLength.value === "Short")
