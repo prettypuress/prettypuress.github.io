@@ -1199,43 +1199,6 @@ function saveCustomer() {
 
 // ===== LOAD CUSTOMER DROPDOWN =====
 
-function loadCustomer() {
-
-  const selected = customerList.value;
-  if (!selected) return;
-
-  db.collection("customers").doc(selected).get().then(doc => {
-
-    if (!doc.exists) return;
-
-    const data = doc.data();
-
-    // Enter edit mode
-    editingCustomer = selected;
-
-    // Lock name so it cannot change
-    customerName.value = selected;
-    customerName.disabled = true;
-
-    // Fill brand
-    customerBrand.value = data.brand || "";
-    customerBrand.dispatchEvent(new Event("change"));
-
-    // Fill shape + length
-    customerShape.value = data.shape;
-    customerShape.dispatchEvent(new Event("change"));
-    customerLength.value = data.length;
-
-    // Fill sizes
-    [l1,l2,l3,l4,l5].forEach((el,i)=> el.value = data.left[i]);
-    [r1,r2,r3,r4,r5].forEach((el,i)=> el.value = data.right[i]);
-
-    loadedCustomer.innerHTML =
-      `Editing: ${selected}<br>
-       Brand: ${data.brand}<br>
-       Original: ${data.shape} ${data.length}`;
-  });
-}
 
 
 
@@ -1277,7 +1240,24 @@ function loadCustomer() {
   });
 }
 
+function loadCustomerList() {
 
+  customerList.innerHTML = "<option value=''>Select Customer</option>";
+
+  db.collection("customers")
+    .orderBy("updated", "desc")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        customerList.add(new Option(doc.id, doc.id));
+      });
+    })
+    .catch(err => {
+      console.error("Load customers failed:", err);
+    });
+}
+
+loadCustomerList();
 
 </script>
 
