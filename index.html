@@ -1187,6 +1187,14 @@ function saveCustomer() {
      Shape: ${shape} ${length}<br>
      Left: ${left.join(", ")}<br>
      Right: ${right.join(", ")}`;
+   
+const savedSizes = document.getElementById("savedSizes");
+savedSizes.innerHTML = `
+  <strong>Left Hand (Thumb → Pinky)</strong><br>
+  ${left.join(" · ")}<br><br>
+  <strong>Right Hand (Thumb → Pinky)</strong><br>
+  ${right.join(" · ")}
+`;
 
   alert("Saved to cloud ✅");
 
