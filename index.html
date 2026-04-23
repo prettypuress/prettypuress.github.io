@@ -322,8 +322,7 @@ footer {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .pricing-card {
@@ -543,18 +542,54 @@ Designed with care. Created with intention. Made to elevate your look.
 <div id="pricing" class="pricing-section">
 
 <h2>Pricing Tiers</h2>
-<p class="pricing-subtitle">Base prices shown — final price depends on design complexity</p>
+<p class="pricing-subtitle">
+Pricing is based on nail length + design tier. Final price = base + tier.
+</p>
 
-<div class="pricing-grid">
+<!-- BASE PRICING -->
+<div class="pricing-card">
+  <h3>Base Pricing (Length)</h3>
+  <p class="price">Short — $40</p>
+  <p class="price">Medium — $45</p>
+  <p class="price">Long — $50</p>
+  <p>All sets begin with a base price determined by length.</p>
+</div>
 
-  <!-- TIER 1 -->
-  <div class="pricing-card">
-    <h3>Tier 1</h3>
-    <div class="price">$35+</div>
-    <p>
-      Solid colors, French tips, simple designs, light accents, or minimal chrome.
-    </p>
-  </div>
+<!-- TIER 1 -->
+<div class="pricing-card">
+  <h3>Tier 1</h3>
+  <div class="price">+$15</div>
+  <p>
+    Solid colors, French tips, simple designs, light accents, or minimal chrome.
+  </p>
+</div>
+
+<!-- TIER 2 -->
+<div class="pricing-card">
+  <h3>Tier 2</h3>
+  <div class="price">+$25</div>
+  <p>
+    Hand-painted art, ombré styles, foil, glitter, medium rhinestones, or layered designs.
+  </p>
+</div>
+
+<!-- TIER 3 -->
+<div class="pricing-card">
+  <h3>Tier 3</h3>
+  <div class="price">+$35</div>
+  <p>
+    Highly detailed sets, 3D designs, heavy rhinestones, charms, themed or luxury custom sets.
+  </p>
+</div>
+
+<!-- DELUXE -->
+<div class="pricing-card">
+  <h3>Deluxe Freestyle</h3>
+  <div class="price">+$45+</div>
+  <p>
+    Fully custom, high-end freestyle sets designed with maximum creativity and luxury detail.
+  </p>
+</div>
 
   <!-- TIER 2 -->
   <div class="pricing-card">
@@ -661,21 +696,24 @@ Designed with care. Created with intention. Made to elevate your look.
 
 <input type="tel" name="zip" placeholder="Zip Code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
 
-<select name="tier" class="form-full" required>
-<option value="">Select Your Nail Tier</option>
-<option value="Tier 1 - $35">Tier 1 — $35</option>
-<option value="Tier 2 - $55">Tier 2 — $55</option>
-<option value="Tier 3 - $75">Tier 3 — $75</option>
+<option value="Tier 1 +$15">Tier 1 — +$15</option>
+<option value="Tier 2 +$25">Tier 2 — +$25</option>
+<option value="Tier 3 +$35">Tier 3 — +$35</option>
+<option value="Deluxe Freestyle +$45+">Deluxe Freestyle — +$45+</option>
 <option value="Nail Kit - $8">Nail Kit — $8</option>
+<option value="Nail Drill - $10">Nail Drill — $10</option>
+<option value="Large Nail Glue - $10">Large Nail Kit — $10</option>
+
+
 
 </select>
 
 <!-- Added Length Selection -->
 <select name="length" class="form-full" required>
   <option value="">Select Nail Length</option>
-  <option value="Short">Short</option>
-  <option value="Medium">Medium</option>
-  <option value="Long">Long</option>
+<option value="Short - $40">Short — $40</option>
+<option value="Medium - $45">Medium — $45</option>
+<option value="Long - $50">Long — $50</option>
 </select>
 
 <!-- Added Shape Selection -->
