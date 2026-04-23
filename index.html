@@ -557,7 +557,7 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <!-- TIER 1 -->
 <div class="pricing-card">
-  <h3>Tier 1</h3>
+<h3>Signature</h3>
   <div class="price">+$15</div>
   <p>
     Solid colors, French tips, simple designs, light accents, or minimal chrome.
@@ -566,7 +566,7 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <!-- TIER 2 -->
 <div class="pricing-card">
-  <h3>Tier 2</h3>
+<h3>Elevated</h3>
   <div class="price">+$25</div>
   <p>
     Hand-painted art, ombré styles, foil, glitter, medium rhinestones, or layered designs.
@@ -575,7 +575,7 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <!-- TIER 3 -->
 <div class="pricing-card">
-  <h3>Tier 3</h3>
+<h3>Luxury</h3>
   <div class="price">+$35</div>
   <p>
     Highly detailed sets, 3D designs, heavy rhinestones, charms, themed or luxury custom sets.
@@ -584,30 +584,16 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <!-- DELUXE -->
 <div class="pricing-card">
-  <h3>Deluxe Freestyle</h3>
+  <h3>Delux Freestyle</h3>
   <div class="price">+$45+</div>
   <p>
     Fully custom, high-end freestyle sets designed with maximum creativity and luxury detail.
   </p>
 </div>
 
-  <!-- TIER 2 -->
-  <div class="pricing-card">
-    <h3>Tier 2</h3>
-    <div class="price">$55+</div>
-    <p>
-      Hand-painted art, ombré styles, foil, glitter, medium rhinestones, or layered designs.
-    </p>
-  </div>
 
-  <!-- TIER 3 -->
-  <div class="pricing-card">
-    <h3>Tier 3</h3>
-    <div class="price">$75+</div>
-    <p>
-      Highly detailed sets, 3D designs, heavy rhinestones, charms, themed or luxury custom sets.
-    </p>
-  </div>
+
+ 
 
 <br>
 </div>
@@ -707,6 +693,14 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 
 </select>
+  
+<!-- Added Tier Selection -->
+<select name="tier" class="form-full" required>
+<option value="Signature +$15">Signature — +$15</option>
+<option value="Elevated +$25">Elevated — +$25</option>
+<option value="Luxury +$35">Luxury — +$35</option>
+<option value="Elite Freestyle +$45+">Elite Freestyle — +$45+</option>
+</select>
 
 <!-- Added Length Selection -->
 <select name="length" class="form-full" required>
@@ -729,7 +723,10 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
 
 <button type="submit" class="form-full">Submit Order</button>
-
+<p id="priceEstimate" style="text-align:center; margin-top:15px; font-weight:bold; color:#3b003b;">
+Estimated Total: —
+</p>
+  
 </div>
 
 </form>
@@ -1339,7 +1336,43 @@ function exportPDF(){
 
 
 
+<script>
 
+// ===== PRICE ESTIMATOR =====
+
+const lengthSelect = document.querySelector('select[name="length"]');
+const tierSelect = document.querySelector('select[name="tier"]');
+const estimateDisplay = document.getElementById("priceEstimate");
+
+function calculateEstimate() {
+
+  let base = 0;
+  let tier = 0;
+
+  // LENGTH PRICING
+  if (lengthSelect.value.includes("Short")) base = 40;
+  if (lengthSelect.value.includes("Medium")) base = 45;
+  if (lengthSelect.value.includes("Long")) base = 50;
+
+  // TIER PRICING
+  if (tierSelect.value.includes("15")) tier = 15;
+  if (tierSelect.value.includes("25")) tier = 25;
+  if (tierSelect.value.includes("35")) tier = 35;
+  if (tierSelect.value.includes("45")) tier = 45;
+
+  // TOTAL
+  if (base > 0 && tier > 0) {
+    estimateDisplay.innerHTML = "Estimated Total: $" + (base + tier) + "+";
+  } else {
+    estimateDisplay.innerHTML = "Estimated Total: —";
+  }
+}
+
+// LISTEN FOR CHANGES
+lengthSelect.addEventListener("change", calculateEstimate);
+tierSelect.addEventListener("change", calculateEstimate);
+
+</script>
 </script>
 
 </body>
