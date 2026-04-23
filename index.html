@@ -14,7 +14,29 @@
 
 <!-- Social Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+.pricing-card {
+  background: white;
+  border-radius: 18px;
+  padding: 30px 20px;
+  border: 1px solid #eee;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
 
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.pricing-card h3 {
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.price {
+  font-size: 32px;
+  color: black;
+}
 <style>
 
 html {
@@ -696,6 +718,7 @@ Pricing is based on nail length + design tier. Final price = base + tier.
   
 <!-- Added Tier Selection -->
 <select name="tier" class="form-full" required>
+  <option value="">Select Design Level</option>
 <option value="Signature +$15">Signature — +$15</option>
 <option value="Elevated +$25">Elevated — +$25</option>
 <option value="Luxury +$35">Luxury — +$35</option>
@@ -721,7 +744,9 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 </select>
 
 <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
-
+<button type="button" onclick="calculateEstimate()" class="form-full" style="background:black;">
+Get Estimate
+</button>
 <button type="submit" class="form-full">Submit Order</button>
 <p id="priceEstimate" style="text-align:center; margin-top:15px; font-weight:bold; color:#3b003b;">
 Estimated Total: —
@@ -732,7 +757,33 @@ Estimated Total: —
 </form>
 
 </section>
+<script>
 
+// REMOVE SHORT IF STILETTO SELECTED
+
+const shapeSelect = document.querySelector('select[name="shape"]');
+
+shapeSelect.addEventListener("change", () => {
+
+  const lengthDropdown = document.querySelector('select[name="length"]');
+  const selectedShape = shapeSelect.value;
+
+  // Reset options
+  lengthDropdown.innerHTML = `
+    <option value="">Select Nail Length</option>
+    <option value="Short - $40">Short — $40</option>
+    <option value="Medium - $45">Medium — $45</option>
+    <option value="Long - $50">Long — $50</option>
+  `;
+
+  // Remove Short if Stiletto
+  if (selectedShape === "Stiletto") {
+    lengthDropdown.querySelector('option[value="Short - $40"]').remove();
+  }
+
+});
+
+</script>
 <!-- ================= GALLERY ================= -->
 
 <section id="gallery">
@@ -1372,7 +1423,7 @@ function calculateEstimate() {
 lengthSelect.addEventListener("change", calculateEstimate);
 tierSelect.addEventListener("change", calculateEstimate);
 
-</script>
+  
 </script>
 
 </body>
