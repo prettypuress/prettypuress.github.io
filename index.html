@@ -704,13 +704,13 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <input type="tel" name="zip" placeholder="Zip Code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
 
-<select name="tier" id="tierSelect" class="form-full" required>
-  <option value="" data-price="0">Select Design Level</option>
-  <option value="Signature" data-price="15">Signature — +$15</option>
-  <option value="Elevated" data-price="25">Elevated — +$25</option>
-  <option value="Luxury" data-price="35">Luxury — +$35</option>
-  <option value="Elite Freestyle" data-price="45">Elite Freestyle — +$45+</option>
+<select name="length" id="lengthSelect" class="form-full" required>
+  <option value="" data-price="0">Select Nail Length</option>
+  <option value="Short" data-price="40">Short $40</option>
+  <option value="Medium" data-price="45">Medium $45</option>
+  <option value="Long" data-price="50">Long $50</option>
 </select>
+
 
 lengthDropdown.innerHTML = `
   <option value="" data-price="0">Select Nail Length</option>
@@ -768,11 +768,13 @@ shapeSelect.addEventListener("change", () => {
 
   // Reset options
   lengthDropdown.innerHTML = `
-    <option value="">Select Nail Length</option>
-    <option value="Short - $40">Short — $40</option>
-    <option value="Medium - $45">Medium — $45</option>
-    <option value="Long - $50">Long — $50</option>
-  `;
+  <option value="" data-price="0">Select Nail Length</option>
+  <option value="Short" data-price="40">Short — $40</option>
+  <option value="Medium" data-price="45">Medium — $45</option>
+  <option value="Long" data-price="50">Long — $50</option>
+`;
+
+
 
   // Remove Short if Stiletto
   if (selectedShape === "Stiletto") {
@@ -1382,7 +1384,7 @@ function exportPDF(){
   win.document.close();
   win.print();
 }
-
+</script>
 
 <script>
 // ===== PRICE ESTIMATOR =====
