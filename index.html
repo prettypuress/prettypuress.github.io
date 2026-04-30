@@ -704,36 +704,21 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <input type="tel" name="zip" placeholder="Zip Code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
 
-<option value="Tier 1 $15">Tier 1 — +$15</option>
-<option value="Tier 2 $25">Tier 2 — +$25</option>
-<option value="Tier 3 $35">Tier 3 — +$35</option>
-<option value="Deluxe Freestyle $45+">Deluxe Freestyle — +$45+</option>
-<option value="Nail Kit - $8">Nail Kit — $8</option>
-<option value="Nail Drill - $10">Nail Drill — $10</option>
-<option value="Large Nail Glue - $10">Large Nail Kit — $10</option>
-
-
-
-</select>
-  
-<!-- Added Tier Selection -->
-<select name="tier" class="form-full" required>
-  <option value="">Select Design Level</option>
-<option value="Signature $15">Signature $15</option>
-<option value="Elevated $25">Elevated $25</option>
-<option value="Luxury $35">Luxury $35</option>
-<option value="Elite Freestyle $45+">Elite Freestyle $45+</option>
+<select name="tier" id="tierSelect" class="form-full" required>
+  <option value="" data-price="0">Select Design Level</option>
+  <option value="Signature" data-price="15">Signature — +$15</option>
+  <option value="Elevated" data-price="25">Elevated — +$25</option>
+  <option value="Luxury" data-price="35">Luxury — +$35</option>
+  <option value="Elite Freestyle" data-price="45">Elite Freestyle — +$45+</option>
 </select>
 
-<!-- Added Length Selection -->
-<select name="length" class="form-full" required>
-  <option value="">Select Nail Length</option>
-<option value="Short - $40">Short — $40</option>
-<option value="Medium - $45">Medium — $45</option>
-<option value="Long - $50">Long — $50</option>
+<select name="length" id="lengthSelect" class="form-full" required>
+  <option value="" data-price="0">Select Nail Length</option>
+  <option value="Short" data-price="40">Short — $40</option>
+  <option value="Medium" data-price="45">Medium — $45</option>
+  <option value="Long" data-price="50">Long — $50</option>
 </select>
 
-<!-- Added Shape Selection -->
 <select name="shape" class="form-full" required>
   <option value="">Select Nail Shape</option>
   <option value="Square">Square</option>
@@ -744,13 +729,18 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 </select>
 
 <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
+
+<input type="hidden" name="estimated_total" id="estimatedTotalInput">
+
 <button type="button" onclick="calculateEstimate()" class="form-full" style="background:black;">
-Get Estimate
+  Get Estimate
 </button>
-<button type="submit" class="form-full">Submit Order</button>
-<p id="priceEstimate" style="text-align:center; margin-top:15px; font-weight:bold; color:#3b003b;">
-Estimated Total: —
+
+<p id="priceEstimate" class="form-full" style="text-align:center; margin-top:15px; font-weight:bold; color:#3b003b;">
+  Estimated Total: —
 </p>
+
+<button type="submit" class="form-full">Submit Order</button>
   
 </div>
 
@@ -778,7 +768,7 @@ shapeSelect.addEventListener("change", () => {
 
   // Remove Short if Stiletto
   if (selectedShape === "Stiletto") {
-    lengthDropdown.querySelector('option[value="Short - $40"]').remove();
+lengthDropdown.querySelector('option[value="Short"]').remove();
   }
 
 });
@@ -1392,40 +1382,35 @@ function exportPDF(){
 
 // ===== PRICE ESTIMATOR =====
 
-const lengthSelect = document.querySelector('select[name="length"]');
-const tierSelect = document.querySelector('select[name="tier"]');
+<script>
+const lengthSelect = document.getElementById("lengthSelect");
+const tierSelect = document.getElementById("tierSelect");
 const estimateDisplay = document.getElementById("priceEstimate");
+const estimatedTotalInput = document.getElementById("estimatedTotalInput");
+
+function getSelectedPrice(selectElement) {
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  return Number(selectedOption.dataset.price || 0);
+}
 
 function calculateEstimate() {
+  const basePrice = getSelectedPrice(lengthSelect);
+  const designPrice = getSelectedPrice(tierSelect);
+  const total = basePrice + designPrice;
 
-  let base = 0;
-  let tier = 0;
-
-  // LENGTH PRICING
-  if (lengthSelect.value.includes("Short")) base = 40;
-  if (lengthSelect.value.includes("Medium")) base = 45;
-  if (lengthSelect.value.includes("Long")) base = 50;
-
-  // TIER PRICING
-  if (tierSelect.value.includes("15")) tier = 15;
-  if (tierSelect.value.includes("25")) tier = 25;
-  if (tierSelect.value.includes("35")) tier = 35;
-  if (tierSelect.value.includes("45")) tier = 45;
-
-  // TOTAL
-  if (base > 0 && tier > 0) {
-    estimateDisplay.innerHTML = "Estimated Total: $" + (base + tier) + "+";
+  if (basePrice > 0 && designPrice > 0) {
+    estimateDisplay.innerHTML = "Estimated Total: $" + total + "+";
+    estimatedTotalInput.value = "$" + total + "+";
   } else {
     estimateDisplay.innerHTML = "Estimated Total: —";
+    estimatedTotalInput.value = "";
   }
 }
 
-// LISTEN FOR CHANGES
 lengthSelect.addEventListener("change", calculateEstimate);
 tierSelect.addEventListener("change", calculateEstimate);
-
-  
 </script>
+
 
 </body>
 </html>
