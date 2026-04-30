@@ -629,7 +629,7 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 
 <h2 style="text-align:center; color: purple;">Custom Nail Order</h2>
 
-<form action="https://formspree.io/f/xqeeyvkq" method="POST">
+<form action="https://formspree.io/f/xqeeyvkq" method="POST" enctype="multipart/form-data">
 
 <input type="hidden" name="_redirect" value="https://prettypuress.com">
 
@@ -712,12 +712,12 @@ Pricing is based on nail length + design tier. Final price = base + tier.
   <option value="Elite Freestyle" data-price="45">Elite Freestyle — +$45+</option>
 </select>
 
-<select name="length" id="lengthSelect" class="form-full" required>
+lengthDropdown.innerHTML = `
   <option value="" data-price="0">Select Nail Length</option>
   <option value="Short" data-price="40">Short — $40</option>
   <option value="Medium" data-price="45">Medium — $45</option>
   <option value="Long" data-price="50">Long — $50</option>
-</select>
+`;
 
 <select name="shape" class="form-full" required>
   <option value="">Select Nail Shape</option>
@@ -729,12 +729,20 @@ Pricing is based on nail length + design tier. Final price = base + tier.
 </select>
 
 <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4" required></textarea>
+<label class="form-full" style="font-weight:bold; color:#3b003b;">
+  Upload 1–3 Inspiration Photos
+</label>
+
+<input
+  type="file"
+  name="inspo_photos"
+  class="form-full"
+  accept="image/png, image/jpeg, image/jpg"
+  multiple
+>
 
 <input type="hidden" name="estimated_total" id="estimatedTotalInput">
 
-<button type="button" onclick="calculateEstimate()" class="form-full" style="background:black;">
-  Get Estimate
-</button>
 
 <p id="priceEstimate" class="form-full" style="text-align:center; margin-top:15px; font-weight:bold; color:#3b003b;">
   Estimated Total: —
@@ -1376,17 +1384,14 @@ function exportPDF(){
 }
 
 
-</script>
-
 <script>
-
 // ===== PRICE ESTIMATOR =====
 
-<script>
 const lengthSelect = document.getElementById("lengthSelect");
 const tierSelect = document.getElementById("tierSelect");
 const estimateDisplay = document.getElementById("priceEstimate");
 const estimatedTotalInput = document.getElementById("estimatedTotalInput");
+const inspoUpload = document.querySelector('input[name="inspo_photos"]');
 
 function getSelectedPrice(selectElement) {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -1409,7 +1414,15 @@ function calculateEstimate() {
 
 lengthSelect.addEventListener("change", calculateEstimate);
 tierSelect.addEventListener("change", calculateEstimate);
+
+inspoUpload.addEventListener("change", function () {
+  if (this.files.length > 3) {
+    alert("Please upload no more than 3 inspiration photos.");
+    this.value = "";
+  }
+});
 </script>
+
 
 
 </body>
