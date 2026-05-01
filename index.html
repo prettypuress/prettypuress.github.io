@@ -669,10 +669,10 @@ footer {
 
       <select name="tier" id="tierSelect" class="form-full" required>
         <option value="" data-price="0">Select Design Level</option>
-        <option value="Signature" data-price="15">Signature - +$15</option>
-        <option value="Elevated" data-price="25">Elevated - +$25</option>
-        <option value="Luxury" data-price="35">Luxury - +$35</option>
-        <option value="Elite Freestyle" data-price="45">Elite Freestyle - +$45+</option>
+        <option value="Signature" data-price="15">Signature $15</option>
+        <option value="Elevated" data-price="25">Elevated $25</option>
+        <option value="Luxury" data-price="35">Luxury $35</option>
+        <option value="Elite Freestyle" data-price="45">Elite Freestyle $45+</option>
       </select>
 
       <select name="length" id="lengthSelect" class="form-full" required>
@@ -710,9 +710,7 @@ footer {
       </button>
       <p id="uploadStatus" class="form-full upload-status">No inspiration photos uploaded yet.</p>
       <div id="uploadPreview" class="form-full upload-preview"></div>
-<input type="hidden" name="inspo_photo_1" id="inspoPhoto1">
-<input type="hidden" name="inspo_photo_2" id="inspoPhoto2">
-<input type="hidden" name="inspo_photo_3" id="inspoPhoto3">
+      <input type="hidden" name="inspo_photo_links" id="inspoPhotoLinks">
 
       <input type="hidden" name="estimated_total" id="estimatedTotalInput">
 
@@ -1143,12 +1141,10 @@ const zipInput = document.getElementById("zipInput");
 const cloudinaryUploadButton = document.getElementById("cloudinaryUploadButton");
 const uploadStatus = document.getElementById("uploadStatus");
 const uploadPreview = document.getElementById("uploadPreview");
-const inspoPhoto1 = document.getElementById("inspoPhoto1");
-const inspoPhoto2 = document.getElementById("inspoPhoto2");
-const inspoPhoto3 = document.getElementById("inspoPhoto3");
+const inspoPhotoLinks = document.getElementById("inspoPhotoLinks");
 
-const CLOUDINARY_CLOUD_NAME = "dig2tdfg5";
-const CLOUDINARY_UPLOAD_PRESET = "pretty_puress_inspo";
+const CLOUDINARY_CLOUD_NAME = "PASTE_YOUR_CLOUD_NAME_HERE";
+const CLOUDINARY_UPLOAD_PRESET = "PASTE_YOUR_UPLOAD_PRESET_HERE";
 const uploadedInspoPhotos = [];
 
 function getSelectedPrice(selectElement) {
@@ -1213,10 +1209,7 @@ stateSelect.addEventListener("change", updateAddressRequirements);
 updateAddressRequirements();
 
 function updateInspoPhotoFields() {
-inspoPhoto1.value = uploadedInspoPhotos[0] || "";
-inspoPhoto2.value = uploadedInspoPhotos[1] || "";
-inspoPhoto3.value = uploadedInspoPhotos[2] || "";
-
+  inspoPhotoLinks.value = uploadedInspoPhotos.join("\n");
   uploadStatus.textContent = uploadedInspoPhotos.length
     ? uploadedInspoPhotos.length + " inspiration photo(s) uploaded."
     : "No inspiration photos uploaded yet.";
@@ -1240,6 +1233,7 @@ if (window.cloudinary) {
       maxFiles: 3,
       clientAllowedFormats: ["jpg", "jpeg", "png", "webp"],
       maxFileSize: 10000000,
+      folder: "pretty-puress-inspo"
     },
     (error, result) => {
       if (error) {
