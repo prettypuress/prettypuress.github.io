@@ -1209,7 +1209,9 @@ stateSelect.addEventListener("change", updateAddressRequirements);
 updateAddressRequirements();
 
 function updateInspoPhotoFields() {
-  inspoPhotoLinks.value = uploadedInspoPhotos.join("\n");
+inspoPhotoLinks.value = uploadedInspoPhotos
+  .map((url, index) => "Photo " + (index + 1) + ": " + url)
+  .join(" | ");
   uploadStatus.textContent = uploadedInspoPhotos.length
     ? uploadedInspoPhotos.length + " inspiration photo(s) uploaded."
     : "No inspiration photos uploaded yet.";
