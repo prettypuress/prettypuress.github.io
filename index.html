@@ -710,7 +710,9 @@ footer {
       </button>
       <p id="uploadStatus" class="form-full upload-status">No inspiration photos uploaded yet.</p>
       <div id="uploadPreview" class="form-full upload-preview"></div>
-      <input type="hidden" name="inspo_photo_links" id="inspoPhotoLinks">
+<input type="hidden" name="inspo_photo_1" id="inspoPhoto1">
+<input type="hidden" name="inspo_photo_2" id="inspoPhoto2">
+<input type="hidden" name="inspo_photo_3" id="inspoPhoto3">
 
       <input type="hidden" name="estimated_total" id="estimatedTotalInput">
 
@@ -1141,7 +1143,9 @@ const zipInput = document.getElementById("zipInput");
 const cloudinaryUploadButton = document.getElementById("cloudinaryUploadButton");
 const uploadStatus = document.getElementById("uploadStatus");
 const uploadPreview = document.getElementById("uploadPreview");
-const inspoPhotoLinks = document.getElementById("inspoPhotoLinks");
+const inspoPhoto1 = document.getElementById("inspoPhoto1");
+const inspoPhoto2 = document.getElementById("inspoPhoto2");
+const inspoPhoto3 = document.getElementById("inspoPhoto3");
 
 const CLOUDINARY_CLOUD_NAME = "dig2tdfg5";
 const CLOUDINARY_UPLOAD_PRESET = "pretty_puress_inspo";
@@ -1209,9 +1213,10 @@ stateSelect.addEventListener("change", updateAddressRequirements);
 updateAddressRequirements();
 
 function updateInspoPhotoFields() {
-inspoPhotoLinks.value = uploadedInspoPhotos
-  .map((url, index) => "Photo " + (index + 1) + ": " + url)
-  .join(" | ");
+inspoPhoto1.value = uploadedInspoPhotos[0] || "";
+inspoPhoto2.value = uploadedInspoPhotos[1] || "";
+inspoPhoto3.value = uploadedInspoPhotos[2] || "";
+
   uploadStatus.textContent = uploadedInspoPhotos.length
     ? uploadedInspoPhotos.length + " inspiration photo(s) uploaded."
     : "No inspiration photos uploaded yet.";
