@@ -1,3 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pretty Puress | Luxury Press-On Nails</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#800080">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pretty Puress Admin">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #fff;
+  color: #111;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(246,185,244,0.97);
+  padding: 14px 25px;
+  display: flex;
+  gap: 25px;
+  z-index: 9999;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #7a007a;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #3b003b;
+}
+
+.hero {
+  background: linear-gradient(135deg, #f7cbf6, #eca7ea);
+  padding: 140px 20px 90px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  color: purple;
+  letter-spacing: 6px;
+  animation: fadeSlide 1.2s ease forwards;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #3b003b;
+  margin-bottom: 40px;
+  animation: fadeSlide 1.6s ease forwards;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-block;
+  background: purple;
+  color: white;
+  padding: 14px 26px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.button.secondary {
+  background: transparent;
+  border: 2px solid purple;
+  color: purple;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.order-info {
+  border-top: 2px solid #f1b7f1;
+  padding-top: 20px;
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto 40px;
+}
+
+.order-info h3 {
+  color: purple;
+  margin-bottom: 12px;
+}
+
+.order-info p {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: purple;
+}
+
+.order-info span {
+  font-weight: bold;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-full {
+  grid-column: span 2;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+form select {
+  height: 48px;
+}
+
+form button {
+  background: purple;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin: 15px auto 0;
+  display: block;
+}
+
+form button:hover {
+  background: #3b003b;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+}
+
+.gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f7eff7;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  box-shadow: none;
+  cursor: pointer;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+.sizing-section {
+  background: #f9e6f9;
+  padding: 50px 20px;
+  border-radius: 15px;
+  text-align: center;
+  border: 2px solid #e8a6e8;
+}
+
+.sizing-section h2 {
+  color: #3b003b;
+  margin-bottom: 15px;
+}
+
+.sizing-section p {
+  color: #5a005a;
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+
+.sizing-image {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+.socials {
+  text-align: center;
+  padding: 25px;
+}
+
+.socials a {
+  color: #3b003b;
+  font-size: 26px;
+  margin: 0 12px;
+  text-decoration: none;
+}
+
+.socials a:hover {
+  color: black;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #f3f3f3;
+}
+
+.pricing-section {
+  text-align: center;
+  margin-top: 40px;
+  scroll-margin-top: 100px;
+  max-width: 1120px;
+}
+
+.pricing-section h2 {
+  color: purple;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pricing-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.pricing-card {
+  background: #fff;
+  border-radius: 2px;
+  padding: 24px 18px;
+  border: 1px solid purple;
+  border-top: 5px solid purple;
+  box-shadow: none;
+  text-align: center;
+}
+
+.pricing-card:first-child {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, 1fr) 1.6fr;
+  align-items: center;
+  gap: 18px;
+  border-top-color: purple;
+  text-align: center;
+}
+
+.pricing-card h3 {
+  margin-bottom: 10px;
+  color: purple;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.price {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: purple;
+}
+
+.pricing-card p {
+  font-size: 14px;
+  color: purple;
+  line-height: 1.4;
+  margin: 0;
+}
+
+#priceEstimate {
+  background: #fff;
+  border: 2px solid #8a008a;
+  border-radius: 8px;
+  color: #3b003b;
+  font-size: 30px;
+  line-height: 1.2;
+  margin: 20px auto 8px;
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.addons-label {
+  color: #3b003b;
+  font-weight: bold;
+}
+
+.addons-select {
+  min-height: 120px;
+}
+
+.addons-note {
+  color: #5a005a;
+  font-size: 13px;
+  margin-top: -8px;
+}
+
+.upload-button {
+  background: purple;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 14px;
+  width: 100%;
+}
+
+.upload-status {
+  color: #5a005a;
+  font-size: 14px;
+  margin: 0;
+}
+
+.upload-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: -5px;
+}
+
+.upload-preview img {
+  aspect-ratio: 1 / 1;
+  border: 1px solid #e8a6e8;
+  border-radius: 8px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.calculator-box {
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
+  background: #f9e6f9;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #e8a6e8;
+  box-sizing: border-box;
+}
+
+.calculator-box select,
+.calculator-box input,
+.calculator-box button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.calculator-box button {
+  background: purple;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.calculator-box hr {
+  margin: 15px 0;
+}
+
+#result {
+  margin-top: 12px;
+  font-weight: bold;
+  color: #3b003b;
+}
+
+.finger-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.finger-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.finger-label {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #5a005a;
+}
+
+.finger-row input {
+  text-align: center;
+  font-weight: bold;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.admin-card {
+  background: #f9e6f9;
+  padding: 18px;
+  border-radius: 14px;
+  border: 2px solid #e8a6e8;
+}
+
+@media (max-width: 900px) {
+  .grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pricing-card:first-child {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-full {
+    grid-column: span 1;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  #priceEstimate {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .calculator-box {
+    padding: 15px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= LUXURY PREVIEW OVERRIDES ================= */
+:root {
+  --pretty-purple: #7a007a;
+  --deep-purple: #360036;
+  --soft-pink: #f8d4f5;
+  --soft-lavender: #fbecfb;
+  --ink: #171017;
+}
+
+body {
+  background: #fff;
+  color: var(--deep-purple);
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+.navbar {
+  align-items: center;
+  backdrop-filter: blur(16px);
+  background: rgba(248, 212, 245, 0.92);
+  border-bottom: 1px solid rgba(122, 0, 122, 0.12);
+  box-shadow: 0 10px 30px rgba(122, 0, 122, 0.08);
+  justify-content: center;
+  padding: 16px 24px;
+}
+
+.navbar a {
+  color: var(--pretty-purple);
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.hero {
+  background:
+    linear-gradient(90deg, rgba(54, 0, 54, 0.82), rgba(122, 0, 122, 0.38)),
+    url("https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1800&q=80");
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+  min-height: 620px;
+  padding: 150px 24px 110px;
+  text-align: left;
+}
+
+.hero-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.hero-kicker {
+  color: #f8d4f5;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.8px;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  color: #fff;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 88px;
+  letter-spacing: 1px;
+  line-height: 0.92;
+  margin: 0 0 24px;
+  max-width: 660px;
+}
+
+.hero-subtitle {
+  color: #fff;
+  font-size: 19px;
+  line-height: 1.6;
+  margin-bottom: 36px;
+  max-width: 560px;
+}
+
+.hero-buttons {
+  justify-content: flex-start;
+}
+
+.button {
+  background: var(--pretty-purple);
+  border: 2px solid var(--pretty-purple);
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  padding: 16px 30px;
+  text-transform: uppercase;
+}
+
+.button.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+  color: #fff;
+}
+
+.trust-strip {
+  background: #fff;
+  border-bottom: 1px solid #f0d1ef;
+  border-top: 1px solid #f0d1ef;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 auto;
+  max-width: none;
+  padding: 0;
+}
+
+.trust-item {
+  border-right: 1px solid #f0d1ef;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.trust-item:last-child {
+  border-right: none;
+}
+
+.trust-item i {
+  color: var(--pretty-purple);
+  display: block;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.trust-item span {
+  color: var(--deep-purple);
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.order-info {
+  border-top: none;
+  color: var(--pretty-purple);
+  max-width: 900px;
+  padding: 70px 20px 20px;
+}
+
+.order-info h3,
+.pricing-section h2,
+#order h2,
+#gallery h2,
+.sizing-section h2 {
+  color: var(--pretty-purple) !important;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 48px;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: none;
+}
+
+.order-info p {
+  color: var(--pretty-purple);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.pricing-section {
+  background: var(--soft-lavender);
+  max-width: none;
+  padding: 80px 40px;
+}
+
+.pricing-section h2 {
+  margin-top: 0;
+}
+
+.pricing-subtitle {
+  color: #6b426b;
+  font-size: 15px;
+}
+
+.pricing-grid {
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+.pricing-card {
+  background: #fff;
+  border: 1px solid #d59ad5;
+  border-top: 4px solid var(--pretty-purple);
+  border-radius: 0;
+  box-shadow: 0 16px 35px rgba(122, 0, 122, 0.08);
+  padding: 30px 22px;
+}
+
+.pricing-card h3 {
+  color: var(--pretty-purple);
+  font-size: 13px;
+}
+
+.price {
+  color: var(--pretty-purple);
+  font-size: 30px;
+}
+
+.pricing-card p {
+  color: var(--pretty-purple);
+}
+
+#order {
+  max-width: 980px;
+  padding-top: 85px;
+}
+
+#order h2 {
+  margin-bottom: 36px;
+}
+
+.form-grid {
+  background: #fff;
+  border: 1px solid #efc7ef;
+  box-shadow: 0 20px 45px rgba(122, 0, 122, 0.1);
+  padding: 34px;
+}
+
+.form-section-title {
+  border-bottom: 1px solid #efd2ef;
+  color: var(--pretty-purple);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 12px 0 4px;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+
+form input,
+form textarea,
+form select {
+  border: 1px solid #d9bdd9;
+  border-radius: 2px;
+  color: var(--deep-purple);
+  font-family: "Montserrat", Arial, sans-serif;
+  min-height: 52px;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: var(--pretty-purple);
+  outline: 2px solid rgba(122, 0, 122, 0.16);
+}
+
+.upload-button,
+form button {
+  background: var(--pretty-purple);
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  min-height: 54px;
+  text-transform: uppercase;
+}
+
+#priceEstimate {
+  border-radius: 0;
+  color: var(--pretty-purple);
+  font-size: 34px;
+}
+
+#gallery {
+  max-width: 1180px;
+  padding-top: 85px;
+}
+
+.gallery {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.gallery img {
+  border-radius: 0;
+  box-shadow: 0 16px 30px rgba(122, 0, 122, 0.12);
+}
+
+.sizing-section {
+  background: var(--soft-lavender);
+  border-color: #e5aee5;
+  border-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 560px;
+    padding-top: 150px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 58px;
+    max-width: none;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .trust-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pricing-section {
+    padding: 60px 20px;
+  }
+
+  .form-grid {
+    padding: 22px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <a href="#home">Home</a>
+  <a href="#order">Order</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#sizing">Nail Sizing</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<header id="home" class="hero">
+  <div class="hero-inner">
+    <p class="hero-kicker">Custom luxury press-on nails</p>
+    <h1>PrettyPuress</h1>
+    <p class="hero-subtitle">Made-to-order sets designed around your mood, shape, length, and dream-board details.</p>
+    <div class="hero-buttons">
+      <a href="#order" class="button">Order Now</a>
+      <a href="#gallery" class="button secondary">View Gallery</a>
+    </div>
+  </div>
+</header>
+
+<section class="trust-strip">
+  <div class="trust-item">
+    <i class="fa-solid fa-wand-magic-sparkles"></i>
+    <span>Custom Designs</span>
+  </div>
+  <div class="trust-item">
+    <i class="fa-solid fa-ruler"></i>
+    <span>Sizing Kits</span>
+  </div>
+  <div class="trust-item">
+    <i class="fa-solid fa-truck-fast"></i>
+    <span>Rush Available</span>
+  </div>
+  <div class="trust-item">
+    <i class="fa-solid fa-gem"></i>
+    <span>Luxury Details</span>
+  </div>
+</section>
+
+<section>
+  <div class="order-info">
+    <h3>Luxury Press-On Nails Made Just For You</h3>
+    <p>Every Pretty Puress set is fully customized to match your unique style, personality, and vibe. Designed with care. Created with intention. Made to elevate your look.</p>
+    <br>
+    <p><span>Every Order Is Made-To-Order</span></p>
+    <p>Please allow 1-2 weeks for creation & shipping</p>
+    <br>
+    <p><span>Rush Orders</span> - Additional $15</p>
+    <p><span>Standard Shipping</span> - $8</p>
+    <br>
+    <p><span>Sizing Kits Available</span> - $5</p>
+    <br>
+    <p><span>Payment Required Prior To Shipping</span></p>
+    <p>All forms of payment accepted</p>
+  </div>
+
+  <div id="pricing" class="pricing-section">
+    <h2>Pricing Tiers</h2>
+    <p class="pricing-subtitle">Pricing is based on nail length + design tier. Final price = base + tier.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Base Pricing (Length)</h3>
+        <p class="price">Short - $40</p>
+        <p class="price">Medium - $45</p>
+        <p class="price">Long - $50</p>
+        <p>All sets begin with a base price determined by length.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Signature</h3>
+        <div class="price">$15</div>
+        <p>Solid colors, French tips, simple designs, light accents, or minimal chrome.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Elevated</h3>
+        <div class="price">$25</div>
+        <p>Hand-painted art, ombre styles, foil, glitter, medium rhinestones, or layered designs.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Luxury</h3>
+        <div class="price">$35</div>
+        <p>Highly detailed sets, 3D designs, heavy rhinestones, charms, themed or luxury custom sets.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Deluxe Freestyle</h3>
+        <div class="price">$45+</div>
+        <p>Fully custom, high-end freestyle sets designed with maximum creativity and luxury detail.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <h2 style="text-align:center; color: purple;">Custom Nail Order</h2>
+
+  <form action="https://formspree.io/f/xqeeyvkq" method="POST">
+    <input type="hidden" name="_redirect" value="https://prettypuress.com">
+
+    <div class="form-grid">
+      <div class="form-full form-section-title">Customer Info</div>
+      <input type="text" name="first_name" placeholder="First Name" required>
+      <input type="text" name="last_name" placeholder="Last Name" required>
+      <input type="tel" name="phone" placeholder="Phone Number" required>
+
+      <div class="form-full form-section-title">Shipping Info</div>
+      <input type="text" name="street_address" id="streetAddress" placeholder="Street Address" autocomplete="street-address">
+      <input type="text" name="apartment" placeholder="Apartment / Suite (Optional)" autocomplete="address-line2">
+      <input type="text" name="city" id="cityInput" placeholder="City" autocomplete="address-level2">
+
+      <select name="state" id="stateSelect" autocomplete="address-level1">
+        <option value="">State</option>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="AZ">Arizona</option>
+        <option value="AR">Arkansas</option>
+        <option value="CA">California</option>
+        <option value="CO">Colorado</option>
+        <option value="CT">Connecticut</option>
+        <option value="DE">Delaware</option>
+        <option value="FL">Florida</option>
+        <option value="GA">Georgia</option>
+        <option value="HI">Hawaii</option>
+        <option value="ID">Idaho</option>
+        <option value="IL">Illinois</option>
+        <option value="IN">Indiana</option>
+        <option value="IA">Iowa</option>
+        <option value="KS">Kansas</option>
+        <option value="KY">Kentucky</option>
+        <option value="LA">Louisiana</option>
+        <option value="ME">Maine</option>
+        <option value="MD">Maryland</option>
+        <option value="MA">Massachusetts</option>
+        <option value="MI">Michigan</option>
+        <option value="MN">Minnesota</option>
+        <option value="MS">Mississippi</option>
+        <option value="MO">Missouri</option>
+        <option value="MT">Montana</option>
+        <option value="NE">Nebraska</option>
+        <option value="NV">Nevada</option>
+        <option value="NH">New Hampshire</option>
+        <option value="NJ">New Jersey</option>
+        <option value="NM">New Mexico</option>
+        <option value="NY">New York</option>
+        <option value="NC">North Carolina</option>
+        <option value="ND">North Dakota</option>
+        <option value="OH">Ohio</option>
+        <option value="OK">Oklahoma</option>
+        <option value="OR">Oregon</option>
+        <option value="PA">Pennsylvania</option>
+        <option value="RI">Rhode Island</option>
+        <option value="SC">South Carolina</option>
+        <option value="SD">South Dakota</option>
+        <option value="TN">Tennessee</option>
+        <option value="TX">Texas</option>
+        <option value="UT">Utah</option>
+        <option value="VT">Vermont</option>
+        <option value="VA">Virginia</option>
+        <option value="WA">Washington</option>
+        <option value="WV">West Virginia</option>
+        <option value="WI">Wisconsin</option>
+        <option value="WY">Wyoming</option>
+      </select>
+
+      <input type="tel" name="zip" id="zipInput" placeholder="Zip Code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
+
+      <div class="form-full form-section-title">Nail Details</div>
+      <select name="shape" id="shapeSelect" class="form-full">
+        <option value="">Select Nail Shape</option>
+        <option value="Almond">Almond</option>
+        <option value="Coffin">Coffin</option>
+        <option value="Oval">Oval</option>
+        <option value="Square">Square</option>
+        <option value="Stiletto">Stiletto</option>
+      </select>
+
+      <select name="length" id="lengthSelect" class="form-full">
+        <option value="" data-price="0">Select Nail Length</option>
+        <option value="X-Short" data-price="35">X-Short - $35</option>
+        <option value="Short" data-price="40">Short - $40</option>
+        <option value="Medium" data-price="45">Medium - $45</option>
+        <option value="Long" data-price="50">Long - $50</option>
+      </select>
+
+      <select name="tier" id="tierSelect" class="form-full">
+        <option value="" data-price="0">Select Design Level</option>
+        <option value="Signature" data-price="15">Signature $15</option>
+        <option value="Elevated" data-price="25">Elevated $25</option>
+        <option value="Luxury" data-price="35">Luxury $35</option>
+        <option value="Elite Freestyle" data-price="45">Elite Freestyle $45+</option>
+      </select>
+
+      <div class="form-full form-section-title">Add-Ons & Inspiration</div>
+      <label class="form-full addons-label" for="addonsSelect">Optional Add-Ons</label>
+      <select name="add_ons[]" id="addonsSelect" class="form-full addons-select" multiple>
+        <option value="Nail Sizing Kit $5" data-price="5">Nail Sizing Kit - $5</option>
+        <option value="Large Glue $10" data-price="10">Large Glue - $10</option>
+        <option value="Nail Drill $10" data-price="10">Nail Drill - $10</option>
+        <option value="Shipping $5" data-price="5">Shipping - $5</option>
+      </select>
+      <p class="form-full addons-note">Hold Command on Mac or Control on Windows to select more than one.</p>
+
+      <textarea name="details" class="form-full" placeholder="Describe your custom nail design" rows="4"></textarea>
+
+      <label class="form-full" style="font-weight:bold; color:#3b003b;">
+        Upload 1-3 Inspiration Photos
+      </label>
+
+      <button type="button" id="cloudinaryUploadButton" class="form-full upload-button">
+        Upload Inspiration Photos
+      </button>
+      <p id="uploadStatus" class="form-full upload-status">No inspiration photos uploaded yet.</p>
+      <div id="uploadPreview" class="form-full upload-preview"></div>
+      <input type="hidden" name="inspo_photo_1" id="inspoPhoto1">
+      <input type="hidden" name="inspo_photo_2" id="inspoPhoto2">
+      <input type="hidden" name="inspo_photo_3" id="inspoPhoto3">
+
+      <input type="hidden" name="estimated_total" id="estimatedTotalInput">
+
+      <p id="priceEstimate" class="form-full" style="text-align:center; margin-top:15px; font-weight:bold; color:#3b003b;">
+        Estimated Total: -
+      </p>
+
+      <button type="submit" class="form-full">Submit Order</button>
+    </div>
+  </form>
+</section>
+
+<section id="gallery">
+  <h2 style="text-align:center;">Luxury Sets</h2>
+  <div class="gallery">
+    <img src="nail20.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 1">
+    <img src="nail19.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 2">
+    <img src="nail21.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 3">
+    <img src="nail24.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 4">
+    <img src="nail23.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 5">
+    <img src="nail25.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 6">
+    <img src="nail28.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 7">
+    <img src="nail37.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 8">
+    <img src="nail38.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 9">
+    <img src="nail30.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 10">
+    <img src="nail27.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 12">
+    <img src="nail29.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 13">
+    <img src="nail26.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 14">
+    <img src="nail22.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 15">
+    <img src="nail33.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 16">
+    <img src="nail44.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 18">
+    <img src="nail31.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 19">
+    <img src="nail32.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 20">
+    <img src="nail37.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 21">
+    <img src="nail39.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 22">
+    <img src="nail40.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 23">
+    <img src="nail41.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 24">
+    <img src="nail42.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 25">
+    <img src="nail43.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 26">
+
+
+
+  </div>
+</section>
+
+<section id="sizing">
+  <div class="sizing-section">
+    <h2>Nail Sizing</h2>
+    <p>Don't want to purchase a sizing kit? Use our guide below to measure your nails accurately at home before ordering.</p>
+    <img src="coin-sizing.png" alt="Coin Method Nail Sizing Guide" class="sizing-image">
+  </div>
+</section>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" alt="Expanded nail design">
+</div>
+
+<div id="contact" class="socials">
+  <a href="https://instagram.com/PRETTYPURESS" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://tiktok.com/@PRETTYPURESS" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+  <a href="https://www.facebook.com/PrettyPuress" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+</div>
+
+<section style="padding:40px 20px;">
+  <div id="adminLock" style="text-align:center; max-width:300px; margin:auto;">
+    <input type="password" id="adminPin" placeholder="Admin PIN">
+    <button type="button" onclick="unlockCalculator()">Unlock Calculator</button>
+  </div>
+
+  <div id="sizeCalculator" class="calculator-box grid-layout" style="display:none;">
+    <div class="admin-card">
+      <h3>Private Nail Size Converter</h3>
+      <label>From Shape</label>
+      <select id="fromShape"></select>
+      <label>From Length</label>
+      <select id="fromLength"></select>
+      <label>From Size</label>
+      <select id="fromSize"></select>
+      <hr>
+      <label>To Shape</label>
+      <select id="toShape"></select>
+      <label>To Length</label>
+      <select id="toLength"></select>
+      <br><br>
+      <button onclick="convertSize()">Convert Size</button>
+      <p id="result"></p>
+      <hr>
+    </div>
+
+    <div class="admin-card">
+      <h4>Save Customer Sizing</h4>
+      <input type="text" id="customerName" placeholder="Customer Name">
+      <select id="customerShape">
+        <option value="">Original Shape</option>
+      </select>
+      <select id="customerLength">
+        <option value="">Original Length</option>
+      </select>
+      <hr>
+      <h5>Left Hand (Thumb to Pinky)</h5>
+      <div class="finger-row">
+        <div class="finger-wrap"><div class="finger-label">Thumb</div><input id="l1"></div>
+        <div class="finger-wrap"><div class="finger-label">Index</div><input id="l2"></div>
+        <div class="finger-wrap"><div class="finger-label">Middle</div><input id="l3"></div>
+        <div class="finger-wrap"><div class="finger-label">Ring</div><input id="l4"></div>
+        <div class="finger-wrap"><div class="finger-label">Pinky</div><input id="l5"></div>
+      </div>
+      <h5>Right Hand (Thumb to Pinky)</h5>
+      <div class="finger-row">
+        <div class="finger-wrap"><div class="finger-label">Thumb</div><input id="r1"></div>
+        <div class="finger-wrap"><div class="finger-label">Index</div><input id="r2"></div>
+        <div class="finger-wrap"><div class="finger-label">Middle</div><input id="r3"></div>
+        <div class="finger-wrap"><div class="finger-label">Ring</div><input id="r4"></div>
+        <div class="finger-wrap"><div class="finger-label">Pinky</div><input id="r5"></div>
+      </div>
+      <button onclick="saveCustomer()">Save Customer</button>
+    </div>
+
+    <div class="admin-card">
+      <h4>Load Customer Profile</h4>
+      <select id="profileTargetShape"></select>
+      <select id="profileTargetLength"></select>
+      <select id="customerList"></select>
+      <button onclick="loadCustomer()">Load Profile</button>
+      <button onclick="convertFullSet()">Convert Full Set</button>
+      <button onclick="deleteCustomer()" style="background:#9b0000;color:white;">Delete Customer</button>
+      <p id="loadedCustomer"></p>
+      <p id="convertedResult"></p>
+      <button onclick="exportPDF()">Export Packing Slip</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 PrettyPuress</p>
+</footer>
+
+<script>
+function openLightbox(src) {
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("lightbox-img").src = src;
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://upload-widget.cloudinary.com/latest/global/all.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAajwXKY-rqCBdL3QbMSNvyGslh_XSx7DM",
+  authDomain: "prettypuressadmin.firebaseapp.com",
+  projectId: "prettypuressadmin",
+  storageBucket: "prettypuressadmin.appspot.com",
+  messagingSenderId: "765660433192",
+  appId: "1:765660433192:web:5e6d7b5348ae8aee949e1d"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const customerList = document.getElementById("customerList");
+const loadedCustomer = document.getElementById("loadedCustomer");
+const convertedResult = document.getElementById("convertedResult");
+const customerName = document.getElementById("customerName");
+
+const l1 = document.getElementById("l1");
+const l2 = document.getElementById("l2");
+const l3 = document.getElementById("l3");
+const l4 = document.getElementById("l4");
+const l5 = document.getElementById("l5");
+const r1 = document.getElementById("r1");
+const r2 = document.getElementById("r2");
+const r3 = document.getElementById("r3");
+const r4 = document.getElementById("r4");
+const r5 = document.getElementById("r5");
+
+const ADMIN_PIN = "101396";
+
+function unlockCalculator() {
+  const entered = document.getElementById("adminPin").value.trim();
+
+  if (entered === ADMIN_PIN) {
+    document.getElementById("adminLock").style.display = "none";
+    document.getElementById("sizeCalculator").style.display = "grid";
+  } else {
+    alert("Incorrect PIN - Try again");
+  }
+}
+
+const nailData = {
+  Almond: {
+    Short: {"00":14.5,"0":13.5,"1":12,"2":11.5,"3":10.5,"4":10,"4.5":9.7,"5":9.2,"5.5":8.8,"6":8.5,"6.5":8.2,"7":8,"8":7,"9":6.5},
+    Medium: {"00":14,"0":13.5,"1":12.5,"2":11.5,"3":10,"4":9.7,"4.5":9.5,"5":9,"5.5":8.8,"6":8.2,"6.5":8,"7":7.5,"8":7,"9":6.5},
+    Long: {"00":13,"0":12,"1":11,"2":10.5,"3":10,"4":9.5,"4.5":9,"5":8.5,"5.5":8.2,"6":8,"6.5":7.5,"7":7,"8":6.5,"9":6.2}
+  },
+  Square: {
+    Short: {"00":13.5,"0":12.5,"1":12,"2":11,"3":10,"4":9.7,"4.5":9.5,"5":9.3,"5.5":9,"6":8.3,"6.5":8,"7":7.5,"8":7,"9":6.5},
+    Medium: {"00":13.5,"0":13,"1":12.5,"2":11,"3":10.5,"4":10,"4.5":9.5,"5":9.2,"5.5":9,"6":8.5,"6.5":8.2,"7":8,"8":7,"9":6.5},
+    Long: {"00":13.5,"0":12.5,"1":12,"2":11.5,"3":11,"4":10,"4.5":9.7,"5":9.5,"5.5":9.2,"6":9,"6.5":8,"7":7.5,"8":7,"9":6.5}
+  },
+  Coffin: {
+    Short: {"00":14,"0":13,"1":12.5,"2":11,"3":10.5,"4":10.2,"4.5":10,"5":9.5,"5.5":9,"6":8.7,"6.5":8.5,"7":8,"8":7.5,"9":6.5},
+    Medium: {"00":13.7,"0":13,"1":12.4,"2":11.6,"3":11,"4":10.3,"4.5":9.8,"5":10,"5.5":9.2,"6":8.9,"6.5":8,"7":8.3,"8":7.5,"9":6.6},
+    Long: {"00":14,"0":13,"1":12.5,"2":11.6,"3":11.2,"4":10.4,"4.5":10.2,"5":9.9,"5.5":9.5,"6":9,"6.5":8.8,"7":8.5,"8":7.5,"9":7.1}
+  },
+  Round: {
+    Short: {"00":14,"0":13.5,"1":12.5,"2":11.5,"3":11,"4":10.5,"4.5":10,"5":9.5,"5.5":9,"6":8.8,"6.5":8,"7":7.5,"8":7,"9":6.5},
+    Medium: {"00":13.5,"0":13,"1":12.5,"2":11.5,"3":11,"4":9.8,"4.5":9.5,"5":9,"5.5":8.5,"6":8.2,"6.5":8,"7":7.5,"8":7,"9":6.5},
+    Long: {"00":14,"0":13,"1":12.5,"2":12,"3":11,"4":10,"4.5":9.5,"5":9,"5.5":8.7,"6":8.5,"6.5":8,"7":7.8,"8":7.3,"9":6.5}
+  },
+  Stiletto: {
+    Medium: {"00":12.5,"0":12,"1":11.5,"2":11,"3":10.5,"4":10,"4.5":9.8,"5":9.2,"5.5":9,"6":8.5,"6.5":8,"7":7.8,"8":7,"9":6.5},
+    Long: {"00":13,"0":12.5,"1":11.8,"2":11,"3":10.2,"4":9.8,"4.5":9.5,"5":9,"5.5":8.7,"6":8.5,"6.5":8,"7":7.5,"8":7,"9":6.5}
+  }
+};
+
+const profileTargetShape = document.getElementById("profileTargetShape");
+const profileTargetLength = document.getElementById("profileTargetLength");
+const fromShape = document.getElementById("fromShape");
+const fromLength = document.getElementById("fromLength");
+const fromSize = document.getElementById("fromSize");
+const toShape = document.getElementById("toShape");
+const toLength = document.getElementById("toLength");
+const customerShape = document.getElementById("customerShape");
+const customerLength = document.getElementById("customerLength");
+
+Object.keys(nailData).forEach(shape => {
+  fromShape.add(new Option(shape, shape));
+  toShape.add(new Option(shape, shape));
+  customerShape.add(new Option(shape, shape));
+  profileTargetShape.add(new Option(shape, shape));
+});
+
+profileTargetShape.onchange = () => {
+  profileTargetLength.innerHTML = "";
+  Object.keys(nailData[profileTargetShape.value]).forEach(len => {
+    profileTargetLength.add(new Option(len, len));
+  });
+};
+
+customerShape.onchange = () => {
+  customerLength.innerHTML = "<option value=''>Original Length</option>";
+  Object.keys(nailData[customerShape.value]).forEach(len => {
+    customerLength.add(new Option(len, len));
+  });
+};
+
+fromShape.onchange = () => {
+  fromLength.innerHTML = "";
+  Object.keys(nailData[fromShape.value]).forEach(len => {
+    fromLength.add(new Option(len, len));
+  });
+  fromLength.dispatchEvent(new Event("change"));
+};
+
+fromLength.onchange = () => {
+  fromSize.innerHTML = "";
+  Object.keys(nailData[fromShape.value][fromLength.value]).forEach(size => {
+    fromSize.add(new Option(size, size));
+  });
+};
+
+toShape.onchange = () => {
+  toLength.innerHTML = "";
+  Object.keys(nailData[toShape.value]).forEach(len => {
+    toLength.add(new Option(len, len));
+  });
+};
+
+function convertSize() {
+  const mm = nailData[fromShape.value][fromLength.value][fromSize.value];
+  const target = nailData[toShape.value][toLength.value];
+  let best = null;
+  let diff = 999;
+
+  for (let size in target) {
+    let currentDiff = Math.abs(target[size] - mm);
+    if (currentDiff < diff) {
+      diff = currentDiff;
+      best = size;
+    }
+  }
+
+  document.getElementById("result").innerHTML = `${mm}mm -> Size ${best} (${target[best]}mm)`;
+}
+
+function saveCustomer() {
+  const name = customerName.value.trim();
+  const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
+  const right = [r1.value, r2.value, r3.value, r4.value, r5.value];
+  const shape = customerShape.value;
+  const length = customerLength.value;
+
+  if (!name || left.includes("") || right.includes("") || !shape || !length) {
+    alert("Fill all fields");
+    return;
+  }
+
+  db.collection("customers").doc(name).set({
+    left,
+    right,
+    shape,
+    length,
+    updated: new Date()
+  }).then(() => {
+    alert("Saved to cloud");
+    loadCustomerList();
+  }).catch(error => {
+    console.error("Firestore save error:", error);
+    alert("Save failed - check console");
+  });
+}
+
+function loadCustomerList() {
+  customerList.innerHTML = "";
+
+  db.collection("customers").get().then(snapshot => {
+    snapshot.forEach(doc => {
+      customerList.add(new Option(doc.id, doc.id));
+    });
+  });
+}
+
+function loadCustomer() {
+  const selected = customerList.value;
+  if (!selected) return;
+
+  db.collection("customers").doc(selected).get().then(doc => {
+    if (!doc.exists) return;
+    const data = doc.data();
+
+    loadedCustomer.innerHTML =
+      `Loaded: ${selected}<br>
+       Original: ${data.shape} ${data.length}<br>
+       Left: ${data.left.join(", ")}<br>
+       Right: ${data.right.join(", ")}`;
+  });
+}
+
+function convertFullSet() {
+  const selected = customerList.value;
+  const targetShape = profileTargetShape.value;
+  const targetLength = profileTargetLength.value;
+
+  if (!selected) {
+    alert("Select customer first");
+    return;
+  }
+
+  if (!targetShape || !targetLength) {
+    alert("Select target shape and length");
+    return;
+  }
+
+  db.collection("customers").doc(selected).get().then(doc => {
+    if (!doc.exists) return;
+    const profile = doc.data();
+
+    function convertHand(hand) {
+      return hand.map(size => {
+        const mm = nailData[profile.shape][profile.length][size];
+        const targetSet = nailData[targetShape][targetLength];
+        let best = null;
+        let diff = 999;
+
+        for (let targetSize in targetSet) {
+          let currentDiff = Math.abs(targetSet[targetSize] - mm);
+          if (currentDiff < diff) {
+            diff = currentDiff;
+            best = targetSize;
+          }
+        }
+
+        return best;
+      }).join(", ");
+    }
+
+    convertedResult.innerHTML =
+      `Converted To ${targetShape} ${targetLength}<br>
+       Left Hand: ${convertHand(profile.left)}<br>
+       Right Hand: ${convertHand(profile.right)}`;
+  });
+}
+
+function deleteCustomer() {
+  const selected = customerList.value;
+  if (!selected) return;
+  if (!confirm("Delete customer?")) return;
+
+  db.collection("customers").doc(selected).delete().then(() => {
+    alert("Deleted");
+    loadCustomerList();
+    loadedCustomer.innerHTML = "";
+    convertedResult.innerHTML = "";
+  });
+}
+
+function exportPDF() {
+  const name = customerList.value;
+  const content = convertedResult.innerText;
+
+  if (!name || !content) {
+    alert("Convert a customer first");
+    return;
+  }
+
+  const win = window.open("", "", "width=600,height=600");
+  win.document.write(`
+    <h2>Pretty Puress Packing Slip</h2>
+    <p><strong>Client:</strong> ${name}</p>
+    <pre>${content}</pre>
+  `);
+  win.document.close();
+  win.print();
+}
+
+loadCustomerList();
+fromShape.dispatchEvent(new Event("change"));
+toShape.dispatchEvent(new Event("change"));
+profileTargetShape.dispatchEvent(new Event("change"));
+</script>
+
+<script>
+const orderLengthSelect = document.getElementById("lengthSelect");
+const tierSelect = document.getElementById("tierSelect");
+const orderShapeSelect = document.getElementById("shapeSelect");
+const addonsSelect = document.getElementById("addonsSelect");
+const estimateDisplay = document.getElementById("priceEstimate");
+const estimatedTotalInput = document.getElementById("estimatedTotalInput");
+const stateSelect = document.getElementById("stateSelect");
+const streetAddress = document.getElementById("streetAddress");
 const cityInput = document.getElementById("cityInput");
 const zipInput = document.getElementById("zipInput");
 const cloudinaryUploadButton = document.getElementById("cloudinaryUploadButton");
