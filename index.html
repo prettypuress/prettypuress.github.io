@@ -1407,7 +1407,8 @@ form button {
 
     <div class="admin-card">
       <h4>Save Customer Sizing</h4>
-      <input type="text" id="customerName" placeholder="Customer Name">
+     <input type="text" id="customerName" placeholder="Customer Name">
+    <input type="tel" id="customerPhone" placeholder="Phone Number">
       <select id="customerShape">
         <option value="">Original Shape</option>
       </select>
@@ -1431,7 +1432,7 @@ form button {
         <div class="finger-wrap"><div class="finger-label">Ring</div><input id="r4"></div>
         <div class="finger-wrap"><div class="finger-label">Pinky</div><input id="r5"></div>
       </div>
-      <button onclick="saveCustomer()">Save Customer</button>
+      <button onclick="saveCustomer()">Save / Update Customer</button>
     </div>
 
     <div class="admin-card">
@@ -1485,7 +1486,8 @@ const customerList = document.getElementById("customerList");
 const loadedCustomer = document.getElementById("loadedCustomer");
 const convertedResult = document.getElementById("convertedResult");
 const customerName = document.getElementById("customerName");
-
+const customerPhone = document.getElementById("customerPhone");
+  
 const l1 = document.getElementById("l1");
 const l2 = document.getElementById("l2");
 const l3 = document.getElementById("l3");
@@ -1648,17 +1650,19 @@ function convertSize() {
 
 function saveCustomer() {
   const name = customerName.value.trim();
+  const phone = customerPhone.value.trim();
   const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
   const right = [r1.value, r2.value, r3.value, r4.value, r5.value];
   const shape = customerShape.value;
   const length = customerLength.value;
 
-  if (!name || left.includes("") || right.includes("") || !shape || !length) {
+  if (!name || !phone || left.includes("") || right.includes("") || !shape || !length) {
     alert("Fill all fields");
     return;
   }
 
   db.collection("customers").doc(name).set({
+    phone,
     left,
     right,
     shape,
@@ -1684,18 +1688,26 @@ function loadCustomerList() {
 }
 
 function loadCustomer() {
-  const selected = customerList.value;
-  if (!selected) return;
+ customerName.value = selected;
+customerPhone.value = data.phone || "";
+customerShape.value = data.shape || "";
+customerShape.dispatchEvent(new Event("change"));
+customerLength.value = data.length || "";
 
-  db.collection("customers").doc(selected).get().then(doc => {
-    if (!doc.exists) return;
-    const data = doc.data();
+[l1, l2, l3, l4, l5].forEach((input, index) => {
+  input.value = data.left?.[index] || "";
+});
 
-    loadedCustomer.innerHTML =
-      `Loaded: ${selected}<br>
-       Original: ${data.shape} ${data.length}<br>
-       Left: ${data.left.join(", ")}<br>
-       Right: ${data.right.join(", ")}`;
+[r1, r2, r3, r4, r5].forEach((input, index) => {
+  input.value = data.right?.[index] || "";
+});
+
+loadedCustomer.innerHTML =
+  `Loaded: ${selected}<br>
+   Phone: ${data.phone || "Not saved"}<br>
+   Original: ${data.shape} ${data.length}<br>
+   Left: ${data.left.join(", ")}<br>
+   Right: ${data.right.join(", ")}`;
   });
 }
 
