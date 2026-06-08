@@ -438,6 +438,121 @@ footer {
   width: 100%;
 }
 
+.customer-sizing-form {
+  background: #fff;
+  border: 1px solid #efc7ef;
+  box-shadow: 0 16px 35px rgba(122, 0, 122, 0.08);
+  display: grid;
+  gap: 14px;
+  margin: 34px auto 0;
+  max-width: 980px;
+  padding: 28px;
+  text-align: left;
+}
+
+.customer-sizing-form h3,
+.customer-sizing-form h4 {
+  color: purple;
+  margin: 0;
+  text-align: center;
+}
+
+.customer-sizing-form p {
+  margin: 0;
+}
+
+.sizing-form-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.sizing-form-full {
+  grid-column: 1 / -1;
+}
+
+.sizing-brand-note {
+  background: #fff5ff;
+  border-left: 4px solid purple;
+  color: #5a005a;
+  display: none;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 12px 14px;
+}
+
+.sizing-hand-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.sizing-finger-field label {
+  color: #5a005a;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.sizing-submit-status {
+  color: #5a005a;
+  font-weight: bold;
+  text-align: center;
+}
+
+.sizing-confirm-modal {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 10000;
+}
+
+.sizing-confirm-card {
+  background: #fff;
+  border: 2px solid #e8a6e8;
+  max-width: 560px;
+  padding: 26px;
+  width: 100%;
+}
+
+.sizing-confirm-card h3 {
+  color: purple;
+  margin-top: 0;
+  text-align: center;
+}
+
+.sizing-confirm-card p {
+  color: #3b003b;
+  line-height: 1.6;
+}
+
+.sizing-confirm-actions {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 18px;
+}
+
+.sizing-confirm-actions button {
+  background: purple;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 12px;
+}
+
+.sizing-confirm-actions .secondary-button {
+  background: #f6def6;
+  color: purple;
+}
+
 .calculator-box {
   max-width: 1000px;
   width: 100%;
@@ -876,6 +991,15 @@ form button {
   .gallery {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .sizing-form-grid,
+  .sizing-confirm-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .sizing-hand-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
 </head>
@@ -1120,6 +1244,7 @@ form button {
 
   <div class="gallery-level" id="gallery-signature">
     <h3>Signature</h3>
+    <p>Use these photos as examples of what is included in a Signature design.</p>
     <div class="gallery">
       <img src="nail43.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 1">
       <img src="nail28.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 2">
@@ -1129,6 +1254,7 @@ form button {
 
   <div class="gallery-level" id="gallery-elevated">
     <h3>Elevated</h3>
+    <p>Use these photos as examples of what is included in an Elevated design.</p>
     <div class="gallery">
       <img src="nail24.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 1">
       <img src="nail30.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 2">
@@ -1139,6 +1265,7 @@ form button {
 
   <div class="gallery-level" id="gallery-luxury">
     <h3>Luxury</h3>
+    <p>Use these photos as examples of what is included in a Luxury design.</p>
     <div class="gallery">
       <img src="nail21.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 1">
       <img src="nail23.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 2">
@@ -1154,6 +1281,7 @@ form button {
 
   <div class="gallery-level" id="gallery-deluxe-freestyle">
     <h3>Deluxe Freestyle</h3>
+    <p>Use these photos as examples of what is included in a Deluxe Freestyle design.</p>
     <div class="gallery">
       <img src="nail19.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 1">
       <img src="nail27.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 2">
@@ -1169,13 +1297,80 @@ form button {
 <section id="sizing">
   <div class="sizing-section">
     <h2>Nail Sizing</h2>
-    <p>Don't want to purchase a sizing kit? Use our guide below to measure your nails accurately at home before ordering.</p>
+
+    <form id="customerSizingForm" class="customer-sizing-form">
+      <h3>Submit Your Nail Sizes</h3>
+      <p style="text-align:center;">Send your sizing details before placing a custom order.</p>
+
+      <div class="sizing-form-grid">
+        <input type="text" id="sizingCustomerName" name="customer_name" placeholder="Name" required>
+        <input type="tel" id="sizingCustomerPhone" name="customer_phone" placeholder="Phone Number" required>
+
+        <select id="sizingBrand" name="sizing_brand" class="sizing-form-full" required>
+          <option value="">Select Sizing Brand</option>
+          <option value="Pretty Puress">Pretty Puress</option>
+          <option value="Btart">Btart</option>
+          <option value="Kiss">Kiss</option>
+        </select>
+
+        <div id="prettyPuressSizingOptions" class="sizing-form-grid sizing-form-full" style="display:none;">
+          <select id="sizingPrettyShape" name="pretty_puress_shape">
+            <option value="">Select Pretty Puress Shape</option>
+          </select>
+          <select id="sizingPrettyLength" name="pretty_puress_length">
+            <option value="">Select Pretty Puress Length</option>
+          </select>
+        </div>
+
+        <p id="sizingBrandNote" class="sizing-brand-note sizing-form-full">
+          For Btart or Kiss, enter the nail dimensions for each finger. Do not enter the brand's size number.
+        </p>
+
+        <div class="sizing-form-full">
+          <h4>Left Hand</h4>
+          <div class="sizing-hand-grid">
+            <div class="sizing-finger-field"><label>Thumb</label><input id="sizingLeftThumb" required></div>
+            <div class="sizing-finger-field"><label>Index</label><input id="sizingLeftIndex" required></div>
+            <div class="sizing-finger-field"><label>Middle</label><input id="sizingLeftMiddle" required></div>
+            <div class="sizing-finger-field"><label>Ring</label><input id="sizingLeftRing" required></div>
+            <div class="sizing-finger-field"><label>Pinky</label><input id="sizingLeftPinky" required></div>
+          </div>
+        </div>
+
+        <div class="sizing-form-full">
+          <h4>Right Hand</h4>
+          <div class="sizing-hand-grid">
+            <div class="sizing-finger-field"><label>Thumb</label><input id="sizingRightThumb" required></div>
+            <div class="sizing-finger-field"><label>Index</label><input id="sizingRightIndex" required></div>
+            <div class="sizing-finger-field"><label>Middle</label><input id="sizingRightMiddle" required></div>
+            <div class="sizing-finger-field"><label>Ring</label><input id="sizingRightRing" required></div>
+            <div class="sizing-finger-field"><label>Pinky</label><input id="sizingRightPinky" required></div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit">Review Sizing</button>
+      <p id="sizingSubmitStatus" class="sizing-submit-status"></p>
+    </form>
+
+    <p style="margin-top:34px;">Don't want to purchase a sizing kit? Use our guide below to measure your nails accurately at home before ordering.</p>
     <img src="coin-sizing.png" alt="Coin Method Nail Sizing Guide" class="sizing-image">
   </div>
 </section>
 
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img" alt="Expanded nail design">
+</div>
+
+<div id="sizingConfirmModal" class="sizing-confirm-modal" aria-hidden="true">
+  <div class="sizing-confirm-card">
+    <h3>Confirm Your Sizing</h3>
+    <div id="sizingConfirmDetails"></div>
+    <div class="sizing-confirm-actions">
+      <button type="button" class="secondary-button" id="editSizingButton">Edit</button>
+      <button type="button" id="confirmSizingButton">Submit Sizes</button>
+    </div>
+  </div>
 </div>
 
 <div id="contact" class="socials">
@@ -1351,13 +1546,52 @@ const toShape = document.getElementById("toShape");
 const toLength = document.getElementById("toLength");
 const customerShape = document.getElementById("customerShape");
 const customerLength = document.getElementById("customerLength");
+const customerSizingForm = document.getElementById("customerSizingForm");
+const sizingCustomerName = document.getElementById("sizingCustomerName");
+const sizingCustomerPhone = document.getElementById("sizingCustomerPhone");
+const sizingBrand = document.getElementById("sizingBrand");
+const prettyPuressSizingOptions = document.getElementById("prettyPuressSizingOptions");
+const sizingPrettyShape = document.getElementById("sizingPrettyShape");
+const sizingPrettyLength = document.getElementById("sizingPrettyLength");
+const sizingBrandNote = document.getElementById("sizingBrandNote");
+const sizingConfirmModal = document.getElementById("sizingConfirmModal");
+const sizingConfirmDetails = document.getElementById("sizingConfirmDetails");
+const editSizingButton = document.getElementById("editSizingButton");
+const confirmSizingButton = document.getElementById("confirmSizingButton");
+const sizingSubmitStatus = document.getElementById("sizingSubmitStatus");
+
+const sizingLeftInputs = [
+  document.getElementById("sizingLeftThumb"),
+  document.getElementById("sizingLeftIndex"),
+  document.getElementById("sizingLeftMiddle"),
+  document.getElementById("sizingLeftRing"),
+  document.getElementById("sizingLeftPinky")
+];
+const sizingRightInputs = [
+  document.getElementById("sizingRightThumb"),
+  document.getElementById("sizingRightIndex"),
+  document.getElementById("sizingRightMiddle"),
+  document.getElementById("sizingRightRing"),
+  document.getElementById("sizingRightPinky")
+];
+let pendingSizingSubmission = null;
 
 Object.keys(nailData).forEach(shape => {
   fromShape.add(new Option(shape, shape));
   toShape.add(new Option(shape, shape));
   customerShape.add(new Option(shape, shape));
   profileTargetShape.add(new Option(shape, shape));
+  sizingPrettyShape.add(new Option(shape, shape));
 });
+
+sizingPrettyShape.onchange = () => {
+  sizingPrettyLength.innerHTML = "<option value=''>Select Pretty Puress Length</option>";
+  if (!sizingPrettyShape.value) return;
+
+  Object.keys(nailData[sizingPrettyShape.value]).forEach(len => {
+    sizingPrettyLength.add(new Option(len, len));
+  });
+};
 
 profileTargetShape.onchange = () => {
   profileTargetLength.innerHTML = "";
@@ -1523,6 +1757,145 @@ function deleteCustomer() {
   });
 }
 
+function updateCustomerSizingBrandFields() {
+  const isPrettyPuress = sizingBrand.value === "Pretty Puress";
+  const needsDimensionsNote = sizingBrand.value === "Btart" || sizingBrand.value === "Kiss";
+
+  prettyPuressSizingOptions.style.display = isPrettyPuress ? "grid" : "none";
+  sizingBrandNote.style.display = needsDimensionsNote ? "block" : "none";
+  sizingPrettyShape.required = isPrettyPuress;
+  sizingPrettyLength.required = isPrettyPuress;
+
+  if (!isPrettyPuress) {
+    sizingPrettyShape.value = "";
+    sizingPrettyLength.innerHTML = "<option value=''>Select Pretty Puress Length</option>";
+  }
+}
+
+function getCustomerSizingValues() {
+  return {
+    name: sizingCustomerName.value.trim(),
+    phone: sizingCustomerPhone.value.trim(),
+    brand: sizingBrand.value,
+    shape: sizingPrettyShape.value,
+    length: sizingPrettyLength.value,
+    left: sizingLeftInputs.map(input => input.value.trim()),
+    right: sizingRightInputs.map(input => input.value.trim())
+  };
+}
+
+function showSizingConfirmation(data) {
+  const shapeLengthLine = data.brand === "Pretty Puress"
+    ? `<p><strong>Shape/Length:</strong> ${data.shape} ${data.length}</p>`
+    : "<p><strong>Note:</strong> Measurements were entered as dimensions.</p>";
+
+  sizingConfirmDetails.innerHTML = `
+    <p><strong>Name:</strong> ${data.name}</p>
+    <p><strong>Phone:</strong> ${data.phone}</p>
+    <p><strong>Brand:</strong> ${data.brand}</p>
+    ${shapeLengthLine}
+    <p><strong>Left Hand:</strong> ${data.left.join(", ")}</p>
+    <p><strong>Right Hand:</strong> ${data.right.join(", ")}</p>
+  `;
+  sizingConfirmModal.style.display = "flex";
+  sizingConfirmModal.setAttribute("aria-hidden", "false");
+}
+
+function hideSizingConfirmation() {
+  sizingConfirmModal.style.display = "none";
+  sizingConfirmModal.setAttribute("aria-hidden", "true");
+}
+
+function buildSizingMessage(data) {
+  const shapeLength = data.brand === "Pretty Puress" ? `${data.shape} ${data.length}` : "Dimensions entered";
+  return [
+    "New sizing submission",
+    `Name: ${data.name}`,
+    `Phone: ${data.phone}`,
+    `Brand: ${data.brand}`,
+    `Shape/Length: ${shapeLength}`,
+    `Left Hand: ${data.left.join(", ")}`,
+    `Right Hand: ${data.right.join(", ")}`
+  ].join("\n");
+}
+
+function sendSizingEmail(data) {
+  return fetch("https://formspree.io/f/xqeeyvkq", {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      form_type: "Nail Sizing Submission",
+      customer_name: data.name,
+      phone: data.phone,
+      brand: data.brand,
+      pretty_puress_shape: data.shape || "",
+      pretty_puress_length: data.length || "",
+      left_hand: data.left.join(", "),
+      right_hand: data.right.join(", "),
+      message: buildSizingMessage(data)
+    })
+  });
+}
+
+function savePrettyPuressSizing(data) {
+  if (data.brand !== "Pretty Puress") return Promise.resolve();
+
+  return db.collection("customers").doc(data.name).set({
+    phone: data.phone,
+    brand: data.brand,
+    left: data.left,
+    right: data.right,
+    shape: data.shape,
+    length: data.length,
+    source: "Customer sizing form",
+    updated: new Date()
+  });
+}
+
+sizingBrand.addEventListener("change", updateCustomerSizingBrandFields);
+
+customerSizingForm.addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!customerSizingForm.reportValidity()) return;
+
+  pendingSizingSubmission = getCustomerSizingValues();
+  showSizingConfirmation(pendingSizingSubmission);
+});
+
+editSizingButton.addEventListener("click", () => {
+  hideSizingConfirmation();
+});
+
+confirmSizingButton.addEventListener("click", () => {
+  if (!pendingSizingSubmission) return;
+
+  confirmSizingButton.disabled = true;
+  confirmSizingButton.textContent = "Submitting...";
+  sizingSubmitStatus.textContent = "";
+
+  Promise.all([
+    savePrettyPuressSizing(pendingSizingSubmission),
+    sendSizingEmail(pendingSizingSubmission)
+  ]).then(() => {
+    hideSizingConfirmation();
+    customerSizingForm.reset();
+    updateCustomerSizingBrandFields();
+    sizingSubmitStatus.textContent = "Your sizing has been submitted.";
+    pendingSizingSubmission = null;
+    loadCustomerList();
+  }).catch(error => {
+    console.error("Sizing submission error:", error);
+    sizingSubmitStatus.textContent = "Submission failed. Please try again.";
+  }).finally(() => {
+    confirmSizingButton.disabled = false;
+    confirmSizingButton.textContent = "Submit Sizes";
+  });
+});
+
 function exportPDF() {
   const name = customerList.value;
   const content = convertedResult.innerText;
@@ -1546,6 +1919,7 @@ loadCustomerList();
 fromShape.dispatchEvent(new Event("change"));
 toShape.dispatchEvent(new Event("change"));
 profileTargetShape.dispatchEvent(new Event("change"));
+updateCustomerSizingBrandFields();
 </script>
 
 <script>
