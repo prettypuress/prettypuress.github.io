@@ -1379,7 +1379,7 @@ form button {
   <a href="https://www.facebook.com/PrettyPuress" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
 </div>
 
-<section style="padding:40px 20px;">
+<section id="admin" style="padding:40px 20px;">
   <div id="adminLock" style="text-align:center; max-width:300px; margin:auto;">
     <input type="password" id="adminPin" placeholder="Admin PIN">
     <button type="button" onclick="unlockCalculator()">Unlock Calculator</button>
@@ -1479,8 +1479,14 @@ const firebaseConfig = {
   appId: "1:765660433192:web:5e6d7b5348ae8aee949e1d"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+let db = null;
+
+if (window.firebase) {
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+} else {
+  console.warn("Firebase did not load. Admin panel can open, but customer profiles cannot sync yet.");
+}
 
 const customerList = document.getElementById("customerList");
 const loadedCustomer = document.getElementById("loadedCustomer");
@@ -1501,7 +1507,7 @@ const r5 = document.getElementById("r5");
 
 const ADMIN_PIN = "101396";
 
-function unlockCalculator() {
+window.unlockCalculator = function() {
   const entered = document.getElementById("adminPin").value.trim();
 
   if (entered === ADMIN_PIN) {
@@ -1510,7 +1516,7 @@ function unlockCalculator() {
   } else {
     alert("Incorrect PIN - Try again");
   }
-}
+};
 
 const nailData = {
   Almond: {
@@ -1649,6 +1655,11 @@ function convertSize() {
 }
 
 function saveCustomer() {
+  if (!db) {
+    alert("Customer storage is still loading. Please refresh and try again.");
+    return;
+  }
+
   const name = customerName.value.trim();
   const phone = customerPhone.value.trim();
   const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
@@ -1680,6 +1691,8 @@ function saveCustomer() {
 function loadCustomerList() {
   customerList.innerHTML = "";
 
+  if (!db) return;
+
   db.collection("customers").get().then(snapshot => {
     snapshot.forEach(doc => {
       customerList.add(new Option(doc.id, doc.id));
@@ -1688,30 +1701,47 @@ function loadCustomerList() {
 }
 
 function loadCustomer() {
- customerName.value = selected;
-customerPhone.value = data.phone || "";
-customerShape.value = data.shape || "";
-customerShape.dispatchEvent(new Event("change"));
-customerLength.value = data.length || "";
+  if (!db) {
+    alert("Customer storage is still loading. Please refresh and try again.");
+    return;
+  }
 
-[l1, l2, l3, l4, l5].forEach((input, index) => {
-  input.value = data.left?.[index] || "";
-});
+  const selected = customerList.value;
+  if (!selected) return;
 
-[r1, r2, r3, r4, r5].forEach((input, index) => {
-  input.value = data.right?.[index] || "";
-});
+  db.collection("customers").doc(selected).get().then(doc => {
+    if (!doc.exists) return;
+    const data = doc.data();
 
-loadedCustomer.innerHTML =
-  `Loaded: ${selected}<br>
-   Phone: ${data.phone || "Not saved"}<br>
-   Original: ${data.shape} ${data.length}<br>
-   Left: ${data.left.join(", ")}<br>
-   Right: ${data.right.join(", ")}`;
+    customerName.value = selected;
+    customerPhone.value = data.phone || "";
+    customerShape.value = data.shape || "";
+    customerShape.dispatchEvent(new Event("change"));
+    customerLength.value = data.length || "";
+
+    [l1, l2, l3, l4, l5].forEach((input, index) => {
+      input.value = data.left?.[index] || "";
+    });
+
+    [r1, r2, r3, r4, r5].forEach((input, index) => {
+      input.value = data.right?.[index] || "";
+    });
+
+    loadedCustomer.innerHTML =
+      `Loaded: ${selected}<br>
+       Phone: ${data.phone || "Not saved"}<br>
+       Original: ${data.shape} ${data.length}<br>
+       Left: ${data.left.join(", ")}<br>
+       Right: ${data.right.join(", ")}`;
   });
 }
 
 function convertFullSet() {
+  if (!db) {
+    alert("Customer storage is still loading. Please refresh and try again.");
+    return;
+  }
+
   const selected = customerList.value;
   const targetShape = profileTargetShape.value;
   const targetLength = profileTargetLength.value;
@@ -1757,6 +1787,11 @@ function convertFullSet() {
 }
 
 function deleteCustomer() {
+  if (!db) {
+    alert("Customer storage is still loading. Please refresh and try again.");
+    return;
+  }
+
   const selected = customerList.value;
   if (!selected) return;
   if (!confirm("Delete customer?")) return;
@@ -1854,6 +1889,7 @@ function sendSizingEmail(data) {
 
 function savePrettyPuressSizing(data) {
   if (data.brand !== "Pretty Puress") return Promise.resolve();
+  if (!db) return Promise.resolve();
 
   return db.collection("customers").doc(data.name).set({
     phone: data.phone,
