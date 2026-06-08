@@ -203,6 +203,34 @@ form button:hover {
   transform: scale(1.05);
 }
 
+.gallery-level {
+  margin-top: 42px;
+  scroll-margin-top: 95px;
+}
+
+.gallery-level:first-of-type {
+  margin-top: 28px;
+}
+
+.gallery-level h3 {
+  color: purple;
+  font-size: 26px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.gallery-level p {
+  color: #5b3b5b;
+  margin: 0 auto 18px;
+  max-width: 680px;
+  text-align: center;
+}
+
+.gallery-level .gallery {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+  justify-content: center;
+}
+
 .sizing-section {
   background: #f9e6f9;
   padding: 50px 20px;
@@ -337,6 +365,18 @@ footer {
   color: purple;
   line-height: 1.4;
   margin: 0;
+}
+
+.pricing-card-link {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pricing-card-link:hover {
+  box-shadow: 0 18px 34px rgba(122, 0, 122, 0.16);
+  transform: translateY(-3px);
 }
 
 #priceEstimate {
@@ -906,36 +946,35 @@ form button {
     <div class="pricing-grid">
       <div class="pricing-card">
         <h3>Base Pricing (Length)</h3>
-        <p class="price">X-Short - $35</p>
         <p class="price">Short - $40</p>
         <p class="price">Medium - $45</p>
         <p class="price">Long - $50</p>
         <p>All sets begin with a base price determined by length.</p>
       </div>
 
-      <div class="pricing-card">
+      <a href="#gallery-signature" class="pricing-card pricing-card-link">
         <h3>Signature</h3>
         <div class="price">$15</div>
-        <p>Solid colors, French tips, simple designs, light accents, or minimal chrome.</p>
-      </div>
+        <p>Best for clean, simple sets. See the Signature gallery below for examples.</p>
+      </a>
 
-      <div class="pricing-card">
+      <a href="#gallery-elevated" class="pricing-card pricing-card-link">
         <h3>Elevated</h3>
         <div class="price">$25</div>
-        <p>Hand-painted art, ombre styles, foil, glitter, medium rhinestones, or layered designs.</p>
-      </div>
+        <p>Best for sets with more detail and accent work. See the Elevated gallery below for examples.</p>
+      </a>
 
-      <div class="pricing-card">
+      <a href="#gallery-luxury" class="pricing-card pricing-card-link">
         <h3>Luxury</h3>
         <div class="price">$35</div>
-        <p>Highly detailed sets, 3D designs, heavy rhinestones, charms, themed or luxury custom sets.</p>
-      </div>
+        <p>Best for bold detailed sets with a luxury finish. See the Luxury gallery below for examples.</p>
+      </a>
 
-      <div class="pricing-card">
+      <a href="#gallery-deluxe-freestyle" class="pricing-card pricing-card-link">
         <h3>Deluxe Freestyle</h3>
         <div class="price">$45+</div>
-        <p>Fully custom, high-end freestyle sets designed with maximum creativity and luxury detail.</p>
-      </div>
+        <p>Best for full creative freestyle sets. See the Deluxe Freestyle gallery below for examples.</p>
+      </a>
     </div>
   </div>
 </section>
@@ -1045,7 +1084,7 @@ form button {
         <option value="Nail Sizing Kit $5" data-price="5">Nail Sizing Kit - $5</option>
         <option value="Large Glue $10" data-price="10">Large Glue - $10</option>
         <option value="Nail Drill $10" data-price="10">Nail Drill - $10</option>
-        <option value="Shipping $8" data-price="8">Shipping - $8</option>
+        <option value="Shipping $5" data-price="5">Shipping - $5</option>
       </select>
       <p class="form-full addons-note">Hold Command on Mac or Control on Windows to select more than one.</p>
 
@@ -1076,35 +1115,53 @@ form button {
 </section>
 
 <section id="gallery">
-  <h2 style="text-align:center;">Luxury Sets</h2>
-  <div class="gallery">
-    <img src="nail20.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 1">
-    <img src="nail19.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 2">
-    <img src="nail21.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 3">
-    <img src="nail24.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 4">
-    <img src="nail23.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 5">
-    <img src="nail25.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 6">
-    <img src="nail28.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 7">
-    <img src="nail37.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 8">
-    <img src="nail38.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 9">
-    <img src="nail30.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 10">
-    <img src="nail27.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 12">
-    <img src="nail29.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 13">
-    <img src="nail26.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 14">
-    <img src="nail22.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 15">
-    <img src="nail33.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 16">
-    <img src="nail44.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 18">
-    <img src="nail31.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 19">
-    <img src="nail32.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 20">
-    <img src="nail37.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 21">
-    <img src="nail39.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 22">
-    <img src="nail40.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 23">
-    <img src="nail41.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 24">
-    <img src="nail42.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 25">
-    <img src="nail43.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 26">
+  <h2 style="text-align:center;">Design Level Gallery</h2>
 
+  <div class="gallery-level" id="gallery-signature">
+    <h3>Signature</h3>
+    <div class="gallery">
+      <img src="nail43.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 1">
+      <img src="nail28.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 2">
+      <img src="nail20.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 3">
+    </div>
+  </div>
 
+  <div class="gallery-level" id="gallery-elevated">
+    <h3>Elevated</h3>
+    <div class="gallery">
+      <img src="nail24.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 1">
+      <img src="nail30.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 2">
+      <img src="nail44.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 3">
+      <img src="nail38.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 4">
+    </div>
+  </div>
 
+  <div class="gallery-level" id="gallery-luxury">
+    <h3>Luxury</h3>
+    <div class="gallery">
+      <img src="nail21.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 1">
+      <img src="nail23.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 2">
+      <img src="nail37.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 3">
+      <img src="nail29.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 4">
+      <img src="nail26.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 5">
+      <img src="nail33.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 6">
+      <img src="nail31.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 7">
+      <img src="nail39.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 8">
+      <img src="nail40.jpg" onclick="openLightbox(this.src)" alt="Luxury nail set 9">
+    </div>
+  </div>
+
+  <div class="gallery-level" id="gallery-deluxe-freestyle">
+    <h3>Deluxe Freestyle</h3>
+    <div class="gallery">
+      <img src="nail19.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 1">
+      <img src="nail27.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 2">
+      <img src="nail22.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 3">
+      <img src="nail32.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 4">
+      <img src="nail25.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 5">
+      <img src="nail41.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 6">
+      <img src="nail42.jpg" onclick="openLightbox(this.src)" alt="Deluxe Freestyle nail set 7">
+    </div>
   </div>
 </section>
 
