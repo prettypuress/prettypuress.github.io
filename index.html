@@ -1013,7 +1013,24 @@ form button {
       <input type="tel" name="zip" id="zipInput" placeholder="Zip Code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
 
       <div class="form-full form-section-title">Nail Details</div>
-      <select name="tier" id="tierSelect" class="form-full" required>
+      <select name="shape" id="shapeSelect" class="form-full">
+        <option value="">Select Nail Shape</option>
+        <option value="Almond">Almond</option>
+        <option value="Coffin">Coffin</option>
+        <option value="Oval">Oval</option>
+        <option value="Square">Square</option>
+        <option value="Stiletto">Stiletto</option>
+      </select>
+
+      <select name="length" id="lengthSelect" class="form-full">
+        <option value="" data-price="0">Select Nail Length</option>
+        <option value="X-Short" data-price="35">X-Short - $35</option>
+        <option value="Short" data-price="40">Short - $40</option>
+        <option value="Medium" data-price="45">Medium - $45</option>
+        <option value="Long" data-price="50">Long - $50</option>
+      </select>
+
+      <select name="tier" id="tierSelect" class="form-full">
         <option value="" data-price="0">Select Design Level</option>
         <option value="Signature" data-price="15">Signature $15</option>
         <option value="Elevated" data-price="25">Elevated $25</option>
@@ -1021,28 +1038,13 @@ form button {
         <option value="Elite Freestyle" data-price="45">Elite Freestyle $45+</option>
       </select>
 
-      <select name="length" id="lengthSelect" class="form-full" required>
-        <option value="" data-price="0">Select Nail Length</option>
-        <option value="Short" data-price="40">Short - $40</option>
-        <option value="Medium" data-price="45">Medium - $45</option>
-        <option value="Long" data-price="50">Long - $50</option>
-      </select>
-
-      <select name="shape" id="shapeSelect" class="form-full" required>
-        <option value="">Select Nail Shape</option>
-        <option value="Square">Square</option>
-        <option value="Coffin">Coffin</option>
-        <option value="Almond">Almond</option>
-        <option value="Stiletto">Stiletto</option>
-        <option value="Oval">Oval</option>
-      </select>
-
       <div class="form-full form-section-title">Add-Ons & Inspiration</div>
       <label class="form-full addons-label" for="addonsSelect">Optional Add-Ons</label>
       <select name="add_ons[]" id="addonsSelect" class="form-full addons-select" multiple>
-        <option value="Nail Sizing Kit $8" data-price="8">Nail Sizing Kit - $8</option>
+        <option value="Nail Sizing Kit $5" data-price="5">Nail Sizing Kit - $5</option>
         <option value="Large Glue $10" data-price="10">Large Glue - $10</option>
         <option value="Nail Drill $10" data-price="10">Nail Drill - $10</option>
+        <option value="Shipping $5" data-price="5">Shipping - $5</option>
       </select>
       <p class="form-full addons-note">Hold Command on Mac or Control on Windows to select more than one.</p>
 
@@ -1521,19 +1523,33 @@ function calculateEstimate() {
     return total + Number(option.dataset.price || 0);
   }, 0);
   const total = basePrice + designPrice + addOnsPrice;
+  const hasCompleteNailOrder = basePrice > 0 && designPrice > 0;
+  const hasAddOns = addOnsPrice > 0;
 
-  if (basePrice > 0 && designPrice > 0) {
-    estimateDisplay.innerHTML = "Estimated Total: $" + total + "+";
-    estimatedTotalInput.value = "$" + total + "+";
+  if (hasCompleteNailOrder || hasAddOns) {
+    const totalText = "$" + total + (hasCompleteNailOrder ? "+" : "");
+    estimateDisplay.innerHTML = "Estimated Total: " + totalText;
+    estimatedTotalInput.value = totalText;
   } else {
     estimateDisplay.innerHTML = "Estimated Total: -";
     estimatedTotalInput.value = "";
   }
 }
 
+function updateNailDetailRequirements() {
+  const hasAddOns = addonsSelect.selectedOptions.length > 0;
+  const hasAnyNailDetail = tierSelect.value !== "" || orderLengthSelect.value !== "" || orderShapeSelect.value !== "";
+  const nailDetailsRequired = !hasAddOns || hasAnyNailDetail;
+
+  tierSelect.required = nailDetailsRequired;
+  orderLengthSelect.required = nailDetailsRequired;
+  orderShapeSelect.required = nailDetailsRequired;
+}
+
 function resetOrderLengthOptions() {
   orderLengthSelect.innerHTML = `
     <option value="" data-price="0">Select Nail Length</option>
+    <option value="X-Short" data-price="35">X-Short - $35</option>
     <option value="Short" data-price="40">Short - $40</option>
     <option value="Medium" data-price="45">Medium - $45</option>
     <option value="Long" data-price="50">Long - $50</option>
@@ -1559,15 +1575,23 @@ orderShapeSelect.addEventListener("change", () => {
 orderLengthSelect.addEventListener("change", calculateEstimate);
 tierSelect.addEventListener("change", calculateEstimate);
 addonsSelect.addEventListener("change", calculateEstimate);
+orderLengthSelect.addEventListener("change", updateNailDetailRequirements);
+tierSelect.addEventListener("change", updateNailDetailRequirements);
+orderShapeSelect.addEventListener("change", updateNailDetailRequirements);
+addonsSelect.addEventListener("change", updateNailDetailRequirements);
 
 function updateAddressRequirements() {
-  const addressRequired = stateSelect.value !== "";
+  const shippingSelected = Array.from(addonsSelect.selectedOptions).some(option => option.value.startsWith("Shipping"));
+  const addressRequired = shippingSelected || stateSelect.value !== "";
+  stateSelect.required = addressRequired;
   streetAddress.required = addressRequired;
   cityInput.required = addressRequired;
   zipInput.required = addressRequired;
 }
 
 stateSelect.addEventListener("change", updateAddressRequirements);
+addonsSelect.addEventListener("change", updateAddressRequirements);
+updateNailDetailRequirements();
 updateAddressRequirements();
 
 function updateInspoPhotoFields() {
