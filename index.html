@@ -675,6 +675,22 @@ footer {
   border: 2px solid #e8a6e8;
 }
 
+.admin-ai-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-ai-fields textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.admin-ai-row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 @media (max-width: 900px) {
   .grid-layout {
     grid-template-columns: 1fr;
@@ -1266,21 +1282,9 @@ form button {
       <p id="uploadStatus" class="form-full upload-status">No inspiration photos uploaded yet.</p>
       <div id="uploadPreview" class="form-full upload-preview"></div>
 
-      <div class="form-full ai-estimate-actions">
-        <button type="button" id="analyzeInspirationButton" class="upload-button ai-estimate-button" disabled>
-          Analyze My Inspiration
-        </button>
-        <div id="aiEstimatePanel" class="ai-estimate-panel" aria-live="polite"></div>
-      </div>
-
       <input type="hidden" name="inspo_photo_1" id="inspoPhoto1">
       <input type="hidden" name="inspo_photo_2" id="inspoPhoto2">
       <input type="hidden" name="inspo_photo_3" id="inspoPhoto3">
-      <input type="hidden" name="customer_original_design_level" id="customerOriginalDesignLevelInput">
-      <input type="hidden" name="ai_suggested_design_level" id="aiSuggestedDesignLevelInput">
-      <input type="hidden" name="ai_estimated_design_fee" id="aiEstimatedDesignFeeInput">
-      <input type="hidden" name="ai_estimate_confidence" id="aiEstimateConfidenceInput">
-      <input type="hidden" name="ai_estimate_explanation" id="aiEstimateExplanationInput">
 
       <input type="hidden" name="estimated_total" id="estimatedTotalInput">
 
@@ -1491,6 +1495,40 @@ form button {
       <p id="loadedCustomer"></p>
       <p id="convertedResult"></p>
       <button onclick="exportPDF()">Export Packing Slip</button>
+    </div>
+
+    <div class="admin-card">
+      <h4>AI Inspiration Estimator</h4>
+      <div class="admin-ai-fields">
+        <textarea id="adminAiImageUrls" placeholder="Paste 1-3 Cloudinary inspiration image URLs, one per line"></textarea>
+        <textarea id="adminAiDetails" placeholder="Customer design notes or what they want from the photos"></textarea>
+        <div class="admin-ai-row">
+          <select id="adminAiCustomerLevel">
+            <option value="">Customer Selected Level</option>
+            <option value="Signature" data-price="15">Signature $15</option>
+            <option value="Luxury" data-price="30">Luxury $30</option>
+            <option value="Deluxe Freestyle" data-price="45">Deluxe Freestyle $45+</option>
+          </select>
+          <select id="adminAiShape">
+            <option value="">Shape</option>
+            <option value="Almond">Almond</option>
+            <option value="Coffin">Coffin</option>
+            <option value="Oval">Oval</option>
+            <option value="Square">Square</option>
+            <option value="Stiletto">Stiletto</option>
+            <option value="Duck">Duck</option>
+          </select>
+        </div>
+        <select id="adminAiLength">
+          <option value="">Length</option>
+          <option value="X-Short">X-Short</option>
+          <option value="Short">Short</option>
+          <option value="Medium">Medium</option>
+          <option value="Long">Long</option>
+        </select>
+        <button type="button" id="adminAnalyzeInspirationButton">Analyze Inspiration</button>
+        <div id="adminAiEstimatePanel" class="ai-estimate-panel" aria-live="polite"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -2033,14 +2071,13 @@ const uploadPreview = document.getElementById("uploadPreview");
 const inspoPhoto1 = document.getElementById("inspoPhoto1");
 const inspoPhoto2 = document.getElementById("inspoPhoto2");
 const inspoPhoto3 = document.getElementById("inspoPhoto3");
-const orderDetailsTextarea = document.querySelector('textarea[name="details"]');
-const analyzeInspirationButton = document.getElementById("analyzeInspirationButton");
-const aiEstimatePanel = document.getElementById("aiEstimatePanel");
-const customerOriginalDesignLevelInput = document.getElementById("customerOriginalDesignLevelInput");
-const aiSuggestedDesignLevelInput = document.getElementById("aiSuggestedDesignLevelInput");
-const aiEstimatedDesignFeeInput = document.getElementById("aiEstimatedDesignFeeInput");
-const aiEstimateConfidenceInput = document.getElementById("aiEstimateConfidenceInput");
-const aiEstimateExplanationInput = document.getElementById("aiEstimateExplanationInput");
+const adminAiImageUrls = document.getElementById("adminAiImageUrls");
+const adminAiDetails = document.getElementById("adminAiDetails");
+const adminAiCustomerLevel = document.getElementById("adminAiCustomerLevel");
+const adminAiShape = document.getElementById("adminAiShape");
+const adminAiLength = document.getElementById("adminAiLength");
+const adminAnalyzeInspirationButton = document.getElementById("adminAnalyzeInspirationButton");
+const adminAiEstimatePanel = document.getElementById("adminAiEstimatePanel");
 
 const CLOUDINARY_CLOUD_NAME = "dig2tdfg5";
 const CLOUDINARY_UPLOAD_PRESET = "pretty_puress_inspo";
@@ -2051,7 +2088,6 @@ const DESIGN_LEVELS = {
   "Deluxe Freestyle": { minimumFee: 45, rank: 3 }
 };
 const uploadedInspoPhotos = [];
-let aiDesignEstimate = null;
 
 function getSelectedPrice(selectElement) {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -2064,18 +2100,8 @@ function getAddOnsPrice() {
   }, 0);
 }
 
-function getSelectedDesignLevel() {
-  return tierSelect.value;
-}
-
 function getSelectedDesignPrice() {
   return getSelectedPrice(tierSelect);
-}
-
-function getEffectiveDesignPrice() {
-  const selectedDesignPrice = getSelectedDesignPrice();
-  const aiDesignFee = aiDesignEstimate ? aiDesignEstimate.designFee : 0;
-  return Math.max(selectedDesignPrice, aiDesignFee);
 }
 
 function formatMoney(amount) {
@@ -2084,7 +2110,7 @@ function formatMoney(amount) {
 
 function calculateEstimate() {
   const basePrice = getSelectedPrice(orderLengthSelect);
-  const designPrice = getEffectiveDesignPrice();
+  const designPrice = getSelectedDesignPrice();
   const addOnsPrice = getAddOnsPrice();
   const total = basePrice + designPrice + addOnsPrice;
   const hasCompleteNailOrder = basePrice > 0 && designPrice > 0;
@@ -2098,14 +2124,6 @@ function calculateEstimate() {
     estimateDisplay.innerHTML = "Estimated Total: -";
     estimatedTotalInput.value = "";
   }
-}
-
-function updateAiSubmissionFields() {
-  customerOriginalDesignLevelInput.value = getSelectedDesignLevel();
-  aiSuggestedDesignLevelInput.value = aiDesignEstimate ? aiDesignEstimate.level : "";
-  aiEstimatedDesignFeeInput.value = aiDesignEstimate ? formatMoney(aiDesignEstimate.designFee) : "";
-  aiEstimateConfidenceInput.value = aiDesignEstimate ? String(aiDesignEstimate.confidence) : "";
-  aiEstimateExplanationInput.value = aiDesignEstimate ? aiDesignEstimate.reason : "";
 }
 
 function validateAiEstimate(data) {
@@ -2129,69 +2147,18 @@ function validateAiEstimate(data) {
   };
 }
 
-function getEstimatedOrderTotalValue() {
-  const basePrice = getSelectedPrice(orderLengthSelect);
-  const designPrice = getEffectiveDesignPrice();
-  return basePrice + designPrice + getAddOnsPrice();
-}
-
-function showAiEstimateStatus(message, isError = false) {
-  aiEstimatePanel.classList.toggle("error", isError);
-  aiEstimatePanel.style.display = "block";
-  aiEstimatePanel.innerHTML = message;
-}
-
-function renderAiEstimate() {
-  if (!aiDesignEstimate) return;
-
-  showAiEstimateStatus(`
-    <strong>AI Design Estimate</strong><br>
-    Suggested Level: ${aiDesignEstimate.level}<br>
-    Estimated Design Fee: ${formatMoney(aiDesignEstimate.designFee)}<br>
-    Estimated Order Total: ${formatMoney(getEstimatedOrderTotalValue())}${getSelectedPrice(orderLengthSelect) && getEffectiveDesignPrice() ? "+" : ""}<br>
-    Brief explanation: "${aiDesignEstimate.reason}"
-    <span class="ai-estimate-disclaimer">AI-generated estimate. Final pricing will be confirmed by Pretty Puress after reviewing your design details.</span>
-  `);
-}
-
-function setAnalyzeButtonState() {
-  analyzeInspirationButton.disabled = uploadedInspoPhotos.length === 0;
-}
-
 function isAiEstimatorConfigured() {
   return AI_ESTIMATE_WORKER_URL && !AI_ESTIMATE_WORKER_URL.includes("YOUR_WORKERS_SUBDOMAIN");
 }
 
-async function analyzeInspirationPhotos() {
-  if (!uploadedInspoPhotos.length) {
-    showAiEstimateStatus("Upload at least one inspiration photo before requesting an AI estimate.", true);
-    return;
-  }
-
-  if (!isAiEstimatorConfigured()) {
-    showAiEstimateStatus("AI analysis is not connected yet. Your inspiration will be manually reviewed by Pretty Puress.", true);
-    return;
-  }
-
-  analyzeInspirationButton.disabled = true;
-  analyzeInspirationButton.textContent = "Analyzing...";
-  showAiEstimateStatus("Analyzing your inspiration photos...");
-
+async function requestAiEstimate(payload) {
   try {
     const response = await fetch(AI_ESTIMATE_WORKER_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        imageUrls: uploadedInspoPhotos,
-        customerSelectedLevel: getSelectedDesignLevel(),
-        customerSelectedDesignFee: getSelectedDesignPrice(),
-        designDescription: orderDetailsTextarea.value.trim(),
-        shape: orderShapeSelect.value,
-        length: orderLengthSelect.value,
-        addOns: Array.from(addonsSelect.selectedOptions).map(option => option.value)
-      })
+      body: JSON.stringify(payload)
     });
 
     if (!response.ok) throw new Error("AI estimator returned " + response.status);
@@ -2199,19 +2166,67 @@ async function analyzeInspirationPhotos() {
     const validatedEstimate = validateAiEstimate(await response.json());
     if (!validatedEstimate) throw new Error("AI estimator returned invalid data");
 
-    aiDesignEstimate = validatedEstimate;
-    updateAiSubmissionFields();
-    calculateEstimate();
-    renderAiEstimate();
+    return validatedEstimate;
   } catch (error) {
     console.error("AI inspiration analysis error:", error);
-    aiDesignEstimate = null;
-    updateAiSubmissionFields();
-    calculateEstimate();
-    showAiEstimateStatus("AI analysis failed. Your inspiration will be manually reviewed by Pretty Puress.", true);
+    throw error;
+  }
+}
+
+function getAdminAiImageUrls() {
+  return adminAiImageUrls.value
+    .split(/[\n,]+/)
+    .map(url => url.trim())
+    .filter(Boolean)
+    .slice(0, 3);
+}
+
+function showAdminAiEstimateStatus(message, isError = false) {
+  adminAiEstimatePanel.classList.toggle("error", isError);
+  adminAiEstimatePanel.style.display = "block";
+  adminAiEstimatePanel.innerHTML = message;
+}
+
+async function analyzeAdminInspirationPhotos() {
+  const imageUrls = getAdminAiImageUrls();
+  if (!imageUrls.length) {
+    showAdminAiEstimateStatus("Paste at least one Cloudinary inspiration image URL.", true);
+    return;
+  }
+
+  if (!isAiEstimatorConfigured()) {
+    showAdminAiEstimateStatus("AI analysis is not connected yet.", true);
+    return;
+  }
+
+  adminAnalyzeInspirationButton.disabled = true;
+  adminAnalyzeInspirationButton.textContent = "Analyzing...";
+  showAdminAiEstimateStatus("Analyzing inspiration photos...");
+
+  try {
+    const estimate = await requestAiEstimate({
+      imageUrls,
+      customerSelectedLevel: adminAiCustomerLevel.value,
+      customerSelectedDesignFee: getSelectedPrice(adminAiCustomerLevel),
+      designDescription: adminAiDetails.value.trim(),
+      shape: adminAiShape.value,
+      length: adminAiLength.value,
+      addOns: []
+    });
+
+    showAdminAiEstimateStatus(`
+      <strong>AI Design Estimate</strong><br>
+      Suggested Level: ${estimate.level}<br>
+      Estimated Design Fee: ${formatMoney(estimate.designFee)}<br>
+      Confidence: ${Math.round(estimate.confidence * 100)}%<br>
+      Notes: ${estimate.reason}
+      <span class="ai-estimate-disclaimer">Internal AI-generated estimate only. Final pricing should be confirmed by Pretty Puress.</span>
+    `);
+  } catch (error) {
+    showAdminAiEstimateStatus("AI analysis failed. Review this inspiration manually.", true);
   } finally {
-    analyzeInspirationButton.textContent = "Analyze My Inspiration";
-    setAnalyzeButtonState();
+    adminAnalyzeInspirationButton.disabled = false;
+    adminAnalyzeInspirationButton.textContent = "Analyze Inspiration";
   }
 }
 
@@ -2262,18 +2277,8 @@ orderShapeSelect.addEventListener("change", () => {
 });
 
 orderLengthSelect.addEventListener("change", calculateEstimate);
-tierSelect.addEventListener("change", () => {
-  updateAiSubmissionFields();
-  calculateEstimate();
-  if (aiDesignEstimate) renderAiEstimate();
-});
+tierSelect.addEventListener("change", calculateEstimate);
 addonsSelect.addEventListener("change", calculateEstimate);
-addonsSelect.addEventListener("change", () => {
-  if (aiDesignEstimate) renderAiEstimate();
-});
-orderLengthSelect.addEventListener("change", () => {
-  if (aiDesignEstimate) renderAiEstimate();
-});
 orderLengthSelect.addEventListener("change", updateNailDetailRequirements);
 tierSelect.addEventListener("change", updateNailDetailRequirements);
 orderShapeSelect.addEventListener("change", updateNailDetailRequirements);
@@ -2309,7 +2314,6 @@ function updateInspoPhotoFields() {
     uploadPreview.appendChild(image);
   });
 
-  setAnalyzeButtonState();
 }
 
 if (window.cloudinary) {
@@ -2337,10 +2341,6 @@ if (window.cloudinary) {
         }
 
         uploadedInspoPhotos.push(result.info.secure_url);
-        aiDesignEstimate = null;
-        updateAiSubmissionFields();
-        calculateEstimate();
-        aiEstimatePanel.style.display = "none";
         updateInspoPhotoFields();
       }
     }
@@ -2364,8 +2364,6 @@ if (window.cloudinary) {
 }
 
 orderForm.addEventListener("submit", event => {
-  updateAiSubmissionFields();
-
   if (
     CLOUDINARY_CLOUD_NAME === "PASTE_YOUR_CLOUD_NAME_HERE" ||
     CLOUDINARY_UPLOAD_PRESET === "PASTE_YOUR_UPLOAD_PRESET_HERE"
@@ -2375,9 +2373,7 @@ orderForm.addEventListener("submit", event => {
   }
 });
 
-analyzeInspirationButton.addEventListener("click", analyzeInspirationPhotos);
-updateAiSubmissionFields();
-setAnalyzeButtonState();
+adminAnalyzeInspirationButton.addEventListener("click", analyzeAdminInspirationPhotos);
 </script>
 
 </body>

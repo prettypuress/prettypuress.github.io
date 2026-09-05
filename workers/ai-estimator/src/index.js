@@ -134,6 +134,113 @@ export function validateAiEstimate(data) {
   };
 }
 
+function hasAny(text, patterns) {
+  return patterns.some(pattern => pattern.test(text));
+}
+
+export function applyPricingGuardrails(estimate, imageAnalyses) {
+  if (!estimate) return null;
+
+  const analysisText = imageAnalyses.join(" ").toLowerCase();
+  const mentionsDenseCoverage = hasAny(analysisText, [
+    /\bdense\b/,
+    /\bheavy\b/,
+    /\bnumerous\b/,
+    /\bextensive\b/,
+    /\ball nails\b/,
+    /\bevery nail\b/,
+    /\beach nail\b/,
+    /\bfull set\b/
+  ]);
+  const mentionsRaised3d = hasAny(analysisText, [
+    /\b3d\b/,
+    /\bthree-dimensional\b/,
+    /\braised\b/,
+    /\bsculpted\b/,
+    /\bsculptural\b/,
+    /\btextured gel\b/,
+    /\bgel flower\b/,
+    /\bflowers?\b/
+  ]);
+  const mentionsCharmsHardware = hasAny(analysisText, [
+    /\bcharms?\b/,
+    /\bhardware\b/,
+    /\bchains?\b/,
+    /\bmetal\b/,
+    /\bgold\b/,
+    /\bstuds?\b/
+  ]);
+  const mentionsStonesOrBeads = hasAny(analysisText, [
+    /\brhinestones?\b/,
+    /\bstones?\b/,
+    /\bcrystals?\b/,
+    /\bgems?\b/,
+    /\bcaviar\b/,
+    /\bbeads?\b/,
+    /\bpearls?\b/
+  ]);
+  const mentionsAdvancedArt = hasAny(analysisText, [
+    /\bhand-painted\b/,
+    /\bintricate\b/,
+    /\bdetailed\b/,
+    /\banimal print\b/,
+    /\btiger\b/,
+    /\bline work\b/,
+    /\bmixed[- ]media\b/,
+    /\blayered\b/,
+    /\bmultiple techniques\b/
+  ]);
+  const mentionsManyStatementNails = hasAny(analysisText, [
+    /\bmultiple statement\b/,
+    /\bstatement nails\b/,
+    /\bindividually designed\b/,
+    /\bseparate pieces of art\b/,
+    /\bseparate pieces of artwork\b/
+  ]);
+  const frenchCountRequiresLuxury = hasAny(analysisText, [
+    /\b2\+ french\b/,
+    /\btwo or more french\b/,
+    /\bmultiple french\b/,
+    /\bseveral french\b/
+  ]);
+
+  const deluxeIndicators = [
+    mentionsDenseCoverage,
+    mentionsRaised3d,
+    mentionsCharmsHardware,
+    mentionsStonesOrBeads,
+    mentionsAdvancedArt,
+    mentionsManyStatementNails
+  ].filter(Boolean).length;
+
+  const shouldForceDeluxe =
+    mentionsDenseCoverage &&
+    mentionsRaised3d &&
+    (mentionsCharmsHardware || mentionsStonesOrBeads) &&
+    deluxeIndicators >= 4;
+
+  if (shouldForceDeluxe) {
+    const deluxeFloor = mentionsCharmsHardware && mentionsStonesOrBeads && mentionsManyStatementNails ? 75 : 65;
+    return {
+      level: "Deluxe Freestyle",
+      designFee: Math.max(estimate.designFee, deluxeFloor),
+      confidence: Math.max(estimate.confidence, 0.86),
+      reason: "Dense embellishment, raised/3D elements, charms or hardware, and multiple individually designed statement nails make this a Deluxe Freestyle design."
+    };
+  }
+
+  if (frenchCountRequiresLuxury && estimate.level === "Signature") {
+    return {
+      ...estimate,
+      level: "Luxury",
+      designFee: Math.max(estimate.designFee, DESIGN_LEVELS.Luxury.minimumFee),
+      reason: "Two or more French nails require at least Luxury level. " + estimate.reason
+    };
+  }
+
+  return estimate;
+}
+
 function extractModelText(response) {
   if (typeof response === "string") return response;
   if (!response || typeof response !== "object") return "";
@@ -182,7 +289,8 @@ function buildVisionPrompt(imageNumber, orderContext) {
   return [
     "Analyze this Pretty Puress press-on nail inspiration photo for pricing.",
     "Describe the complete set, not just the most complex nail.",
-    "Specifically note: French-tip count, hand-painted detail, aura or airbrush, chrome or metallic work, rhinestones, charms or hardware, 3D gel, sculpted elements, characters, portraits, mixed media, design density, and likely labor/material difficulty.",
+    "Specifically note: French-tip count, how many nails are individually designed, hand-painted detail, aura or airbrush, chrome or metallic work, rhinestones, charms or hardware, caviar beads, 3D gel, raised/sculpted elements, characters, portraits, mixed media, design density, and likely labor/material difficulty.",
+    "Call out dense embellishment, raised 3D flowers, large charms, many stones/beads, and sets where most nails are statement nails.",
     `This is inspiration photo ${imageNumber}.`,
     `Customer selected level: ${orderContext.customerSelectedLevel || "not selected"}.`,
     `Customer design description: ${orderContext.designDescription || "none provided"}.`
@@ -198,7 +306,8 @@ function buildFinalPrompt(imageAnalyses, orderContext) {
     "Do not automatically classify a set as Deluxe just because it contains a charm, rhinestones, chrome, or one 3D flower. Judge the overall set.",
     "Signature starts at $15 and is usually about $15-$29. It includes simple to moderate art, animal print, aura or airbrush, chrome/glitter, simple patterns or line work, limited embellishments, small/simple charms or rhinestones, and at most one French nail. If there are 2 or more French nails, classify as at least Luxury.",
     "Luxury starts at $30 and is usually about $30-$44. It includes more detailed artwork, multiple techniques, 2+ French nails, moderate 3D work, more embellishments, chains/charms/chrome, layered designs, multiple statement nails, detailed patterns, and hand-painted work. Luxury may contain 3D art and charms; those alone do not make a set Deluxe.",
-    "Deluxe Freestyle starts at $45 with no maximum. It includes extensive sculpted 3D work, large or numerous statement charms, heavy embellishment, complex hand-painted art, character artwork, portrait/photo elements, highly customized or sculptural designs, complex mixed-media designs, numerous advanced techniques, or nails that function like separate art pieces.",
+    "Deluxe Freestyle starts at $45 with no maximum. It includes extensive sculpted 3D work, large or numerous statement charms, heavy embellishment, dense caviar bead or rhinestone placement, complex hand-painted art, character artwork, portrait/photo elements, highly customized or sculptural designs, complex mixed-media designs, numerous advanced techniques, or nails that function like separate art pieces.",
+    "A set with dense embellishment across many nails, raised/sculpted 3D elements, gold hardware or charms, stones/beads, and many individually designed statement nails should be Deluxe Freestyle and commonly $65-$90+.",
     `Customer selected level: ${orderContext.customerSelectedLevel || "not selected"}.`,
     `Customer selected design fee: ${orderContext.customerSelectedDesignFee || 0}.`,
     `Shape: ${orderContext.shape || "not selected"}.`,
@@ -244,7 +353,7 @@ async function estimateDesign(env, orderContext, imageAnalyses) {
     max_tokens: 500
   });
 
-  return validateAiEstimate(extractStructuredEstimate(response));
+  return applyPricingGuardrails(validateAiEstimate(extractStructuredEstimate(response)), imageAnalyses);
 }
 
 export default {
