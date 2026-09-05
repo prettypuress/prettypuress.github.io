@@ -446,668 +446,49 @@ footer {
   width: 100%;
 }
 
-.customer-sizing-form {
-  background: #fff;
-  border: 1px solid #efc7ef;
-  box-shadow: 0 16px 35px rgba(122, 0, 122, 0.08);
-  display: grid;
-  gap: 14px;
-  margin: 34px auto 0;
-  max-width: 980px;
-  padding: 28px;
-  text-align: left;
-}
-
-.customer-sizing-form h3,
-.customer-sizing-form h4 {
-  color: purple;
-  margin: 0;
-  text-align: center;
-}
-
-.customer-sizing-form p {
-  margin: 0;
-}
-
-.sizing-form-grid {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.sizing-form-full {
-  grid-column: 1 / -1;
-}
-
-.sizing-brand-note {
-  background: #fff5ff;
-  border-left: 4px solid purple;
-  color: #5a005a;
-  display: none;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 12px 14px;
-}
-
-.sizing-hand-grid {
+.ai-estimate-actions {
+  align-items: center;
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(5, 1fr);
 }
 
-.sizing-finger-field label {
-  color: #5a005a;
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-align: center;
+.ai-estimate-button[disabled] {
+  cursor: wait;
+  opacity: 0.72;
 }
 
-.sizing-submit-status {
-  color: #5a005a;
-  font-weight: bold;
-  text-align: center;
-}
-
-.sizing-confirm-modal {
-  align-items: center;
-  background: rgba(0, 0, 0, 0.55);
-  display: none;
-  inset: 0;
-  justify-content: center;
-  padding: 18px;
-  position: fixed;
-  z-index: 10000;
-}
-
-.sizing-confirm-card {
-  background: #fff;
-  border: 2px solid #e8a6e8;
-  max-width: 560px;
-  padding: 26px;
-  width: 100%;
-}
-
-.sizing-confirm-card h3 {
-  color: purple;
-  margin-top: 0;
-  text-align: center;
-}
-
-.sizing-confirm-card p {
-  color: #3b003b;
-  line-height: 1.6;
-}
-
-.sizing-confirm-actions {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(2, 1fr);
-  margin-top: 18px;
-}
-
-.sizing-confirm-actions button {
-  background: purple;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 12px;
-}
-
-.sizing-confirm-actions .secondary-button {
-  background: #f6def6;
-  color: purple;
-}
-
-.calculator-box {
-  max-width: 1000px;
-  width: 100%;
-  margin: auto;
-  background: #f9e6f9;
-  padding: 20px;
-  border-radius: 12px;
-  border: 2px solid #e8a6e8;
-  box-sizing: border-box;
-}
-
-.calculator-box select,
-.calculator-box input,
-.calculator-box button {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-.calculator-box button {
-  background: purple;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
-
-.calculator-box hr {
-  margin: 15px 0;
-}
-
-#result {
-  margin-top: 12px;
-  font-weight: bold;
-  color: #3b003b;
-}
-
-.finger-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.finger-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.finger-label {
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 4px;
-  color: #5a005a;
-}
-
-.finger-row input {
-  text-align: center;
-  font-weight: bold;
-}
-
-.grid-layout {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.admin-card {
-  background: #f9e6f9;
-  padding: 18px;
-  border-radius: 14px;
-  border: 2px solid #e8a6e8;
-}
-
-@media (max-width: 900px) {
-  .grid-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .pricing-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .pricing-card:first-child {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-full {
-    grid-column: span 1;
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-  }
-
-  #priceEstimate {
-    font-size: 28px;
-  }
-}
-
-@media (max-width: 600px) {
-  .calculator-box {
-    padding: 15px;
-  }
-
-  .pricing-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ================= LUXURY PREVIEW OVERRIDES ================= */
-:root {
-  --pretty-purple: #7a007a;
-  --deep-purple: #360036;
-  --soft-pink: #f8d4f5;
-  --soft-lavender: #fbecfb;
-  --ink: #171017;
-}
-
-body {
-  background: #fff;
-  color: var(--deep-purple);
-  font-family: "Montserrat", Arial, sans-serif;
-}
-
-.navbar {
-  align-items: center;
-  backdrop-filter: blur(16px);
-  background: rgba(248, 212, 245, 0.92);
-  border-bottom: 1px solid rgba(122, 0, 122, 0.12);
-  box-shadow: 0 10px 30px rgba(122, 0, 122, 0.08);
-  justify-content: center;
-  padding: 16px 24px;
-}
-
-.navbar a {
-  color: var(--pretty-purple);
-  font-size: 14px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.hero {
-  background:
-    linear-gradient(90deg, rgba(54, 0, 54, 0.82), rgba(122, 0, 122, 0.38)),
-    url("nail41.jpg");
-  background-position: center 42%;
-  background-size: cover;
-  color: #fff;
-  min-height: 620px;
-  padding: 150px 24px 110px;
-  text-align: left;
-}
-
-.hero-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-}
-
-.hero-kicker {
-  color: #f8d4f5;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2.8px;
-  margin: 0 0 18px;
-  text-transform: uppercase;
-}
-
-.hero h1 {
-  color: #fff;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 88px;
-  letter-spacing: 1px;
-  line-height: 0.92;
-  margin: 0 0 24px;
-  max-width: 660px;
-}
-
-.hero-subtitle {
-  color: #fff;
-  font-size: 19px;
-  line-height: 1.6;
-  margin-bottom: 36px;
-  max-width: 560px;
-}
-
-.hero-buttons {
-  justify-content: flex-start;
-}
-
-.button {
-  background: var(--pretty-purple);
-  border: 2px solid var(--pretty-purple);
-  border-radius: 2px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
-  padding: 16px 30px;
-  text-transform: uppercase;
-}
-
-.button.secondary {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #fff;
-  color: #fff;
-}
-
-.trust-strip {
-  background: #fff;
-  border-bottom: 1px solid #f0d1ef;
-  border-top: 1px solid #f0d1ef;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 0 auto;
-  max-width: none;
-  padding: 0;
-}
-
-.trust-item {
-  border-right: 1px solid #f0d1ef;
-  padding: 28px 20px;
-  text-align: center;
-}
-
-.trust-item:last-child {
-  border-right: none;
-}
-
-.trust-item i {
-  color: var(--pretty-purple);
-  display: block;
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.trust-item span {
-  color: var(--deep-purple);
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.order-info {
-  border-top: none;
-  color: var(--pretty-purple);
-  max-width: 900px;
-  padding: 70px 20px 20px;
-}
-
-.order-info h3,
-.pricing-section h2,
-#order h2,
-#gallery h2,
-.sizing-section h2 {
-  color: var(--pretty-purple) !important;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 48px;
-  letter-spacing: 0;
-  line-height: 1;
-  text-transform: none;
-}
-
-.order-info p {
-  color: var(--pretty-purple);
-  font-size: 18px;
-  line-height: 1.65;
-}
-
-.pricing-section {
-  background: var(--soft-lavender);
-  max-width: none;
-  padding: 80px 40px;
-}
-
-.pricing-section h2 {
-  margin-top: 0;
-}
-
-.pricing-subtitle {
-  color: #6b426b;
-  font-size: 15px;
-}
-
-.pricing-grid {
-  margin: 0 auto;
-  max-width: 1120px;
-}
-
-.pricing-card {
-  background: #fff;
-  border: 1px solid #d59ad5;
-  border-top: 4px solid var(--pretty-purple);
-  border-radius: 0;
-  box-shadow: 0 16px 35px rgba(122, 0, 122, 0.08);
-  padding: 30px 22px;
-}
-
-.pricing-card h3 {
-  color: var(--pretty-purple);
-  font-size: 13px;
-}
-
-.price {
-  color: var(--pretty-purple);
-  font-size: 30px;
-}
-
-.pricing-card p {
-  color: var(--pretty-purple);
-}
-
-#order {
-  max-width: 980px;
-  padding-top: 85px;
-}
-
-#order h2 {
-  margin-bottom: 36px;
-}
-
-.form-grid {
+.ai-estimate-panel {
   background: #fff;
   border: 1px solid #efc7ef;
-  box-shadow: 0 20px 45px rgba(122, 0, 122, 0.1);
-  padding: 34px;
+  border-radius: 8px;
+  color: #3b003b;
+  display: none;
+  line-height: 1.45;
+  padding: 14px;
 }
 
-.form-section-title {
-  border-bottom: 1px solid #efd2ef;
-  color: var(--pretty-purple);
+.ai-estimate-panel strong {
+  color: purple;
+}
+
+.ai-estimate-panel.error {
+  border-color: #d8a100;
+  color: #5b3b00;
+}
+
+.ai-estimate-disclaimer {
+  color: #5a005a;
+  display: block;
   font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin: 12px 0 4px;
-  padding-bottom: 10px;
-  text-transform: uppercase;
+  margin-top: 8px;
 }
 
-form input,
-form textarea,
-form select {
-  border: 1px solid #d9bdd9;
-  border-radius: 2px;
-  color: var(--deep-purple);
-  font-family: "Montserrat", Arial, sans-serif;
-  min-height: 52px;
-}
-
-form input:focus,
-form textarea:focus,
-form select:focus {
-  border-color: var(--pretty-purple);
-  outline: 2px solid rgba(122, 0, 122, 0.16);
-}
-
-.upload-button,
-form button {
-  background: var(--pretty-purple);
-  border-radius: 2px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  min-height: 54px;
-  text-transform: uppercase;
-}
-
-#priceEstimate {
-  border-radius: 0;
-  color: var(--pretty-purple);
-  font-size: 34px;
-}
-
-#gallery {
-  max-width: 1180px;
-  padding-top: 85px;
-}
-
-.gallery {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.gallery img {
-  border-radius: 0;
-  box-shadow: 0 16px 30px rgba(122, 0, 122, 0.12);
-}
-
-.sizing-section {
-  background: var(--soft-lavender);
-  border-color: #e5aee5;
-  border-radius: 0;
-}
-
-@media (max-width: 768px) {
-  .hero {
-    min-height: 560px;
-    padding-top: 150px;
-    text-align: center;
-  }
-
-  .hero h1 {
-    font-size: 58px;
-    max-width: none;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-
-  .trust-strip {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .pricing-section {
-    padding: 60px 20px;
-  }
-
-  .form-grid {
-    padding: 22px;
-  }
-
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .sizing-form-grid,
-  .sizing-confirm-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .sizing-hand-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="navbar">
-  <a href="#home">Home</a>
-  <a href="#order">Order</a>
-  <a href="#gallery">Gallery</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#sizing">Nail Sizing</a>
-  <a href="#contact">Contact</a>
-</div>
-
-<header id="home" class="hero">
-  <div class="hero-inner">
-    <p class="hero-kicker">Custom luxury press-on nails</p>
-    <h1>PrettyPuress</h1>
-    <p class="hero-subtitle">Made-to-order sets designed around your mood, shape, length, and dream-board details.</p>
-    <div class="hero-buttons">
-      <a href="#order" class="button">Order Now</a>
-      <a href="#gallery" class="button secondary">View Gallery</a>
-      <a href="#sizing" class="button secondary">Nail Sizing</a>
-    </div>
-  </div>
-</header>
-
-<section class="trust-strip">
-  <div class="trust-item">
-    <i class="fa-solid fa-wand-magic-sparkles"></i>
-    <span>Custom Designs</span>
-  </div>
-  <div class="trust-item">
-    <i class="fa-solid fa-ruler"></i>
-    <span>Sizing Kits</span>
-  </div>
-  <div class="trust-item">
-    <i class="fa-solid fa-truck-fast"></i>
-    <span>Rush Available</span>
-  </div>
-  <div class="trust-item">
-    <i class="fa-solid fa-gem"></i>
-    <span>Luxury Details</span>
-  </div>
-</section>
-
-<section>
-  <div class="order-info">
-    <h3>Luxury Press-On Nails Made Just For You</h3>
-    <p>Every Pretty Puress set is fully customized to match your unique style, personality, and vibe. Designed with care. Created with intention. Made to elevate your look.</p>
-    <br>
-    <p><span>Every Order Is Made-To-Order</span></p>
-    <p>Please allow 1-2 weeks for creation & shipping</p>
-    <br>
-    <p><span>Rush Orders</span> - Additional $15</p>
-    <p><span>Standard Shipping</span> - $8</p>
-    <br>
-    <p><span>Sizing Kits Available</span> - $5</p>
-    <br>
-    <p><span>Payment Required Prior To Shipping</span></p>
-    <p>All forms of payment accepted</p>
-  </div>
-
-  <div id="pricing" class="pricing-section">
-    <h2>Pricing Tiers</h2>
-    <p class="pricing-subtitle">Pricing is based on nail length + design tier. Final price = base + tier.</p>
-
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <h3>Base Pricing (Length)</h3>
-        <p class="price">X-Short - $35</p>
-        <p class="price">Short - $40</p>
-        <p class="price">Medium - $45</p>
-        <p class="price">Long - $50</p>
-        <p>All sets begin with a base price determined by length.</p>
-      </div>
-
-      <a href="#gallery-signature" class="pricing-card pricing-card-link">
-        <h3>Signature</h3>
-        <div class="price">$15</div>
-        <p>Best for clean, simple sets. See the Signature gallery below for examples.</p>
-      </a>
-
-      <a href="#gallery-elevated" class="pricing-card pricing-card-link">
-        <h3>Elevated</h3>
-        <div class="price">$25</div>
-        <p>Best for sets with more detail and accent work. See the Elevated gallery below for examples.</p>
-      </a>
-
-      <a href="#gallery-luxury" class="pricing-card pricing-card-link">
-        <h3>Luxury</h3>
-        <div class="price">$35</div>
-        <p>Best for bold detailed sets with a luxury finish. See the Luxury gallery below for examples.</p>
       </a>
 
       <a href="#gallery-deluxe-freestyle" class="pricing-card pricing-card-link">
         <h3>Deluxe Freestyle</h3>
         <div class="price">$45+</div>
-        <p>Best for full creative freestyle sets. See the Deluxe Freestyle gallery below for examples.</p>
+        <p>Extensive sculpted 3D work, dense embellishment, character art, portraits, and highly customized designs.</p>
       </a>
     </div>
   </div>
@@ -1116,7 +497,7 @@ form button {
 <section id="order">
   <h2 style="text-align:center; color: purple;">Custom Nail Order</h2>
 
-  <form action="https://formspree.io/f/xqeeyvkq" method="POST">
+  <form id="orderForm" action="https://formspree.io/f/xqeeyvkq" method="POST">
     <input type="hidden" name="_redirect" value="https://prettypuress.com">
 
     <div class="form-grid">
@@ -1208,9 +589,8 @@ form button {
       <select name="tier" id="tierSelect" class="form-full">
         <option value="" data-price="0">Select Design Level</option>
         <option value="Signature" data-price="15">Signature $15</option>
-        <option value="Elevated" data-price="25">Elevated $25</option>
-        <option value="Luxury" data-price="35">Luxury $35</option>
-        <option value="Elite Freestyle" data-price="45">Elite Freestyle $45+</option>
+        <option value="Luxury" data-price="30">Luxury $30</option>
+        <option value="Deluxe Freestyle" data-price="45">Deluxe Freestyle $45+</option>
       </select>
 
       <div class="form-full form-section-title">Add-Ons & Inspiration</div>
@@ -1235,9 +615,22 @@ form button {
       </button>
       <p id="uploadStatus" class="form-full upload-status">No inspiration photos uploaded yet.</p>
       <div id="uploadPreview" class="form-full upload-preview"></div>
+
+      <div class="form-full ai-estimate-actions">
+        <button type="button" id="analyzeInspirationButton" class="upload-button ai-estimate-button" disabled>
+          Analyze My Inspiration
+        </button>
+        <div id="aiEstimatePanel" class="ai-estimate-panel" aria-live="polite"></div>
+      </div>
+
       <input type="hidden" name="inspo_photo_1" id="inspoPhoto1">
       <input type="hidden" name="inspo_photo_2" id="inspoPhoto2">
       <input type="hidden" name="inspo_photo_3" id="inspoPhoto3">
+      <input type="hidden" name="customer_original_design_level" id="customerOriginalDesignLevelInput">
+      <input type="hidden" name="ai_suggested_design_level" id="aiSuggestedDesignLevelInput">
+      <input type="hidden" name="ai_estimated_design_fee" id="aiEstimatedDesignFeeInput">
+      <input type="hidden" name="ai_estimate_confidence" id="aiEstimateConfidenceInput">
+      <input type="hidden" name="ai_estimate_explanation" id="aiEstimateExplanationInput">
 
       <input type="hidden" name="estimated_total" id="estimatedTotalInput">
 
@@ -1262,17 +655,6 @@ form button {
       <img src="nail43.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 1">
       <img src="nail28.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 2">
       <img src="nail20.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 3">
-    </div>
-  </div>
-
-  <div class="gallery-level" id="gallery-elevated">
-    <h3>Elevated</h3>
-    <p>Use these photos as examples of what is included in an Elevated design.</p>
-    <div class="gallery">
-      <img src="nail24.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 1">
-      <img src="nail30.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 2">
-      <img src="nail44.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 3">
-      <img src="nail38.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 4">
     </div>
   </div>
 
@@ -1985,6 +1367,7 @@ updateCustomerSizingBrandFields();
 
 <script>
 const orderLengthSelect = document.getElementById("lengthSelect");
+const orderForm = document.getElementById("orderForm");
 const tierSelect = document.getElementById("tierSelect");
 const orderShapeSelect = document.getElementById("shapeSelect");
 const addonsSelect = document.getElementById("addonsSelect");
@@ -2000,28 +1383,65 @@ const uploadPreview = document.getElementById("uploadPreview");
 const inspoPhoto1 = document.getElementById("inspoPhoto1");
 const inspoPhoto2 = document.getElementById("inspoPhoto2");
 const inspoPhoto3 = document.getElementById("inspoPhoto3");
+const orderDetailsTextarea = document.querySelector('textarea[name="details"]');
+const analyzeInspirationButton = document.getElementById("analyzeInspirationButton");
+const aiEstimatePanel = document.getElementById("aiEstimatePanel");
+const customerOriginalDesignLevelInput = document.getElementById("customerOriginalDesignLevelInput");
+const aiSuggestedDesignLevelInput = document.getElementById("aiSuggestedDesignLevelInput");
+const aiEstimatedDesignFeeInput = document.getElementById("aiEstimatedDesignFeeInput");
+const aiEstimateConfidenceInput = document.getElementById("aiEstimateConfidenceInput");
+const aiEstimateExplanationInput = document.getElementById("aiEstimateExplanationInput");
 
 const CLOUDINARY_CLOUD_NAME = "dig2tdfg5";
 const CLOUDINARY_UPLOAD_PRESET = "pretty_puress_inspo";
+const AI_ESTIMATE_WORKER_URL = "https://pretty-puress-ai-estimator.YOUR_WORKERS_SUBDOMAIN.workers.dev";
+const DESIGN_LEVELS = {
+  Signature: { minimumFee: 15, rank: 1 },
+  Luxury: { minimumFee: 30, rank: 2 },
+  "Deluxe Freestyle": { minimumFee: 45, rank: 3 }
+};
 const uploadedInspoPhotos = [];
+let aiDesignEstimate = null;
 
 function getSelectedPrice(selectElement) {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   return Number(selectedOption.dataset.price || 0);
 }
 
-function calculateEstimate() {
-  const basePrice = getSelectedPrice(orderLengthSelect);
-  const designPrice = getSelectedPrice(tierSelect);
-  const addOnsPrice = Array.from(addonsSelect.selectedOptions).reduce((total, option) => {
+function getAddOnsPrice() {
+  return Array.from(addonsSelect.selectedOptions).reduce((total, option) => {
     return total + Number(option.dataset.price || 0);
   }, 0);
+}
+
+function getSelectedDesignLevel() {
+  return tierSelect.value;
+}
+
+function getSelectedDesignPrice() {
+  return getSelectedPrice(tierSelect);
+}
+
+function getEffectiveDesignPrice() {
+  const selectedDesignPrice = getSelectedDesignPrice();
+  const aiDesignFee = aiDesignEstimate ? aiDesignEstimate.designFee : 0;
+  return Math.max(selectedDesignPrice, aiDesignFee);
+}
+
+function formatMoney(amount) {
+  return "$" + amount;
+}
+
+function calculateEstimate() {
+  const basePrice = getSelectedPrice(orderLengthSelect);
+  const designPrice = getEffectiveDesignPrice();
+  const addOnsPrice = getAddOnsPrice();
   const total = basePrice + designPrice + addOnsPrice;
   const hasCompleteNailOrder = basePrice > 0 && designPrice > 0;
   const hasAddOns = addOnsPrice > 0;
 
   if (hasCompleteNailOrder || hasAddOns) {
-    const totalText = "$" + total + (hasCompleteNailOrder ? "+" : "");
+    const totalText = formatMoney(total) + (hasCompleteNailOrder ? "+" : "");
     estimateDisplay.innerHTML = "Estimated Total: " + totalText;
     estimatedTotalInput.value = totalText;
   } else {
@@ -2030,55 +1450,121 @@ function calculateEstimate() {
   }
 }
 
-function updateNailDetailRequirements() {
-  const hasAddOns = addonsSelect.selectedOptions.length > 0;
-  const hasAnyNailDetail = tierSelect.value !== "" || orderLengthSelect.value !== "" || orderShapeSelect.value !== "";
-  const nailDetailsRequired = !hasAddOns || hasAnyNailDetail;
-
-  tierSelect.required = nailDetailsRequired;
-  orderLengthSelect.required = nailDetailsRequired;
-  orderShapeSelect.required = nailDetailsRequired;
+function updateAiSubmissionFields() {
+  customerOriginalDesignLevelInput.value = getSelectedDesignLevel();
+  aiSuggestedDesignLevelInput.value = aiDesignEstimate ? aiDesignEstimate.level : "";
+  aiEstimatedDesignFeeInput.value = aiDesignEstimate ? formatMoney(aiDesignEstimate.designFee) : "";
+  aiEstimateConfidenceInput.value = aiDesignEstimate ? String(aiDesignEstimate.confidence) : "";
+  aiEstimateExplanationInput.value = aiDesignEstimate ? aiDesignEstimate.reason : "";
 }
 
-const orderLengthOptions = [
-  { value: "X-Short", label: "X-Short - $35", price: 35 },
-  { value: "Short", label: "Short - $40", price: 40 },
-  { value: "Medium", label: "Medium - $45", price: 45 },
-  { value: "Long", label: "Long - $50", price: 50 }
-];
+function validateAiEstimate(data) {
+  if (!data || typeof data !== "object") return null;
 
-const allowedOrderLengthsByShape = {
-  Duck: ["Short", "Medium", "Long"],
-  Stiletto: ["Medium", "Long"]
-};
+  const level = String(data.level || "").trim();
+  const designFee = Number(data.designFee);
+  const confidence = Number(data.confidence);
+  const reason = String(data.reason || "").trim();
 
-function resetOrderLengthOptions(shape = "") {
-  const allowedLengths = allowedOrderLengthsByShape[shape] || orderLengthOptions.map(option => option.value);
+  if (!Object.prototype.hasOwnProperty.call(DESIGN_LEVELS, level)) return null;
+  if (!Number.isFinite(designFee) || designFee < DESIGN_LEVELS[level].minimumFee || designFee > 250) return null;
+  if (!Number.isFinite(confidence) || confidence < 0 || confidence > 1) return null;
+  if (!reason) return null;
 
-  orderLengthSelect.innerHTML = '<option value="" data-price="0">Select Nail Length</option>';
-  orderLengthOptions
-    .filter(option => allowedLengths.includes(option.value))
-    .forEach(option => {
-      const lengthOption = new Option(option.label, option.value);
-      lengthOption.dataset.price = option.price;
-      orderLengthSelect.add(lengthOption);
-    });
+  return {
+    level,
+    designFee: Math.round(designFee),
+    confidence: Math.round(confidence * 100) / 100,
+    reason
+  };
 }
 
-orderShapeSelect.addEventListener("change", () => {
-  const previousLength = orderLengthSelect.value;
-  resetOrderLengthOptions(orderShapeSelect.value);
+function getEstimatedOrderTotalValue() {
+  const basePrice = getSelectedPrice(orderLengthSelect);
+  const designPrice = getEffectiveDesignPrice();
+  return basePrice + designPrice + getAddOnsPrice();
+}
 
-  if (orderLengthSelect.querySelector(`option[value="${previousLength}"]`)) {
-    orderLengthSelect.value = previousLength;
+function showAiEstimateStatus(message, isError = false) {
+  aiEstimatePanel.classList.toggle("error", isError);
+  aiEstimatePanel.style.display = "block";
+  aiEstimatePanel.innerHTML = message;
+}
+
+function renderAiEstimate() {
+  if (!aiDesignEstimate) return;
+
+  showAiEstimateStatus(`
+    <strong>AI Design Estimate</strong><br>
+    Suggested Level: ${aiDesignEstimate.level}<br>
+    Estimated Design Fee: ${formatMoney(aiDesignEstimate.designFee)}<br>
+    Estimated Order Total: ${formatMoney(getEstimatedOrderTotalValue())}${getSelectedPrice(orderLengthSelect) && getEffectiveDesignPrice() ? "+" : ""}<br>
+    Brief explanation: "${aiDesignEstimate.reason}"
+    <span class="ai-estimate-disclaimer">AI-generated estimate. Final pricing will be confirmed by Pretty Puress after reviewing your design details.</span>
+  `);
+}
+
+function setAnalyzeButtonState() {
+  analyzeInspirationButton.disabled = uploadedInspoPhotos.length === 0;
+}
+
+function isAiEstimatorConfigured() {
+  return AI_ESTIMATE_WORKER_URL && !AI_ESTIMATE_WORKER_URL.includes("YOUR_WORKERS_SUBDOMAIN");
+}
+
+async function analyzeInspirationPhotos() {
+  if (!uploadedInspoPhotos.length) {
+    showAiEstimateStatus("Upload at least one inspiration photo before requesting an AI estimate.", true);
+    return;
   }
 
-  calculateEstimate();
-});
+  if (!isAiEstimatorConfigured()) {
+    showAiEstimateStatus("AI analysis is not connected yet. Your inspiration will be manually reviewed by Pretty Puress.", true);
+    return;
+  }
 
-orderLengthSelect.addEventListener("change", calculateEstimate);
-tierSelect.addEventListener("change", calculateEstimate);
-addonsSelect.addEventListener("change", calculateEstimate);
+  analyzeInspirationButton.disabled = true;
+  analyzeInspirationButton.textContent = "Analyzing...";
+  showAiEstimateStatus("Analyzing your inspiration photos...");
+
+  try {
+    const response = await fetch(AI_ESTIMATE_WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        imageUrls: uploadedInspoPhotos,
+        customerSelectedLevel: getSelectedDesignLevel(),
+        customerSelectedDesignFee: getSelectedDesignPrice(),
+        designDescription: orderDetailsTextarea.value.trim(),
+        shape: orderShapeSelect.value,
+        length: orderLengthSelect.value,
+        addOns: Array.from(addonsSelect.selectedOptions).map(option => option.value)
+      })
+    });
+
+    if (!response.ok) throw new Error("AI estimator returned " + response.status);
+
+    const validatedEstimate = validateAiEstimate(await response.json());
+    if (!validatedEstimate) throw new Error("AI estimator returned invalid data");
+
+    aiDesignEstimate = validatedEstimate;
+    updateAiSubmissionFields();
+    calculateEstimate();
+    renderAiEstimate();
+  } catch (error) {
+    console.error("AI inspiration analysis error:", error);
+    aiDesignEstimate = null;
+    updateAiSubmissionFields();
+    calculateEstimate();
+    showAiEstimateStatus("AI analysis failed. Your inspiration will be manually reviewed by Pretty Puress.", true);
+  } finally {
+    analyzeInspirationButton.textContent = "Analyze My Inspiration";
+    setAnalyzeButtonState();
+  }
+}
+
 orderLengthSelect.addEventListener("change", updateNailDetailRequirements);
 tierSelect.addEventListener("change", updateNailDetailRequirements);
 orderShapeSelect.addEventListener("change", updateNailDetailRequirements);
@@ -2113,6 +1599,8 @@ function updateInspoPhotoFields() {
     image.alt = "Uploaded inspiration photo";
     uploadPreview.appendChild(image);
   });
+
+  setAnalyzeButtonState();
 }
 
 if (window.cloudinary) {
@@ -2140,6 +1628,10 @@ if (window.cloudinary) {
         }
 
         uploadedInspoPhotos.push(result.info.secure_url);
+        aiDesignEstimate = null;
+        updateAiSubmissionFields();
+        calculateEstimate();
+        aiEstimatePanel.style.display = "none";
         updateInspoPhotoFields();
       }
     }
@@ -2162,7 +1654,9 @@ if (window.cloudinary) {
   });
 }
 
-document.querySelector("form").addEventListener("submit", event => {
+orderForm.addEventListener("submit", event => {
+  updateAiSubmissionFields();
+
   if (
     CLOUDINARY_CLOUD_NAME === "PASTE_YOUR_CLOUD_NAME_HERE" ||
     CLOUDINARY_UPLOAD_PRESET === "PASTE_YOUR_UPLOAD_PRESET_HERE"
@@ -2171,6 +1665,10 @@ document.querySelector("form").addEventListener("submit", event => {
     alert("Cloudinary upload needs to be connected before orders can be submitted.");
   }
 });
+
+analyzeInspirationButton.addEventListener("click", analyzeInspirationPhotos);
+updateAiSubmissionFields();
+setAnalyzeButtonState();
 </script>
 
 </body>
