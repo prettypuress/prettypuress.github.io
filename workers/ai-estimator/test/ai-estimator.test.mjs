@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  applyPricingGuardrails,
   extractStructuredEstimate,
   validateAiEstimate,
   validateRequestBody
@@ -63,6 +64,21 @@ test("accepts Deluxe estimate greater than $60", () => {
     confidence: 0.9,
     reason: "Extensive sculpted 3D work and numerous charms across the set."
   }).designFee, 72);
+});
+
+test("forces dense sculpted embellished sets into Deluxe with a higher fee", () => {
+  const estimate = validateAiEstimate({
+    level: "Luxury",
+    designFee: 40,
+    confidence: 0.76,
+    reason: "Multiple techniques and embellishments are present."
+  });
+  const guardedEstimate = applyPricingGuardrails(estimate, [
+    "Full set with every nail individually designed. Dense gold caviar beads, rhinestones, metal charms and hardware are used across many nails. Raised sculpted 3D flowers, tiger hand-painted line work, layered color blocking, and multiple statement nails create a heavy mixed-media design."
+  ]);
+
+  assert.equal(guardedEstimate.level, "Deluxe Freestyle");
+  assert.ok(guardedEstimate.designFee >= 75);
 });
 
 test("validates multiple uploaded Cloudinary photos", () => {
