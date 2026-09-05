@@ -1,0 +1,6 @@
+name = "pretty-puress-ai-estimator"
+main = "src/index.js"
+compatibility_date = "2026-09-05"
+
+[ai]
+binding = "AI"

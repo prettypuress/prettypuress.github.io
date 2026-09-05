@@ -446,6 +446,43 @@ footer {
   width: 100%;
 }
 
+.ai-estimate-actions {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+}
+
+.ai-estimate-button[disabled] {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.ai-estimate-panel {
+  background: #fff;
+  border: 1px solid #efc7ef;
+  border-radius: 8px;
+  color: #3b003b;
+  display: none;
+  line-height: 1.45;
+  padding: 14px;
+}
+
+.ai-estimate-panel strong {
+  color: purple;
+}
+
+.ai-estimate-panel.error {
+  border-color: #d8a100;
+  color: #5b3b00;
+}
+
+.ai-estimate-disclaimer {
+  color: #5a005a;
+  display: block;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
 .customer-sizing-form {
   background: #fff;
   border: 1px solid #efc7ef;
@@ -1088,26 +1125,20 @@ form button {
 
       <a href="#gallery-signature" class="pricing-card pricing-card-link">
         <h3>Signature</h3>
-        <div class="price">$15</div>
-        <p>Best for clean, simple sets. See the Signature gallery below for examples.</p>
-      </a>
-
-      <a href="#gallery-elevated" class="pricing-card pricing-card-link">
-        <h3>Elevated</h3>
-        <div class="price">$25</div>
-        <p>Best for sets with more detail and accent work. See the Elevated gallery below for examples.</p>
+        <div class="price">$15+</div>
+        <p>Simple to moderate art, chrome, glitter, aura effects, limited embellishments, and up to one French nail.</p>
       </a>
 
       <a href="#gallery-luxury" class="pricing-card pricing-card-link">
         <h3>Luxury</h3>
-        <div class="price">$35</div>
-        <p>Best for bold detailed sets with a luxury finish. See the Luxury gallery below for examples.</p>
+        <div class="price">$30+</div>
+        <p>Detailed artwork, layered techniques, 2+ French nails, moderate 3D work, and multiple statement nails.</p>
       </a>
 
       <a href="#gallery-deluxe-freestyle" class="pricing-card pricing-card-link">
         <h3>Deluxe Freestyle</h3>
         <div class="price">$45+</div>
-        <p>Best for full creative freestyle sets. See the Deluxe Freestyle gallery below for examples.</p>
+        <p>Extensive sculpted 3D work, dense embellishment, character art, portraits, and highly customized designs.</p>
       </a>
     </div>
   </div>
@@ -1116,7 +1147,7 @@ form button {
 <section id="order">
   <h2 style="text-align:center; color: purple;">Custom Nail Order</h2>
 
-  <form action="https://formspree.io/f/xqeeyvkq" method="POST">
+  <form id="orderForm" action="https://formspree.io/f/xqeeyvkq" method="POST">
     <input type="hidden" name="_redirect" value="https://prettypuress.com">
 
     <div class="form-grid">
@@ -1208,9 +1239,8 @@ form button {
       <select name="tier" id="tierSelect" class="form-full">
         <option value="" data-price="0">Select Design Level</option>
         <option value="Signature" data-price="15">Signature $15</option>
-        <option value="Elevated" data-price="25">Elevated $25</option>
-        <option value="Luxury" data-price="35">Luxury $35</option>
-        <option value="Elite Freestyle" data-price="45">Elite Freestyle $45+</option>
+        <option value="Luxury" data-price="30">Luxury $30</option>
+        <option value="Deluxe Freestyle" data-price="45">Deluxe Freestyle $45+</option>
       </select>
 
       <div class="form-full form-section-title">Add-Ons & Inspiration</div>
@@ -1235,9 +1265,22 @@ form button {
       </button>
       <p id="uploadStatus" class="form-full upload-status">No inspiration photos uploaded yet.</p>
       <div id="uploadPreview" class="form-full upload-preview"></div>
+
+      <div class="form-full ai-estimate-actions">
+        <button type="button" id="analyzeInspirationButton" class="upload-button ai-estimate-button" disabled>
+          Analyze My Inspiration
+        </button>
+        <div id="aiEstimatePanel" class="ai-estimate-panel" aria-live="polite"></div>
+      </div>
+
       <input type="hidden" name="inspo_photo_1" id="inspoPhoto1">
       <input type="hidden" name="inspo_photo_2" id="inspoPhoto2">
       <input type="hidden" name="inspo_photo_3" id="inspoPhoto3">
+      <input type="hidden" name="customer_original_design_level" id="customerOriginalDesignLevelInput">
+      <input type="hidden" name="ai_suggested_design_level" id="aiSuggestedDesignLevelInput">
+      <input type="hidden" name="ai_estimated_design_fee" id="aiEstimatedDesignFeeInput">
+      <input type="hidden" name="ai_estimate_confidence" id="aiEstimateConfidenceInput">
+      <input type="hidden" name="ai_estimate_explanation" id="aiEstimateExplanationInput">
 
       <input type="hidden" name="estimated_total" id="estimatedTotalInput">
 
@@ -1262,17 +1305,6 @@ form button {
       <img src="nail43.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 1">
       <img src="nail28.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 2">
       <img src="nail20.jpg" onclick="openLightbox(this.src)" alt="Signature nail set 3">
-    </div>
-  </div>
-
-  <div class="gallery-level" id="gallery-elevated">
-    <h3>Elevated</h3>
-    <p>Use these photos as examples of what is included in an Elevated design.</p>
-    <div class="gallery">
-      <img src="nail24.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 1">
-      <img src="nail30.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 2">
-      <img src="nail44.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 3">
-      <img src="nail38.jpg" onclick="openLightbox(this.src)" alt="Elevated nail set 4">
     </div>
   </div>
 
@@ -1985,6 +2017,7 @@ updateCustomerSizingBrandFields();
 
 <script>
 const orderLengthSelect = document.getElementById("lengthSelect");
+const orderForm = document.getElementById("orderForm");
 const tierSelect = document.getElementById("tierSelect");
 const orderShapeSelect = document.getElementById("shapeSelect");
 const addonsSelect = document.getElementById("addonsSelect");
@@ -2000,33 +2033,185 @@ const uploadPreview = document.getElementById("uploadPreview");
 const inspoPhoto1 = document.getElementById("inspoPhoto1");
 const inspoPhoto2 = document.getElementById("inspoPhoto2");
 const inspoPhoto3 = document.getElementById("inspoPhoto3");
+const orderDetailsTextarea = document.querySelector('textarea[name="details"]');
+const analyzeInspirationButton = document.getElementById("analyzeInspirationButton");
+const aiEstimatePanel = document.getElementById("aiEstimatePanel");
+const customerOriginalDesignLevelInput = document.getElementById("customerOriginalDesignLevelInput");
+const aiSuggestedDesignLevelInput = document.getElementById("aiSuggestedDesignLevelInput");
+const aiEstimatedDesignFeeInput = document.getElementById("aiEstimatedDesignFeeInput");
+const aiEstimateConfidenceInput = document.getElementById("aiEstimateConfidenceInput");
+const aiEstimateExplanationInput = document.getElementById("aiEstimateExplanationInput");
 
 const CLOUDINARY_CLOUD_NAME = "dig2tdfg5";
 const CLOUDINARY_UPLOAD_PRESET = "pretty_puress_inspo";
+const AI_ESTIMATE_WORKER_URL = "https://pretty-puress-ai-estimator.YOUR_WORKERS_SUBDOMAIN.workers.dev";
+const DESIGN_LEVELS = {
+  Signature: { minimumFee: 15, rank: 1 },
+  Luxury: { minimumFee: 30, rank: 2 },
+  "Deluxe Freestyle": { minimumFee: 45, rank: 3 }
+};
 const uploadedInspoPhotos = [];
+let aiDesignEstimate = null;
 
 function getSelectedPrice(selectElement) {
   const selectedOption = selectElement.options[selectElement.selectedIndex];
   return Number(selectedOption.dataset.price || 0);
 }
 
-function calculateEstimate() {
-  const basePrice = getSelectedPrice(orderLengthSelect);
-  const designPrice = getSelectedPrice(tierSelect);
-  const addOnsPrice = Array.from(addonsSelect.selectedOptions).reduce((total, option) => {
+function getAddOnsPrice() {
+  return Array.from(addonsSelect.selectedOptions).reduce((total, option) => {
     return total + Number(option.dataset.price || 0);
   }, 0);
+}
+
+function getSelectedDesignLevel() {
+  return tierSelect.value;
+}
+
+function getSelectedDesignPrice() {
+  return getSelectedPrice(tierSelect);
+}
+
+function getEffectiveDesignPrice() {
+  const selectedDesignPrice = getSelectedDesignPrice();
+  const aiDesignFee = aiDesignEstimate ? aiDesignEstimate.designFee : 0;
+  return Math.max(selectedDesignPrice, aiDesignFee);
+}
+
+function formatMoney(amount) {
+  return "$" + amount;
+}
+
+function calculateEstimate() {
+  const basePrice = getSelectedPrice(orderLengthSelect);
+  const designPrice = getEffectiveDesignPrice();
+  const addOnsPrice = getAddOnsPrice();
   const total = basePrice + designPrice + addOnsPrice;
   const hasCompleteNailOrder = basePrice > 0 && designPrice > 0;
   const hasAddOns = addOnsPrice > 0;
 
   if (hasCompleteNailOrder || hasAddOns) {
-    const totalText = "$" + total + (hasCompleteNailOrder ? "+" : "");
+    const totalText = formatMoney(total) + (hasCompleteNailOrder ? "+" : "");
     estimateDisplay.innerHTML = "Estimated Total: " + totalText;
     estimatedTotalInput.value = totalText;
   } else {
     estimateDisplay.innerHTML = "Estimated Total: -";
     estimatedTotalInput.value = "";
+  }
+}
+
+function updateAiSubmissionFields() {
+  customerOriginalDesignLevelInput.value = getSelectedDesignLevel();
+  aiSuggestedDesignLevelInput.value = aiDesignEstimate ? aiDesignEstimate.level : "";
+  aiEstimatedDesignFeeInput.value = aiDesignEstimate ? formatMoney(aiDesignEstimate.designFee) : "";
+  aiEstimateConfidenceInput.value = aiDesignEstimate ? String(aiDesignEstimate.confidence) : "";
+  aiEstimateExplanationInput.value = aiDesignEstimate ? aiDesignEstimate.reason : "";
+}
+
+function validateAiEstimate(data) {
+  if (!data || typeof data !== "object") return null;
+
+  const level = String(data.level || "").trim();
+  const designFee = Number(data.designFee);
+  const confidence = Number(data.confidence);
+  const reason = String(data.reason || "").trim();
+
+  if (!Object.prototype.hasOwnProperty.call(DESIGN_LEVELS, level)) return null;
+  if (!Number.isFinite(designFee) || designFee < DESIGN_LEVELS[level].minimumFee || designFee > 250) return null;
+  if (!Number.isFinite(confidence) || confidence < 0 || confidence > 1) return null;
+  if (!reason) return null;
+
+  return {
+    level,
+    designFee: Math.round(designFee),
+    confidence: Math.round(confidence * 100) / 100,
+    reason
+  };
+}
+
+function getEstimatedOrderTotalValue() {
+  const basePrice = getSelectedPrice(orderLengthSelect);
+  const designPrice = getEffectiveDesignPrice();
+  return basePrice + designPrice + getAddOnsPrice();
+}
+
+function showAiEstimateStatus(message, isError = false) {
+  aiEstimatePanel.classList.toggle("error", isError);
+  aiEstimatePanel.style.display = "block";
+  aiEstimatePanel.innerHTML = message;
+}
+
+function renderAiEstimate() {
+  if (!aiDesignEstimate) return;
+
+  showAiEstimateStatus(`
+    <strong>AI Design Estimate</strong><br>
+    Suggested Level: ${aiDesignEstimate.level}<br>
+    Estimated Design Fee: ${formatMoney(aiDesignEstimate.designFee)}<br>
+    Estimated Order Total: ${formatMoney(getEstimatedOrderTotalValue())}${getSelectedPrice(orderLengthSelect) && getEffectiveDesignPrice() ? "+" : ""}<br>
+    Brief explanation: "${aiDesignEstimate.reason}"
+    <span class="ai-estimate-disclaimer">AI-generated estimate. Final pricing will be confirmed by Pretty Puress after reviewing your design details.</span>
+  `);
+}
+
+function setAnalyzeButtonState() {
+  analyzeInspirationButton.disabled = uploadedInspoPhotos.length === 0;
+}
+
+function isAiEstimatorConfigured() {
+  return AI_ESTIMATE_WORKER_URL && !AI_ESTIMATE_WORKER_URL.includes("YOUR_WORKERS_SUBDOMAIN");
+}
+
+async function analyzeInspirationPhotos() {
+  if (!uploadedInspoPhotos.length) {
+    showAiEstimateStatus("Upload at least one inspiration photo before requesting an AI estimate.", true);
+    return;
+  }
+
+  if (!isAiEstimatorConfigured()) {
+    showAiEstimateStatus("AI analysis is not connected yet. Your inspiration will be manually reviewed by Pretty Puress.", true);
+    return;
+  }
+
+  analyzeInspirationButton.disabled = true;
+  analyzeInspirationButton.textContent = "Analyzing...";
+  showAiEstimateStatus("Analyzing your inspiration photos...");
+
+  try {
+    const response = await fetch(AI_ESTIMATE_WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        imageUrls: uploadedInspoPhotos,
+        customerSelectedLevel: getSelectedDesignLevel(),
+        customerSelectedDesignFee: getSelectedDesignPrice(),
+        designDescription: orderDetailsTextarea.value.trim(),
+        shape: orderShapeSelect.value,
+        length: orderLengthSelect.value,
+        addOns: Array.from(addonsSelect.selectedOptions).map(option => option.value)
+      })
+    });
+
+    if (!response.ok) throw new Error("AI estimator returned " + response.status);
+
+    const validatedEstimate = validateAiEstimate(await response.json());
+    if (!validatedEstimate) throw new Error("AI estimator returned invalid data");
+
+    aiDesignEstimate = validatedEstimate;
+    updateAiSubmissionFields();
+    calculateEstimate();
+    renderAiEstimate();
+  } catch (error) {
+    console.error("AI inspiration analysis error:", error);
+    aiDesignEstimate = null;
+    updateAiSubmissionFields();
+    calculateEstimate();
+    showAiEstimateStatus("AI analysis failed. Your inspiration will be manually reviewed by Pretty Puress.", true);
+  } finally {
+    analyzeInspirationButton.textContent = "Analyze My Inspiration";
+    setAnalyzeButtonState();
   }
 }
 
@@ -2077,8 +2262,18 @@ orderShapeSelect.addEventListener("change", () => {
 });
 
 orderLengthSelect.addEventListener("change", calculateEstimate);
-tierSelect.addEventListener("change", calculateEstimate);
+tierSelect.addEventListener("change", () => {
+  updateAiSubmissionFields();
+  calculateEstimate();
+  if (aiDesignEstimate) renderAiEstimate();
+});
 addonsSelect.addEventListener("change", calculateEstimate);
+addonsSelect.addEventListener("change", () => {
+  if (aiDesignEstimate) renderAiEstimate();
+});
+orderLengthSelect.addEventListener("change", () => {
+  if (aiDesignEstimate) renderAiEstimate();
+});
 orderLengthSelect.addEventListener("change", updateNailDetailRequirements);
 tierSelect.addEventListener("change", updateNailDetailRequirements);
 orderShapeSelect.addEventListener("change", updateNailDetailRequirements);
@@ -2113,6 +2308,8 @@ function updateInspoPhotoFields() {
     image.alt = "Uploaded inspiration photo";
     uploadPreview.appendChild(image);
   });
+
+  setAnalyzeButtonState();
 }
 
 if (window.cloudinary) {
@@ -2140,6 +2337,10 @@ if (window.cloudinary) {
         }
 
         uploadedInspoPhotos.push(result.info.secure_url);
+        aiDesignEstimate = null;
+        updateAiSubmissionFields();
+        calculateEstimate();
+        aiEstimatePanel.style.display = "none";
         updateInspoPhotoFields();
       }
     }
@@ -2162,7 +2363,9 @@ if (window.cloudinary) {
   });
 }
 
-document.querySelector("form").addEventListener("submit", event => {
+orderForm.addEventListener("submit", event => {
+  updateAiSubmissionFields();
+
   if (
     CLOUDINARY_CLOUD_NAME === "PASTE_YOUR_CLOUD_NAME_HERE" ||
     CLOUDINARY_UPLOAD_PRESET === "PASTE_YOUR_UPLOAD_PRESET_HERE"
@@ -2171,6 +2374,10 @@ document.querySelector("form").addEventListener("submit", event => {
     alert("Cloudinary upload needs to be connected before orders can be submitted.");
   }
 });
+
+analyzeInspirationButton.addEventListener("click", analyzeInspirationPhotos);
+updateAiSubmissionFields();
+setAnalyzeButtonState();
 </script>
 
 </body>
