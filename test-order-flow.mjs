@@ -21,6 +21,11 @@ test("Elevated design level has been removed", () => {
   assert.equal(html.includes("Elevated"), false);
 });
 
+test("page closes CSS before rendering body content", () => {
+  assert.match(html, /<\/style>\s*<\/head>\s*<body>/);
+  assert.ok(html.indexOf("</style>") < html.indexOf("<section id=\"order\">"));
+});
+
 test("three design levels are available in the order dropdown", () => {
   assert.match(html, /<option value="Signature" data-price="15">Signature \$15<\/option>/);
   assert.match(html, /<option value="Luxury" data-price="30">Luxury \$30<\/option>/);
