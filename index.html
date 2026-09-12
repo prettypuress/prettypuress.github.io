@@ -917,6 +917,48 @@ body {
   max-width: 1120px;
 }
 
+.toe-pricing-title {
+  color: var(--pretty-purple);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 46px auto 18px;
+  max-width: 1120px;
+  text-transform: uppercase;
+}
+
+.toe-pricing-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.order-detail-group {
+  display: contents;
+}
+
+.order-detail-group[hidden],
+.sizing-category[hidden] {
+  display: none;
+}
+
+.sizing-resources {
+  border-top: 1px solid #efd2ef;
+  margin: 30px auto 0;
+  max-width: 980px;
+  padding-top: 18px;
+  text-align: center;
+}
+
+.sizing-resources summary {
+  color: var(--pretty-purple);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.sizing-resources p {
+  color: #6b426b;
+  margin: 8px 0 18px;
+}
+
 .pricing-card {
   background: #fff;
   border: 1px solid #d59ad5;
@@ -1157,6 +1199,39 @@ form button {
         <p>Extensive sculpted 3D work, dense embellishment, character art, portraits, and highly customized designs.</p>
       </a>
     </div>
+
+    <div class="toe-pricing-title">Press-On Toe Pricing</div>
+    <div class="pricing-grid toe-pricing-grid">
+      <div class="pricing-card">
+        <h3>Solid Color</h3>
+        <div class="price">$15</div>
+        <p>Solid color on all 10 toes.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Signature</h3>
+        <div class="price">$35</div>
+        <p>Designed big toes + coordinating solid color on the remaining toes.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Luxury</h3>
+        <div class="price">$50+</div>
+        <p>Designed big toes + additional accent toe(s)/details.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>All French</h3>
+        <div class="price">$50</div>
+        <p>French design on all 10 toes.</p>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Deluxe</h3>
+        <div class="price">$60</div>
+        <p>Detailed design across most or all 10 toes.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1234,35 +1309,55 @@ form button {
       <input type="tel" name="zip" id="zipInput" placeholder="Zip Code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code">
 
       <div class="form-full form-section-title">Nail Details</div>
-      <select name="shape" id="shapeSelect" class="form-full">
-        <option value="">Select Nail Shape</option>
-        <option value="Almond">Almond</option>
-        <option value="Coffin">Coffin</option>
-        <option value="Oval">Oval</option>
-        <option value="Square">Square</option>
-        <option value="Stiletto">Stiletto</option>
-        <option value="Duck">Duck</option>
+      <select name="order_type" id="orderTypeSelect" class="form-full" required>
+        <option value="Fingernails">Fingernails</option>
+        <option value="Press-On Toes">Press-On Toes</option>
+        <option value="Both">Both</option>
       </select>
 
-      <select name="length" id="lengthSelect" class="form-full">
-        <option value="" data-price="0">Select Nail Length</option>
-        <option value="X-Short" data-price="35">X-Short - $35</option>
-        <option value="Short" data-price="40">Short - $40</option>
-        <option value="Medium" data-price="45">Medium - $45</option>
-        <option value="Long" data-price="50">Long - $50</option>
-      </select>
+      <div id="fingernailOrderFields" class="order-detail-group">
+        <select name="shape" id="shapeSelect" class="form-full">
+          <option value="">Select Nail Shape</option>
+          <option value="Almond">Almond</option>
+          <option value="Coffin">Coffin</option>
+          <option value="Oval">Oval</option>
+          <option value="Square">Square</option>
+          <option value="Stiletto">Stiletto</option>
+          <option value="Duck">Duck</option>
+        </select>
 
-      <select name="tier" id="tierSelect" class="form-full">
-        <option value="" data-price="0">Select Design Level</option>
-        <option value="Signature" data-price="15">Signature $15</option>
-        <option value="Luxury" data-price="30">Luxury $30</option>
-        <option value="Deluxe Freestyle" data-price="45">Deluxe Freestyle $45+</option>
-      </select>
+        <select name="length" id="lengthSelect" class="form-full">
+          <option value="" data-price="0">Select Nail Length</option>
+          <option value="X-Short" data-price="35">X-Short - $35</option>
+          <option value="Short" data-price="40">Short - $40</option>
+          <option value="Medium" data-price="45">Medium - $45</option>
+          <option value="Long" data-price="50">Long - $50</option>
+        </select>
+
+        <select name="tier" id="tierSelect" class="form-full">
+          <option value="" data-price="0">Select Design Level</option>
+          <option value="Signature" data-price="15">Signature $15</option>
+          <option value="Luxury" data-price="30">Luxury $30</option>
+          <option value="Deluxe Freestyle" data-price="45">Deluxe Freestyle $45+</option>
+        </select>
+      </div>
+
+      <div id="toeOrderFields" class="order-detail-group" hidden>
+        <select name="toe_design" id="toeDesignSelect" class="form-full">
+          <option value="" data-price="0">Select Toe Design</option>
+          <option value="Solid Color" data-price="15">Solid Color - $15</option>
+          <option value="Signature" data-price="35">Signature - $35</option>
+          <option value="Luxury" data-price="50">Luxury - $50+</option>
+          <option value="All French" data-price="50">All French - $50</option>
+          <option value="Deluxe" data-price="60">Deluxe - $60</option>
+        </select>
+      </div>
 
       <div class="form-full form-section-title">Add-Ons & Inspiration</div>
       <label class="form-full addons-label" for="addonsSelect">Optional Add-Ons</label>
       <select name="add_ons[]" id="addonsSelect" class="form-full addons-select" multiple>
         <option value="Nail Sizing Kit $5" data-price="5">Nail Sizing Kit - $5</option>
+        <option value="Toe Nail Sizing Kit $5" data-price="5">Toe Nail Sizing Kit - $5</option>
         <option value="Large Glue $10" data-price="10">Large Glue - $10</option>
         <option value="Nail Drill $10" data-price="10">Nail Drill - $10</option>
         <option value="Shipping $8" data-price="8">Shipping - $8</option>
@@ -1374,45 +1469,81 @@ form button {
         <input type="text" id="sizingCustomerName" name="customer_name" placeholder="Name" required>
         <input type="tel" id="sizingCustomerPhone" name="customer_phone" placeholder="Phone Number" required>
 
-        <select id="sizingBrand" name="sizing_brand" class="sizing-form-full" required>
-          <option value="">Select Sizing Brand</option>
-          <option value="Pretty Puress">Pretty Puress</option>
-          <option value="Btart">Btart</option>
-          <option value="Kiss">Kiss</option>
+        <label for="sizingType" class="sizing-form-full addons-label">What sizing are you submitting?</label>
+        <select id="sizingType" name="sizing_type" class="sizing-form-full" required>
+          <option value="">Select Sizing Type</option>
+          <option value="Fingernails">Fingernails</option>
+          <option value="Toes">Toes</option>
+          <option value="Both">Both</option>
         </select>
 
-        <div id="prettyPuressSizingOptions" class="sizing-form-grid sizing-form-full" style="display:none;">
-          <select id="sizingPrettyShape" name="pretty_puress_shape">
-            <option value="">Select Pretty Puress Shape</option>
-          </select>
-          <select id="sizingPrettyLength" name="pretty_puress_length">
-            <option value="">Select Pretty Puress Length</option>
-          </select>
-        </div>
+        <div id="fingernailSizingFields" class="sizing-category sizing-form-full">
+          <div class="sizing-form-grid">
+            <select id="sizingBrand" name="sizing_brand" class="sizing-form-full" required>
+              <option value="">Select Sizing Brand</option>
+              <option value="Pretty Puress">Pretty Puress</option>
+              <option value="Btart">Btart</option>
+              <option value="Kiss">Kiss</option>
+            </select>
 
-        <p id="sizingBrandNote" class="sizing-brand-note sizing-form-full">
-          For Btart or Kiss, enter the nail dimensions for each finger. Do not enter the brand's size number.
-        </p>
+            <div id="prettyPuressSizingOptions" class="sizing-form-grid sizing-form-full" style="display:none;">
+              <select id="sizingPrettyShape" name="pretty_puress_shape">
+                <option value="">Select Pretty Puress Shape</option>
+              </select>
+              <select id="sizingPrettyLength" name="pretty_puress_length">
+                <option value="">Select Pretty Puress Length</option>
+              </select>
+            </div>
 
-        <div class="sizing-form-full">
-          <h4>Left Hand</h4>
-          <div class="sizing-hand-grid">
-            <div class="sizing-finger-field"><label>Thumb</label><input id="sizingLeftThumb" required></div>
-            <div class="sizing-finger-field"><label>Index</label><input id="sizingLeftIndex" required></div>
-            <div class="sizing-finger-field"><label>Middle</label><input id="sizingLeftMiddle" required></div>
-            <div class="sizing-finger-field"><label>Ring</label><input id="sizingLeftRing" required></div>
-            <div class="sizing-finger-field"><label>Pinky</label><input id="sizingLeftPinky" required></div>
+            <p id="sizingBrandNote" class="sizing-brand-note sizing-form-full">
+              For Btart or Kiss, enter the nail dimensions for each finger. Do not enter the brand's size number.
+            </p>
+
+            <div class="sizing-form-full">
+              <h4>Left Hand</h4>
+              <div class="sizing-hand-grid">
+                <div class="sizing-finger-field"><label>Thumb</label><input id="sizingLeftThumb" required></div>
+                <div class="sizing-finger-field"><label>Index</label><input id="sizingLeftIndex" required></div>
+                <div class="sizing-finger-field"><label>Middle</label><input id="sizingLeftMiddle" required></div>
+                <div class="sizing-finger-field"><label>Ring</label><input id="sizingLeftRing" required></div>
+                <div class="sizing-finger-field"><label>Pinky</label><input id="sizingLeftPinky" required></div>
+              </div>
+            </div>
+
+            <div class="sizing-form-full">
+              <h4>Right Hand</h4>
+              <div class="sizing-hand-grid">
+                <div class="sizing-finger-field"><label>Thumb</label><input id="sizingRightThumb" required></div>
+                <div class="sizing-finger-field"><label>Index</label><input id="sizingRightIndex" required></div>
+                <div class="sizing-finger-field"><label>Middle</label><input id="sizingRightMiddle" required></div>
+                <div class="sizing-finger-field"><label>Ring</label><input id="sizingRightRing" required></div>
+                <div class="sizing-finger-field"><label>Pinky</label><input id="sizingRightPinky" required></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="sizing-form-full">
-          <h4>Right Hand</h4>
-          <div class="sizing-hand-grid">
-            <div class="sizing-finger-field"><label>Thumb</label><input id="sizingRightThumb" required></div>
-            <div class="sizing-finger-field"><label>Index</label><input id="sizingRightIndex" required></div>
-            <div class="sizing-finger-field"><label>Middle</label><input id="sizingRightMiddle" required></div>
-            <div class="sizing-finger-field"><label>Ring</label><input id="sizingRightRing" required></div>
-            <div class="sizing-finger-field"><label>Pinky</label><input id="sizingRightPinky" required></div>
+        <div id="toeSizingFields" class="sizing-category sizing-form-full" hidden>
+          <div class="sizing-form-full">
+            <h4>Left Foot</h4>
+            <div class="sizing-hand-grid">
+              <div class="sizing-finger-field"><label>Big Toe</label><input id="sizingLeftBigToe"></div>
+              <div class="sizing-finger-field"><label>2nd Toe</label><input id="sizingLeftSecondToe"></div>
+              <div class="sizing-finger-field"><label>3rd Toe</label><input id="sizingLeftThirdToe"></div>
+              <div class="sizing-finger-field"><label>4th Toe</label><input id="sizingLeftFourthToe"></div>
+              <div class="sizing-finger-field"><label>Pinky Toe</label><input id="sizingLeftPinkyToe"></div>
+            </div>
+          </div>
+
+          <div class="sizing-form-full">
+            <h4>Right Foot</h4>
+            <div class="sizing-hand-grid">
+              <div class="sizing-finger-field"><label>Big Toe</label><input id="sizingRightBigToe"></div>
+              <div class="sizing-finger-field"><label>2nd Toe</label><input id="sizingRightSecondToe"></div>
+              <div class="sizing-finger-field"><label>3rd Toe</label><input id="sizingRightThirdToe"></div>
+              <div class="sizing-finger-field"><label>4th Toe</label><input id="sizingRightFourthToe"></div>
+              <div class="sizing-finger-field"><label>Pinky Toe</label><input id="sizingRightPinkyToe"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1421,8 +1552,11 @@ form button {
       <p id="sizingSubmitStatus" class="sizing-submit-status"></p>
     </form>
 
-    <p style="margin-top:34px;">Don't want to purchase a sizing kit? Use our guide below to measure your nails accurately at home before ordering.</p>
-    <img src="coin-sizing.png" alt="Coin Method Nail Sizing Guide" class="sizing-image">
+    <details class="sizing-resources">
+      <summary>Sizing Resources</summary>
+      <p>Don't have a sizing kit? View the Coin Method.</p>
+      <img src="coin-sizing.png" alt="Coin Method Nail Sizing Guide" class="sizing-image">
+    </details>
   </div>
 </section>
 
@@ -1475,8 +1609,17 @@ form button {
 
     <div class="admin-card">
       <h4>Save Customer Sizing</h4>
-     <input type="text" id="customerName" placeholder="Customer Name">
-    <input type="tel" id="customerPhone" placeholder="Phone Number">
+      <h5>Customer Information</h5>
+      <input type="text" id="customerName" placeholder="Customer Name">
+      <input type="tel" id="customerPhone" placeholder="Phone Number">
+      <hr>
+      <h5>Fingernail Sizing</h5>
+      <select id="customerBrand">
+        <option value="">Brand</option>
+        <option value="Pretty Puress">Pretty Puress</option>
+        <option value="Btart">Btart</option>
+        <option value="Kiss">Kiss</option>
+      </select>
       <select id="customerShape">
         <option value="">Original Shape</option>
       </select>
@@ -1499,6 +1642,23 @@ form button {
         <div class="finger-wrap"><div class="finger-label">Middle</div><input id="r3"></div>
         <div class="finger-wrap"><div class="finger-label">Ring</div><input id="r4"></div>
         <div class="finger-wrap"><div class="finger-label">Pinky</div><input id="r5"></div>
+      </div>
+      <hr>
+      <h5>Toe Sizing - Left Foot</h5>
+      <div class="finger-row">
+        <div class="finger-wrap"><div class="finger-label">Big Toe</div><input id="tl1"></div>
+        <div class="finger-wrap"><div class="finger-label">2nd Toe</div><input id="tl2"></div>
+        <div class="finger-wrap"><div class="finger-label">3rd Toe</div><input id="tl3"></div>
+        <div class="finger-wrap"><div class="finger-label">4th Toe</div><input id="tl4"></div>
+        <div class="finger-wrap"><div class="finger-label">Pinky Toe</div><input id="tl5"></div>
+      </div>
+      <h5>Toe Sizing - Right Foot</h5>
+      <div class="finger-row">
+        <div class="finger-wrap"><div class="finger-label">Big Toe</div><input id="tr1"></div>
+        <div class="finger-wrap"><div class="finger-label">2nd Toe</div><input id="tr2"></div>
+        <div class="finger-wrap"><div class="finger-label">3rd Toe</div><input id="tr3"></div>
+        <div class="finger-wrap"><div class="finger-label">4th Toe</div><input id="tr4"></div>
+        <div class="finger-wrap"><div class="finger-label">Pinky Toe</div><input id="tr5"></div>
       </div>
       <button onclick="saveCustomer()">Save / Update Customer</button>
     </div>
@@ -1595,6 +1755,7 @@ const loadedCustomer = document.getElementById("loadedCustomer");
 const convertedResult = document.getElementById("convertedResult");
 const customerName = document.getElementById("customerName");
 const customerPhone = document.getElementById("customerPhone");
+const customerBrand = document.getElementById("customerBrand");
   
 const l1 = document.getElementById("l1");
 const l2 = document.getElementById("l2");
@@ -1606,6 +1767,16 @@ const r2 = document.getElementById("r2");
 const r3 = document.getElementById("r3");
 const r4 = document.getElementById("r4");
 const r5 = document.getElementById("r5");
+const tl1 = document.getElementById("tl1");
+const tl2 = document.getElementById("tl2");
+const tl3 = document.getElementById("tl3");
+const tl4 = document.getElementById("tl4");
+const tl5 = document.getElementById("tl5");
+const tr1 = document.getElementById("tr1");
+const tr2 = document.getElementById("tr2");
+const tr3 = document.getElementById("tr3");
+const tr4 = document.getElementById("tr4");
+const tr5 = document.getElementById("tr5");
 
 const ADMIN_PIN = "101396";
 
@@ -1659,6 +1830,9 @@ const customerLength = document.getElementById("customerLength");
 const customerSizingForm = document.getElementById("customerSizingForm");
 const sizingCustomerName = document.getElementById("sizingCustomerName");
 const sizingCustomerPhone = document.getElementById("sizingCustomerPhone");
+const sizingType = document.getElementById("sizingType");
+const fingernailSizingFields = document.getElementById("fingernailSizingFields");
+const toeSizingFields = document.getElementById("toeSizingFields");
 const sizingBrand = document.getElementById("sizingBrand");
 const prettyPuressSizingOptions = document.getElementById("prettyPuressSizingOptions");
 const sizingPrettyShape = document.getElementById("sizingPrettyShape");
@@ -1684,6 +1858,20 @@ const sizingRightInputs = [
   document.getElementById("sizingRightRing"),
   document.getElementById("sizingRightPinky")
 ];
+const sizingToeLeftInputs = [
+  document.getElementById("sizingLeftBigToe"),
+  document.getElementById("sizingLeftSecondToe"),
+  document.getElementById("sizingLeftThirdToe"),
+  document.getElementById("sizingLeftFourthToe"),
+  document.getElementById("sizingLeftPinkyToe")
+];
+const sizingToeRightInputs = [
+  document.getElementById("sizingRightBigToe"),
+  document.getElementById("sizingRightSecondToe"),
+  document.getElementById("sizingRightThirdToe"),
+  document.getElementById("sizingRightFourthToe"),
+  document.getElementById("sizingRightPinkyToe")
+];
 let pendingSizingSubmission = null;
 
 Object.keys(nailData).forEach(shape => {
@@ -1705,6 +1893,7 @@ sizingPrettyShape.onchange = () => {
 
 profileTargetShape.onchange = () => {
   profileTargetLength.innerHTML = "";
+  if (!profileTargetShape.value) return;
   Object.keys(nailData[profileTargetShape.value]).forEach(len => {
     profileTargetLength.add(new Option(len, len));
   });
@@ -1712,6 +1901,7 @@ profileTargetShape.onchange = () => {
 
 customerShape.onchange = () => {
   customerLength.innerHTML = "<option value=''>Original Length</option>";
+  if (!customerShape.value) return;
   Object.keys(nailData[customerShape.value]).forEach(len => {
     customerLength.add(new Option(len, len));
   });
@@ -1719,6 +1909,7 @@ customerShape.onchange = () => {
 
 fromShape.onchange = () => {
   fromLength.innerHTML = "";
+  if (!fromShape.value) return;
   Object.keys(nailData[fromShape.value]).forEach(len => {
     fromLength.add(new Option(len, len));
   });
@@ -1727,6 +1918,7 @@ fromShape.onchange = () => {
 
 fromLength.onchange = () => {
   fromSize.innerHTML = "";
+  if (!fromShape.value || !fromLength.value) return;
   Object.keys(nailData[fromShape.value][fromLength.value]).forEach(size => {
     fromSize.add(new Option(size, size));
   });
@@ -1734,6 +1926,7 @@ fromLength.onchange = () => {
 
 toShape.onchange = () => {
   toLength.innerHTML = "";
+  if (!toShape.value) return;
   Object.keys(nailData[toShape.value]).forEach(len => {
     toLength.add(new Option(len, len));
   });
@@ -1756,6 +1949,83 @@ function convertSize() {
   document.getElementById("result").innerHTML = `${mm}mm -> Size ${best} (${target[best]}mm)`;
 }
 
+function normalizePhone(phone) {
+  return String(phone || "").replace(/\D/g, "");
+}
+
+function getFingernailSizing(profile = {}) {
+  return {
+    brand: profile.nailSizing?.brand || profile.brand || "",
+    shape: profile.nailSizing?.shape || profile.shape || "",
+    length: profile.nailSizing?.length || profile.length || "",
+    left: profile.nailSizing?.left || profile.left || [],
+    right: profile.nailSizing?.right || profile.right || []
+  };
+}
+
+function getToeSizing(profile = {}) {
+  return {
+    left: profile.toeSizing?.left || [],
+    right: profile.toeSizing?.right || []
+  };
+}
+
+function findCustomerByNormalizedPhone(normalizedPhone) {
+  if (!db || !normalizedPhone) return Promise.resolve(null);
+
+  return db.collection("customers")
+    .where("normalizedPhone", "==", normalizedPhone)
+    .limit(1)
+    .get()
+    .then(snapshot => {
+      if (!snapshot.empty) return snapshot.docs[0];
+
+      return db.collection("customers").get().then(allCustomers => {
+        let matchedDoc = null;
+        allCustomers.forEach(doc => {
+          if (!matchedDoc && normalizePhone(doc.data().phone) === normalizedPhone) {
+            matchedDoc = doc;
+          }
+        });
+        return matchedDoc;
+      });
+    });
+}
+
+function buildCustomerMergePayload({ name, phone, fingernailSizing, toeSizing, source }) {
+  const payload = {
+    name,
+    phone,
+    normalizedPhone: normalizePhone(phone),
+    source,
+    updated: new Date()
+  };
+
+  if (fingernailSizing) {
+    payload.brand = fingernailSizing.brand || "";
+    payload.shape = fingernailSizing.shape || "";
+    payload.length = fingernailSizing.length || "";
+    payload.left = fingernailSizing.left || [];
+    payload.right = fingernailSizing.right || [];
+    payload.nailSizing = {
+      brand: fingernailSizing.brand || "",
+      shape: fingernailSizing.shape || "",
+      length: fingernailSizing.length || "",
+      left: fingernailSizing.left || [],
+      right: fingernailSizing.right || []
+    };
+  }
+
+  if (toeSizing) {
+    payload.toeSizing = {
+      left: toeSizing.left || [],
+      right: toeSizing.right || []
+    };
+  }
+
+  return payload;
+}
+
 function saveCustomer() {
   if (!db) {
     alert("Customer storage is still loading. Please refresh and try again.");
@@ -1766,22 +2036,40 @@ function saveCustomer() {
   const phone = customerPhone.value.trim();
   const left = [l1.value, l2.value, l3.value, l4.value, l5.value];
   const right = [r1.value, r2.value, r3.value, r4.value, r5.value];
+  const toeLeft = [tl1.value, tl2.value, tl3.value, tl4.value, tl5.value];
+  const toeRight = [tr1.value, tr2.value, tr3.value, tr4.value, tr5.value];
+  const brand = customerBrand.value;
   const shape = customerShape.value;
   const length = customerLength.value;
+  const hasAnyFingernailSizing = brand || shape || length || left.some(Boolean) || right.some(Boolean);
+  const hasCompleteFingernailSizing = Boolean(brand && shape && length && !left.includes("") && !right.includes(""));
+  const hasAnyToeSizing = toeLeft.some(Boolean) || toeRight.some(Boolean);
+  const hasCompleteToeSizing = hasAnyToeSizing && !toeLeft.includes("") && !toeRight.includes("");
 
-  if (!name || !phone || left.includes("") || right.includes("") || !shape || !length) {
-    alert("Fill all fields");
+  if (!name || !phone) {
+    alert("Fill customer name and phone");
     return;
   }
 
-  db.collection("customers").doc(name).set({
+  if (hasAnyFingernailSizing && !hasCompleteFingernailSizing) {
+    alert("Complete all fingernail sizing fields or leave that section empty");
+    return;
+  }
+
+  if (hasAnyToeSizing && !hasCompleteToeSizing) {
+    alert("Complete all toe sizing fields or leave that section empty");
+    return;
+  }
+
+  const payload = buildCustomerMergePayload({
+    name,
     phone,
-    left,
-    right,
-    shape,
-    length,
-    updated: new Date()
-  }).then(() => {
+    fingernailSizing: hasCompleteFingernailSizing ? { brand, shape, length, left, right } : null,
+    toeSizing: hasCompleteToeSizing ? { left: toeLeft, right: toeRight } : null,
+    source: "Admin"
+  });
+
+  db.collection("customers").doc(name).set(payload, { merge: true }).then(() => {
     alert("Saved to cloud");
     loadCustomerList();
   }).catch(error => {
@@ -1814,27 +2102,40 @@ function loadCustomer() {
   db.collection("customers").doc(selected).get().then(doc => {
     if (!doc.exists) return;
     const data = doc.data();
+    const nailSizing = getFingernailSizing(data);
+    const toeSizing = getToeSizing(data);
 
-    customerName.value = selected;
+    customerName.value = data.name || selected;
     customerPhone.value = data.phone || "";
-    customerShape.value = data.shape || "";
+    customerBrand.value = nailSizing.brand || "";
+    customerShape.value = nailSizing.shape || "";
     customerShape.dispatchEvent(new Event("change"));
-    customerLength.value = data.length || "";
+    customerLength.value = nailSizing.length || "";
 
     [l1, l2, l3, l4, l5].forEach((input, index) => {
-      input.value = data.left?.[index] || "";
+      input.value = nailSizing.left?.[index] || "";
     });
 
     [r1, r2, r3, r4, r5].forEach((input, index) => {
-      input.value = data.right?.[index] || "";
+      input.value = nailSizing.right?.[index] || "";
+    });
+
+    [tl1, tl2, tl3, tl4, tl5].forEach((input, index) => {
+      input.value = toeSizing.left?.[index] || "";
+    });
+
+    [tr1, tr2, tr3, tr4, tr5].forEach((input, index) => {
+      input.value = toeSizing.right?.[index] || "";
     });
 
     loadedCustomer.innerHTML =
       `Loaded: ${selected}<br>
        Phone: ${data.phone || "Not saved"}<br>
-       Original: ${data.shape} ${data.length}<br>
-       Left: ${data.left.join(", ")}<br>
-       Right: ${data.right.join(", ")}`;
+       Fingernails: ${nailSizing.brand || "No brand saved"} ${nailSizing.shape || ""} ${nailSizing.length || ""}<br>
+       Left Hand: ${nailSizing.left?.length ? nailSizing.left.join(", ") : "Not saved"}<br>
+       Right Hand: ${nailSizing.right?.length ? nailSizing.right.join(", ") : "Not saved"}<br>
+       Left Foot: ${toeSizing.left?.length ? toeSizing.left.join(", ") : "Not saved"}<br>
+       Right Foot: ${toeSizing.right?.length ? toeSizing.right.join(", ") : "Not saved"}`;
   });
 }
 
@@ -1861,10 +2162,16 @@ function convertFullSet() {
   db.collection("customers").doc(selected).get().then(doc => {
     if (!doc.exists) return;
     const profile = doc.data();
+    const nailSizing = getFingernailSizing(profile);
+
+    if (!nailSizing.shape || !nailSizing.length || !nailSizing.left?.length || !nailSizing.right?.length) {
+      convertedResult.innerHTML = "No fingernail sizing saved for this customer.";
+      return;
+    }
 
     function convertHand(hand) {
       return hand.map(size => {
-        const mm = nailData[profile.shape][profile.length][size];
+        const mm = nailData[nailSizing.shape][nailSizing.length][size];
         const targetSet = nailData[targetShape][targetLength];
         let best = null;
         let diff = 999;
@@ -1883,8 +2190,8 @@ function convertFullSet() {
 
     convertedResult.innerHTML =
       `Converted To ${targetShape} ${targetLength}<br>
-       Left Hand: ${convertHand(profile.left)}<br>
-       Right Hand: ${convertHand(profile.right)}`;
+       Left Hand: ${convertHand(nailSizing.left)}<br>
+       Right Hand: ${convertHand(nailSizing.right)}`;
   });
 }
 
@@ -1907,13 +2214,25 @@ function deleteCustomer() {
 }
 
 function updateCustomerSizingBrandFields() {
+  const includesFingernails = sizingType.value === "Fingernails" || sizingType.value === "Both";
+  const includesToes = sizingType.value === "Toes" || sizingType.value === "Both";
+  const hasSizingType = sizingType.value !== "";
   const isPrettyPuress = sizingBrand.value === "Pretty Puress";
   const needsDimensionsNote = sizingBrand.value === "Btart" || sizingBrand.value === "Kiss";
 
+  fingernailSizingFields.hidden = !hasSizingType || !includesFingernails;
+  toeSizingFields.hidden = !includesToes;
+  sizingBrand.required = includesFingernails;
   prettyPuressSizingOptions.style.display = isPrettyPuress ? "grid" : "none";
   sizingBrandNote.style.display = needsDimensionsNote ? "block" : "none";
-  sizingPrettyShape.required = isPrettyPuress;
-  sizingPrettyLength.required = isPrettyPuress;
+  sizingPrettyShape.required = includesFingernails && isPrettyPuress;
+  sizingPrettyLength.required = includesFingernails && isPrettyPuress;
+  sizingLeftInputs.concat(sizingRightInputs).forEach(input => {
+    input.required = includesFingernails;
+  });
+  sizingToeLeftInputs.concat(sizingToeRightInputs).forEach(input => {
+    input.required = includesToes;
+  });
 
   if (!isPrettyPuress) {
     sizingPrettyShape.value = "";
@@ -1922,29 +2241,48 @@ function updateCustomerSizingBrandFields() {
 }
 
 function getCustomerSizingValues() {
+  const includesFingernails = sizingType.value === "Fingernails" || sizingType.value === "Both";
+  const includesToes = sizingType.value === "Toes" || sizingType.value === "Both";
+
   return {
     name: sizingCustomerName.value.trim(),
     phone: sizingCustomerPhone.value.trim(),
-    brand: sizingBrand.value,
-    shape: sizingPrettyShape.value,
-    length: sizingPrettyLength.value,
-    left: sizingLeftInputs.map(input => input.value.trim()),
-    right: sizingRightInputs.map(input => input.value.trim())
+    sizingType: sizingType.value,
+    fingernails: includesFingernails ? {
+      brand: sizingBrand.value,
+      shape: sizingPrettyShape.value,
+      length: sizingPrettyLength.value,
+      left: sizingLeftInputs.map(input => input.value.trim()),
+      right: sizingRightInputs.map(input => input.value.trim())
+    } : null,
+    toes: includesToes ? {
+      left: sizingToeLeftInputs.map(input => input.value.trim()),
+      right: sizingToeRightInputs.map(input => input.value.trim())
+    } : null
   };
 }
 
 function showSizingConfirmation(data) {
-  const shapeLengthLine = data.brand === "Pretty Puress"
-    ? `<p><strong>Shape/Length:</strong> ${data.shape} ${data.length}</p>`
-    : "<p><strong>Note:</strong> Measurements were entered as dimensions.</p>";
+  const fingernailDetails = data.fingernails ? `
+    <p><strong>Brand:</strong> ${data.fingernails.brand}</p>
+    ${data.fingernails.brand === "Pretty Puress"
+      ? `<p><strong>Shape/Length:</strong> ${data.fingernails.shape} ${data.fingernails.length}</p>`
+      : "<p><strong>Note:</strong> Fingernail measurements were entered as dimensions.</p>"}
+    <p><strong>Left Hand:</strong> ${data.fingernails.left.join(", ")}</p>
+    <p><strong>Right Hand:</strong> ${data.fingernails.right.join(", ")}</p>
+  ` : "";
+
+  const toeDetails = data.toes ? `
+    <p><strong>Left Foot:</strong> ${data.toes.left.join(", ")}</p>
+    <p><strong>Right Foot:</strong> ${data.toes.right.join(", ")}</p>
+  ` : "";
 
   sizingConfirmDetails.innerHTML = `
     <p><strong>Name:</strong> ${data.name}</p>
     <p><strong>Phone:</strong> ${data.phone}</p>
-    <p><strong>Brand:</strong> ${data.brand}</p>
-    ${shapeLengthLine}
-    <p><strong>Left Hand:</strong> ${data.left.join(", ")}</p>
-    <p><strong>Right Hand:</strong> ${data.right.join(", ")}</p>
+    <p><strong>Sizing Type:</strong> ${data.sizingType}</p>
+    ${fingernailDetails}
+    ${toeDetails}
   `;
   sizingConfirmModal.style.display = "flex";
   sizingConfirmModal.setAttribute("aria-hidden", "false");
@@ -1956,16 +2294,33 @@ function hideSizingConfirmation() {
 }
 
 function buildSizingMessage(data) {
-  const shapeLength = data.brand === "Pretty Puress" ? `${data.shape} ${data.length}` : "Dimensions entered";
-  return [
+  const message = [
     "New sizing submission",
     `Name: ${data.name}`,
     `Phone: ${data.phone}`,
-    `Brand: ${data.brand}`,
-    `Shape/Length: ${shapeLength}`,
-    `Left Hand: ${data.left.join(", ")}`,
-    `Right Hand: ${data.right.join(", ")}`
-  ].join("\n");
+    `Sizing Type: ${data.sizingType}`
+  ];
+
+  if (data.fingernails) {
+    const shapeLength = data.fingernails.brand === "Pretty Puress"
+      ? `${data.fingernails.shape} ${data.fingernails.length}`
+      : "Dimensions entered";
+    message.push(
+      `Brand: ${data.fingernails.brand}`,
+      `Shape/Length: ${shapeLength}`,
+      `Left Hand: ${data.fingernails.left.join(", ")}`,
+      `Right Hand: ${data.fingernails.right.join(", ")}`
+    );
+  }
+
+  if (data.toes) {
+    message.push(
+      `Left Foot: ${data.toes.left.join(", ")}`,
+      `Right Foot: ${data.toes.right.join(", ")}`
+    );
+  }
+
+  return message.join("\n");
 }
 
 function sendSizingEmail(data) {
@@ -1979,32 +2334,44 @@ function sendSizingEmail(data) {
       form_type: "Nail Sizing Submission",
       customer_name: data.name,
       phone: data.phone,
-      brand: data.brand,
-      pretty_puress_shape: data.shape || "",
-      pretty_puress_length: data.length || "",
-      left_hand: data.left.join(", "),
-      right_hand: data.right.join(", "),
+      sizing_type: data.sizingType,
+      brand: data.fingernails?.brand || "",
+      pretty_puress_shape: data.fingernails?.shape || "",
+      pretty_puress_length: data.fingernails?.length || "",
+      left_hand: data.fingernails?.left.join(", ") || "",
+      right_hand: data.fingernails?.right.join(", ") || "",
+      left_foot: data.toes?.left.join(", ") || "",
+      right_foot: data.toes?.right.join(", ") || "",
       message: buildSizingMessage(data)
     })
   });
 }
 
 function savePrettyPuressSizing(data) {
-  if (data.brand !== "Pretty Puress") return Promise.resolve();
+  const shouldSaveFingernails = data.fingernails?.brand === "Pretty Puress";
+  const shouldSaveToes = Boolean(data.toes);
+  if (!shouldSaveFingernails && !shouldSaveToes) return Promise.resolve();
   if (!db) return Promise.resolve();
 
-  return db.collection("customers").doc(data.name).set({
+  const normalizedPhone = normalizePhone(data.phone);
+  const payload = buildCustomerMergePayload({
+    name: data.name,
     phone: data.phone,
-    brand: data.brand,
-    left: data.left,
-    right: data.right,
-    shape: data.shape,
-    length: data.length,
-    source: "Customer sizing form",
-    updated: new Date()
+    fingernailSizing: shouldSaveFingernails ? data.fingernails : null,
+    toeSizing: shouldSaveToes ? data.toes : null,
+    source: "Customer sizing form"
+  });
+
+  return findCustomerByNormalizedPhone(normalizedPhone).then(existingDoc => {
+    const targetRef = existingDoc
+      ? existingDoc.ref
+      : db.collection("customers").doc(data.name);
+
+    return targetRef.set(payload, { merge: true });
   });
 }
 
+sizingType.addEventListener("change", updateCustomerSizingBrandFields);
 sizingBrand.addEventListener("change", updateCustomerSizingBrandFields);
 
 customerSizingForm.addEventListener("submit", event => {
@@ -2075,6 +2442,10 @@ updateCustomerSizingBrandFields();
 <script>
 const orderLengthSelect = document.getElementById("lengthSelect");
 const orderForm = document.getElementById("orderForm");
+const orderTypeSelect = document.getElementById("orderTypeSelect");
+const fingernailOrderFields = document.getElementById("fingernailOrderFields");
+const toeOrderFields = document.getElementById("toeOrderFields");
+const toeDesignSelect = document.getElementById("toeDesignSelect");
 const tierSelect = document.getElementById("tierSelect");
 const orderShapeSelect = document.getElementById("shapeSelect");
 const addonsSelect = document.getElementById("addonsSelect");
@@ -2123,20 +2494,34 @@ function getSelectedDesignPrice() {
   return getSelectedPrice(tierSelect);
 }
 
+function includesFingernailOrder() {
+  return orderTypeSelect.value === "Fingernails" || orderTypeSelect.value === "Both";
+}
+
+function includesToeOrder() {
+  return orderTypeSelect.value === "Press-On Toes" || orderTypeSelect.value === "Both";
+}
+
 function formatMoney(amount) {
   return "$" + amount;
 }
 
 function calculateEstimate() {
-  const basePrice = getSelectedPrice(orderLengthSelect);
-  const designPrice = getSelectedDesignPrice();
+  const hasFingernails = includesFingernailOrder();
+  const hasToes = includesToeOrder();
+  const basePrice = hasFingernails ? getSelectedPrice(orderLengthSelect) : 0;
+  const designPrice = hasFingernails ? getSelectedDesignPrice() : 0;
+  const toePrice = hasToes ? getSelectedPrice(toeDesignSelect) : 0;
   const addOnsPrice = getAddOnsPrice();
-  const total = basePrice + designPrice + addOnsPrice;
-  const hasCompleteNailOrder = basePrice > 0 && designPrice > 0;
+  const total = basePrice + designPrice + toePrice + addOnsPrice;
+  const hasCompleteFingernailOrder = hasFingernails && basePrice > 0 && designPrice > 0;
+  const hasCompleteToeOrder = hasToes && toePrice > 0;
+  const hasCompleteNailOrder = hasCompleteFingernailOrder || hasCompleteToeOrder;
+  const needsStartingAtSuffix = hasCompleteFingernailOrder || (hasToes && toeDesignSelect.value === "Luxury");
   const hasAddOns = addOnsPrice > 0;
 
   if (hasCompleteNailOrder || hasAddOns) {
-    const totalText = formatMoney(total) + (hasCompleteNailOrder ? "+" : "");
+    const totalText = formatMoney(total) + (needsStartingAtSuffix ? "+" : "");
     estimateDisplay.innerHTML = "Estimated Total: " + totalText;
     estimatedTotalInput.value = totalText;
   } else {
@@ -2250,13 +2635,38 @@ async function analyzeAdminInspirationPhotos() {
 }
 
 function updateNailDetailRequirements() {
+  const hasFingernails = includesFingernailOrder();
+  const hasToes = includesToeOrder();
   const hasAddOns = addonsSelect.selectedOptions.length > 0;
   const hasAnyNailDetail = tierSelect.value !== "" || orderLengthSelect.value !== "" || orderShapeSelect.value !== "";
-  const nailDetailsRequired = !hasAddOns || hasAnyNailDetail;
+  const hasAnyToeDetail = toeDesignSelect.value !== "";
+  const nailDetailsRequired = hasFingernails && (!hasAddOns || hasAnyNailDetail || orderTypeSelect.value === "Both");
 
   tierSelect.required = nailDetailsRequired;
   orderLengthSelect.required = nailDetailsRequired;
   orderShapeSelect.required = nailDetailsRequired;
+  toeDesignSelect.required = hasToes && (!hasAddOns || hasAnyToeDetail || orderTypeSelect.value === "Both");
+}
+
+function updateOrderTypeFields() {
+  const hasFingernails = includesFingernailOrder();
+  const hasToes = includesToeOrder();
+
+  fingernailOrderFields.hidden = !hasFingernails;
+  toeOrderFields.hidden = !hasToes;
+
+  if (!hasFingernails) {
+    orderShapeSelect.value = "";
+    orderLengthSelect.value = "";
+    tierSelect.value = "";
+  }
+
+  if (!hasToes) {
+    toeDesignSelect.value = "";
+  }
+
+  updateNailDetailRequirements();
+  calculateEstimate();
 }
 
 const orderLengthOptions = [
@@ -2297,9 +2707,12 @@ orderShapeSelect.addEventListener("change", () => {
 
 orderLengthSelect.addEventListener("change", calculateEstimate);
 tierSelect.addEventListener("change", calculateEstimate);
+toeDesignSelect.addEventListener("change", calculateEstimate);
 addonsSelect.addEventListener("change", calculateEstimate);
+orderTypeSelect.addEventListener("change", updateOrderTypeFields);
 orderLengthSelect.addEventListener("change", updateNailDetailRequirements);
 tierSelect.addEventListener("change", updateNailDetailRequirements);
+toeDesignSelect.addEventListener("change", updateNailDetailRequirements);
 orderShapeSelect.addEventListener("change", updateNailDetailRequirements);
 addonsSelect.addEventListener("change", updateNailDetailRequirements);
 
@@ -2316,6 +2729,7 @@ stateSelect.addEventListener("change", updateAddressRequirements);
 addonsSelect.addEventListener("change", updateAddressRequirements);
 updateNailDetailRequirements();
 updateAddressRequirements();
+updateOrderTypeFields();
 
 function updateInspoPhotoFields() {
   inspoPhoto1.value = uploadedInspoPhotos[0] || "";

@@ -13,8 +13,8 @@ function test(name, callback) {
   }
 }
 
-function calculateTotal({ basePrice, selectedDesignPrice, addOns = [] }) {
-  return basePrice + selectedDesignPrice + addOns.reduce((total, price) => total + price, 0);
+function calculateTotal({ basePrice = 0, selectedDesignPrice = 0, toeDesignPrice = 0, addOns = [] }) {
+  return basePrice + selectedDesignPrice + toeDesignPrice + addOns.reduce((total, price) => total + price, 0);
 }
 
 test("Elevated design level has been removed", () => {
@@ -70,4 +70,40 @@ test("final estimated total includes add-ons", () => {
 
 test("Formspree order submission remains configured", () => {
   assert.match(html, /<form id="orderForm" action="https:\/\/formspree\.io\/f\/xqeeyvkq" method="POST">/);
+});
+
+test("press-on toe pricing and order fields exist", () => {
+  assert.match(html, /Press-On Toe Pricing/);
+  assert.match(html, /<option value="Press-On Toes">Press-On Toes<\/option>/);
+  assert.match(html, /<option value="Both">Both<\/option>/);
+  assert.match(html, /<option value="Luxury" data-price="50">Luxury - \$50\+<\/option>/);
+});
+
+test("toe sizing kit is separate from nail sizing kit", () => {
+  assert.match(html, /Nail Sizing Kit - \$5/);
+  assert.match(html, /Toe Nail Sizing Kit - \$5/);
+});
+
+test("toe only estimate uses toe design plus add-ons", () => {
+  assert.equal(calculateTotal({
+    toeDesignPrice: 35,
+    addOns: [5, 8]
+  }), 48);
+});
+
+test("both order estimate combines fingernails, toes, and add-ons once", () => {
+  assert.equal(calculateTotal({
+    basePrice: 45,
+    selectedDesignPrice: 30,
+    toeDesignPrice: 50,
+    addOns: [5, 15]
+  }), 145);
+});
+
+test("sizing supports toes and keeps coin method as a resource", () => {
+  assert.match(html, /id="sizingType"/);
+  assert.match(html, /<label for="sizingType"[^>]*>What sizing are you submitting\?<\/label>/);
+  assert.match(html, /<option value="">Select Sizing Type<\/option>/);
+  assert.match(html, /id="toeSizingFields"/);
+  assert.match(html, /<summary>Sizing Resources<\/summary>/);
 });
